@@ -23,6 +23,10 @@ export default defineConfig([
       },
     },
     rules: {
+      'no-console': 'warn',
+      'eqeqeq': 'warn',
+      'curly': 'warn',
+      'no-else-return': 'warn',
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },

@@ -1,0 +1,104 @@
+@use './helpers' as *;
+
+html {
+    &.is-lock {
+        overflow: hidden;
+    }
+}
+
+body {
+    font-size: rem(20);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-family-base);
+    letter-spacing: 0;
+    color: var(--color-dark);
+    background-color: var(--color-light);
+}
+
+main {
+    flex-grow: 1;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+    font-weight: 400;
+}
+
+.h0 {
+    font-family: var(--font-family-logo);
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5 {
+    font-family: var(--font-family-accent);
+}
+
+.h0 {
+    @include fluid-text(84, 56);
+}
+
+h1, .h1 {
+    @include fluid-text(64, 40);
+
+    line-height: 1.2;
+}
+
+h2, .h2 {
+    @include fluid-text(48, 32);
+
+    line-height: 1.3;
+}
+
+h3, .h3 {
+    @include fluid-text(32, 24);
+}
+
+h4, .h4 {
+    @include fluid-text(28, 20);
+}
+
+h5, .h5 {
+    @include fluid-text(24, 18);
+}
+
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+    transition-duration: var(--transition-duration);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+:focus-visible {
+    outline: rem(1) solid var(--color-gray);
+    outline-offset: rem(4);
+    transition-duration: 0s !important;
+}
+
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: rem(12);
+
+    &-thumb {
+        background-color: var(--color-dark);
+    }
+}
+
+* {
+    scrollbar-color: var(--color-dark) transparent;
+}

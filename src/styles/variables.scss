@@ -1,0 +1,31 @@
+@use './helpers' as *;
+
+:root {
+    --color-light: #FFFFFF;
+    --color-dark: #000000;
+
+    --color-accent: #62E27D;
+
+    --color-gray-25: #FAFAFA;
+    --color-gray-20: #EDEDED;
+    --color-gray-10: #C8C8C8;
+    --color-gray: #808080;
+
+    --border-split: #{rem(1)} solid var(--color-gray-10);
+
+    --font-family-base: 'PT Serif', sans-serif;
+    --font-family-accent: 'Yeseva One', sans-serif;
+    --font-family-logo: 'Abril Fatface', sans-serif;
+
+    --container-big-width: #{rem(1600)};
+    --container-width: #{rem(1100)};
+    --container-padding-x: #{fluid(96, 16)};
+
+    --transition-duration: 0.2s;
+
+    --100vw: calc(100vw - var(--scrollbar-width));
+
+    @include tablet {
+        --container-padding-x: #{rem(16)};
+    }
+}
