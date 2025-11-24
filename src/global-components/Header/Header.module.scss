@@ -1,0 +1,26 @@
+@use '@/styles/helpers' as *;
+
+.header {
+    position: fixed;
+    width: 100%;
+    padding-block: fluid(20, 10);
+    border-bottom: var(--border-dark);
+
+    &__inner {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.logo {
+    height: fluid(49, 32);
+    width: fluid(148, 99);
+    background: url('@/assets/icons/logo.svg') center/contain no-repeat;
+}
+
+.accountButton {
+    @include square(#{fluid(30, 20)});
+    background: url('@/assets/icons/account.svg') center/contain no-repeat;
+}

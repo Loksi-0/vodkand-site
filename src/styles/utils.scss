@@ -70,31 +70,14 @@
   }
 }
 
-.subtitle {
-  font-family: var(--font-family-accent);
+.list-field {
+  background-color: var(--color-gray-25);
+  border: border(var(--color-gray-20));
+  border-radius: rem(30);
+  padding: rem(10);
+  overflow-y: scroll;
 }
 
-.black-link {
-  background-color: var(--color-dark);
-  transition-duration: var(--transition-duration);
-
-  @include hover {
-    background-color: var(--color-gray);
-  }
-}
-
-.gray-link {
-  background-color: var(--color-gray-alt);
-  transition-duration: var(--transition-duration);
-
-  @include hover {
-    background-color: var(--color-light);
-  }
-}
-
-.uppercase {
-  font-family: var(--font-family-accent);
-  font-size: rem(12);
-  text-transform: uppercase;
-  letter-spacing: rem(2.4);
+.gray-text {
+  color: var(--color-gray);
 }

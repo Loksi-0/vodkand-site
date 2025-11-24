@@ -6,13 +6,20 @@
 
     --color-accent: #62E27D;
 
+    --color-red: #FF7878;
+
     --color-gray-25: #FAFAFA;
     --color-gray-20: #EDEDED;
     --color-gray-10: #C8C8C8;
     --color-gray: #808080;
 
     --border-split: #{rem(1)} solid var(--color-gray-10);
+    --border-dark: #{rem(1)} solid var(--color-dark);
 
+    --shadow: 0 #{rem(4)} #{rem(10)} rgba(0, 0, 0, 0.15);
+
+    --section-padding: #{fluid(80, 40)};
+    
     --font-family-base: 'PT Serif', sans-serif;
     --font-family-accent: 'Yeseva One', sans-serif;
     --font-family-logo: 'Abril Fatface', sans-serif;

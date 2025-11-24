@@ -1,6 +1,14 @@
+import Header from "@/global-components/Header/Header"
+import Footer from "@/global-components/Footer/Footer"
+import Hero from "./components/Hero/Hero"
+
 function Index() {
   return (
-    <h1 className="h0 container-big">Vodkand</h1>
+    <>
+      <Header />
+      <Hero />
+      <Footer />
+    </>
   )
 }
 

@@ -26,3 +26,10 @@
     #{$maxSize * 1rem}
   );
 }
+
+@function border($color: black, $width: 3) {
+  $solid: solid;
+  $remWidth: math.div($width, 16) + rem;
+
+  @return $remWidth + ' ' + $solid + ' ' + $color;
+}
