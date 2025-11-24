@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Index from '@/pages/index/Index.jsx'
+import { BrowserRouter, Routes, Route } from "react-router"
 
 import { Toaster } from "sonner"
 
@@ -13,7 +14,6 @@ import '@/styles/toaster.scss'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Index />
     <Toaster 
       richColors 
       position='bottom-center'
@@ -25,5 +25,11 @@ createRoot(document.getElementById('root')).render(
         }
       }}
     />
+
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Index />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>,
 )

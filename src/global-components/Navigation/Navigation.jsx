@@ -5,15 +5,15 @@ const Navigation = () => {
         <nav className={styles.navigation}>
             <a 
                 className={styles.link}
-                href="/"
+                href="/rules"
             ><big>Правила</big></a>
             <a 
                 className={styles.link}
-                href="/"
+                href="/plugins"
             ><big>Плагины</big></a>
             <a 
                 className={styles.link}
-                href="/"
+                href="/prices"
             ><big>Цены</big></a>
         </nav>
     )
