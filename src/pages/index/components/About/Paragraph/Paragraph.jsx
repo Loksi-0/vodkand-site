@@ -14,7 +14,7 @@ const Paragraph = (props) => {
                 className={styles.image}
                 src={image} 
                 alt="" 
-                draggable='false'
+                draggable='false' loading='lazy'
             />}
 
             <div className={styles.text}>

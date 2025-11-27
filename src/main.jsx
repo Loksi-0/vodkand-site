@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Index from '@/pages/index/Index.jsx'
+import Plugins from '@/pages/plugins/Plugins'
+import Account from './pages/account/Account'
 import { BrowserRouter, Routes, Route } from "react-router"
 
 import { Toaster } from "sonner"
@@ -29,6 +31,8 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Index />} />
+        <Route path='/plugins' element={<Plugins />} />
+        <Route path='/account' element={<Account />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

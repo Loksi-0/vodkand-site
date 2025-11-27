@@ -25,6 +25,12 @@ main {
     flex-grow: 1;
 }
 
+#root {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
 h1, .h1,
 h2, .h2,
 h3, .h3,
@@ -100,14 +106,17 @@ big {
 }
 
 ::-webkit-scrollbar {
-    background-color: transparent;
-    width: rem(12);
+    width: 8px;
 
     &-thumb {
         background-color: var(--color-dark);
+        border-radius: 4px;
     }
 }
 
-* {
-    scrollbar-color: var(--color-dark) transparent;
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: auto;
+        scrollbar-color: var(--color-dark) transparent;
+    }
 }

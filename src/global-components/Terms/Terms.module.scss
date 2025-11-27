@@ -16,6 +16,10 @@
 .link {
     @include hover {
         color: var(--color-gray);
+        
+        &::after {
+            color: var(--color-dark);
+        }
     }
 
     @include mobile-above {

@@ -1,0 +1,10 @@
+@use '@/styles/helpers' as *;
+
+.article {
+    display: flex;
+    flex-direction: column;
+}
+
+.h1, .h2, .button {
+    align-self: center;
+}

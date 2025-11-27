@@ -10,24 +10,21 @@
     transition-duration: var(--transition-duration);
 
     @include hover {
-        background-color: transparent;
+        opacity: 0.8;
     }
 }
 
 .accent {
     background-color: var(--color-accent);
-
-    @include hover {
-        border-color: var(--color-accent);
-    }
 }
 
 .red {
     background-color: var(--color-red);
+}
 
-    @include hover {
-        border-color: var(--color-accent);
-    }
+.redPale {
+    background-color: var(--color-red-20);
+    border: border(var(--color-red-10));
 }
 
 .isBig {

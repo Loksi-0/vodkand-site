@@ -7,10 +7,12 @@ import Accordion from "@/global-components/Accordion/Accordion"
 function Index() {
   return (
     <>
-      <Header />
-      <Hero />
-      <About />
-      <Accordion />
+      <Header sticky={false} />
+      <main>
+        <Hero />
+        <About />
+        <Accordion />
+      </main>
       <Footer />
     </>
   )
