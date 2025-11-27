@@ -1,0 +1,17 @@
+@use '@/styles/helpers' as *;
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid(30, 10);
+}
+
+.link {
+    display: flex;
+    padding: rem(5) rem(15);
+    border-radius: rem(30);
+
+    @include hover {
+        background-color: var(--color-gray-20);
+    }
+}

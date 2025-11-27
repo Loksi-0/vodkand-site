@@ -1,0 +1,52 @@
+@use '@/styles/helpers' as *;
+
+.footer {
+    --padding: calc(var(--section-padding) / 2);
+
+    width: 100%;
+    padding-block: var(--padding);
+    border-top: var(--border-dark);
+    caret-color: transparent;
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    & > nav {
+        margin-inline: auto;
+        caret-color: black;
+    }
+    
+    &:not(:last-child) {
+        padding-bottom: var(--padding);
+        border-bottom: var(--border-split);
+    }
+}
+
+.bottomRow {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(10);
+    padding-top: var(--padding);
+    caret-color: black;
+}
+
+.mobileRow {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+    justify-content: space-between;
+    caret-color: transparent;
+}
+
+.disclaimer {
+    color: var(--color-gray);
+}

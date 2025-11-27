@@ -1,0 +1,35 @@
+@use '@/styles/helpers' as *;
+
+.button {
+    @include fluid-text(20, 16);
+
+    border: #{rem(3)} solid transparent;
+    padding: fluid(20, 15);
+    border-radius: fluid(20, 15);
+    user-select: none;
+    transition-duration: var(--transition-duration);
+
+    @include hover {
+        opacity: 0.8;
+    }
+}
+
+.accent {
+    background-color: var(--color-accent);
+}
+
+.red {
+    background-color: var(--color-red);
+}
+
+.redPale {
+    background-color: var(--color-red-20);
+    border: border(var(--color-red-10));
+}
+
+.isBig {
+    @include fluid-text(24, 16);
+
+    padding: fluid(30, 15);
+    border-radius: fluid(30, 15);
+}
