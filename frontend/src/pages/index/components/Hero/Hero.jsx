@@ -10,7 +10,6 @@ const Hero = () => {
       <div className={styles.text}>
         <Title />
         <p className={styles.description}>
-          sssssss
           Forever world с неограниченными возможностями для творчества
         </p>
       </div>
