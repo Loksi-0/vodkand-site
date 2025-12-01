@@ -8,12 +8,12 @@ const Footer = () => {
     return (
         <footer className={styles.footer}>
             <div className={`${styles.footer__inner} container-big`}>
-                <div className={styles.row}>
+                <header className={styles.row}>
                     <div className='hidden-mobile'>
                         <Logo />
                     </div>
                     <Navigation />
-                    <div className='hidden-mobile'>
+                    <div className={`${styles.soc1als} hidden-mobile`}>
                         <Soc1als 
                             links={[
                                 {
@@ -23,7 +23,7 @@ const Footer = () => {
                             ]}
                         />
                     </div>
-                </div>
+                </header>
                 <div className={styles.bottomRow}>
                     <div className={`${styles.mobileRow} visible-mobile`}>
                         <Logo />

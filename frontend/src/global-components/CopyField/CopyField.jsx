@@ -24,16 +24,17 @@ const CopyField = (props) => {
             {hasSubtitle && <p className={styles.subtitle}>{subtitle}</p>}
             <div className={styles.field}>
                 <p className={styles.text}>{text}</p>
-                <div 
+                <button 
+                    type='button'
                     className={styles.copy}
                     onClick={handleCopy}
                 >
                     <img 
                         className={styles.icon}
                         src={copyIcon}
-                        alt="Copy" 
+                        alt='Copy'
                     />
-                </div>
+                </button>
             </div>
         </div>
     )

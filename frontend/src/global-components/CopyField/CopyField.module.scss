@@ -45,9 +45,7 @@
     }
 
     &:active {
-        .icon {
-            color: var(--color-accent);
-        }
+        background-color: var(--color-gray-10);
     }
 }
 

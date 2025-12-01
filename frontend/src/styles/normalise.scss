@@ -105,6 +105,13 @@ button {
   font: inherit;
 }
 
+button {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
 html {
   /**
     Пригодится в большинстве ситуаций

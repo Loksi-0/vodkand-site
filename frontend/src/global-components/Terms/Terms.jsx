@@ -5,27 +5,21 @@ const Terms = () => {
         <nav className={styles.terms}>
             <a 
                 className={styles.link}
-                href="/"
+                href="/terms"
             >
                 политика конфиденциальности
             </a>
             <a 
                 className={styles.link}
-                href="/"
+                href="/terms?tab=2"
             >
                 условия оплаты
             </a>
             <a 
                 className={styles.link}
-                href="/"
+                href="/terms?tab=3"
             >
                 контакты
-            </a>
-            <a 
-                className={styles.link}
-                href="/"
-            >
-                цены
             </a>
         </nav>
     )

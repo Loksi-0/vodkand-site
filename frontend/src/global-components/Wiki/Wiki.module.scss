@@ -1,14 +1,17 @@
 @use '@/styles/helpers' as *;
 
-.tabs {
+.wiki {
+    --gap: #{fluid(40, 20)};
+
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    padding-block: var(--section-padding);
-    gap: fluid(20, 10);
+    justify-content: space-between;
+    flex-grow: 1;
 
     @include mobile {
         flex-direction: column;
+        row-gap: rem(30);
 
         .navigation {
             width: 100%;
@@ -25,35 +28,34 @@
 .navigation {
     display: flex;
     align-self: start;
-    border-right: var(--border-split);
-    padding-right: fluid(20, 10);
     caret-color: transparent;
+    position: sticky;
+    top: fluid(90, 50);
 
     @include mobile-above {
-        --width: fit-content;
-
-        position: sticky;
-        top: fluid(170, 100);
-        min-width: var(--width);
-        max-width: var(--width);
-
-        @include tablet {
-            --width: #{rem(150)};
-        }
+        padding-block: rem(50);
+        padding-right: var(--gap);
     }
 
     @include mobile {
+        background-color: var(--color-light);
         border-right: none;
         padding-right: 0;
+        padding-top: rem(10);
         border-bottom: var(--border-split);
     }
 
     &List {
+        width: max-content;
         display: flex;
         flex-direction: column;
         gap: rem(10);
         margin-bottom: rem(10);
         scrollbar-width: none;
+
+        @include mobile-above {
+            max-width: fluid(250, 150);
+        }
 
         &::-webkit-scrollbar {
             display: none
@@ -61,6 +63,7 @@
 
         &__item {
             display: flex;
+            flex-shrink: 0;
             transition-duration: var(--transition-duration);
         }
 
@@ -70,31 +73,19 @@
             flex-direction: row;
             align-items: center;
             column-gap: rem(10);
-
-            &::before {
-                --padding: #{rem(10)};
-
-                position: absolute;
-                left: calc(var(--padding) * -0.25);
-                width: calc(100% + var(--padding));
-                height: calc(100% + var(--padding) / 2);
-                z-index: -1;
-                content: '';
-                background-color: transparent;
-                border-radius: rem(10);
-                transition-duration: var(--transition-duration);
-            }
+            background-color: transparent;
+            border-radius: rem(10);
+            padding: rem(5);
+            overflow: hidden;
+            hyphens: auto;
 
             @include hover {
-                &::before {
-                    background-color: var(--color-gray-25);
-                }
+                background-color: var(--color-gray-25);
             }
 
             &.isCurrent {
-                &::before {
-                    background-color: var(--color-gray-20);
-                }
+                background-color: var(--color-gray-20);
+                cursor: default;
             }
         }
 
@@ -111,10 +102,17 @@
 .article {
     display: flex;
     flex-direction: column;
-    max-width: var(--container-width);
+    padding-bottom: var(--section-padding);
     flex-grow: 1;
 
+    @include mobile-above {
+        border-left: var(--border-split);
+        padding-left: var(--gap);
+        padding-block: var(--section-padding);
+    }
+
     &Header {
+        width: 100%;
         max-width: rem(500);
         display: flex;
         flex-direction: column;
@@ -123,16 +121,17 @@
         row-gap: fluid(10, 0);
 
         &__inner {
+            width: max-content;
             display: flex;
             flex-direction: row;
             align-items: center;
             column-gap: fluid(10, 0);
             caret-color: transparent;
+            overflow: hidden;
         }
 
         &__title {
             text-align: center;
-            margin: 0;
             caret-color: black;
         }
 
@@ -157,29 +156,34 @@
             margin: 0;
         }
 
-        & h4, & h5 {
-            margin: 0;
-        }
-
         & h3 {
             margin-top: fluid(40, 30);
+            margin-bottom: fluid(20, 15);
         }
         & h4 {
-            margin-top: rem(10);
+            margin-block: rem(10);
+        }
+        & h5 {
+            margin: 0;
         }
         & p {
-            margin: 0;
+            margin-bottom: rem(5);
         }
 
         & div {
             width: 100%;
             display: flex;
             flex-direction: row;
+            justify-content: center;
             column-gap: fluid(10, 5);
             caret-color: transparent;
             overflow: scroll;
             scrollbar-width: none;
             margin-block: rem(20);
+
+            @include tablet {
+                justify-content: start;
+            }
 
             &::-webkit-scrollbar {
                 display: none
@@ -187,11 +191,12 @@
         }
 
         & img {
-            @include square(fluid(300, 150));
-
             overflow: hidden;
             object-fit: cover;
-            flex-shrink: 0;
+
+            @include mobile {
+                flex-shrink: 0;
+            }
 
             --border: #{fluid(30, 10)};
 
@@ -203,6 +208,16 @@
             }
             &:only-child {
                 border-radius: var(--border);
+            }
+        }
+
+        &.squareImage {
+            & img {
+                @include square(fluid(300, 150));
+            }
+
+            & div {
+                justify-content: start;
             }
         }
     }

@@ -1,16 +1,17 @@
-import styles from './Tabs.module.scss'
+import styles from './Wiki.module.scss'
 
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router"
 import DOMPurify from 'dompurify'
+import loading from '@/assets/icons/loading.gif'
 
 const Tabs = (props) => {
     const { page } = props
 
     const url = `http://127.0.0.1:5000/api/`
 
-    const [article, setArticle] = useState('Loading...')
-    const [navigation, setNavigation] = useState(['Loading...'])
+    const [article, setArticle] = useState({ icon: loading, title: 'Загрузка...' })
+    const [navigation, setNavigation] = useState([{ icon: loading, title: 'Загрузка...' }])
 
     const [searchParams] = useSearchParams()
     const tab = Number(searchParams.get('tab')) || 1
@@ -38,7 +39,7 @@ const Tabs = (props) => {
                 setArticle(json)
             })
             .catch(e => {
-                setArticle(e.message)
+                setArticle({ title: e.message })
             })
     }, [tab]) // fetching article
 
@@ -46,7 +47,7 @@ const Tabs = (props) => {
         fetch(`${url}${page}?navigation=true`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Не удалось загрузить навигацию')
+                    throw new Error('Не удалось загрузить навигацию. ', response.status)
                 }
 
                 return response.json()
@@ -55,7 +56,7 @@ const Tabs = (props) => {
                 setNavigation(json)
             })
             .catch(e => {
-                setNavigation([e.message])
+                setNavigation([{ title: `Не удалось загрузить навигацию. ${e.message}` }])
             })
     }, []) // fetching navigation
 
@@ -64,27 +65,28 @@ const Tabs = (props) => {
     }
 
     return (
-        <section className={`${styles.tabs} container-big`}>
-            <h1 className='visually-hidden'>Плагины</h1>
+        <section className={`${styles.wiki} container-big`}>
+            <h1 className='visually-hidden'>{page}</h1>
             <nav className={styles.navigation}>
                 <ul className={styles.navigationList}>
                     {navigation.map((element, index) => {
                         const isCurrent = tab === index + 1
 
                         return (
-                            <li key={index} className={`${styles.navigationList__item}`}>
+                            <li key={index} className={styles.navigationList__item}>
                                 <a 
-                                    href={`/plugins?tab=${index + 1}`} 
+                                    href={`/${page}?tab=${index + 1}`} 
                                     className={`${styles.navigationList__link} ${isCurrent && styles.isCurrent}`}
                                 >
                                     {element.icon && 
                                     <img 
                                         className={styles.navigationList__icon}
                                         src={element.icon}
-                                        alt=""
-                                        loading="lazy"
+                                        alt=''
+                                        loading='lazy'
+                                        draggable='false'
                                     />}
-                                    <div className={styles.navigationList__title}>
+                                    <div className={styles.navigationList__title} lang='ru'>
                                         {element.title}
                                     </div>
                                 </a>
@@ -94,24 +96,27 @@ const Tabs = (props) => {
                 </ul>
             </nav>
             <div className={styles.article}>
-                {page === 'plugins' && 
-                    <header className={styles.articleHeader}>
-                        <div className={styles.articleHeader__inner}>
-                            <img 
-                                className={styles.articleHeader__icon}
-                                src={article.icon}
-                                alt=""
-                                loading="lazy"
-                            />
-                            <h2 className={styles.articleHeader__title}>{article.title}</h2>
-                        </div>
-                        <p className={styles.articleHeader__description}>{article.description}</p>
-                    </header>
-                }
+                <header className={styles.articleHeader}>
+                    <div className={styles.articleHeader__inner}>
+                        {article.icon && 
+                        <img 
+                            className={styles.articleHeader__icon}
+                            src={article.icon}
+                            alt=''
+                            loading='lazy'
+                            draggable='false'
+                        />
+                        }
+                        <h2 className={styles.articleHeader__title}>{article.title}</h2>
+                    </div>
+                    {article.description && <p className={styles.articleHeader__description}>{article.description}</p>}
+                </header>
                 <div 
-                    className={styles.articleContent}
+                    className={`${styles.articleContent} ${article.title === 'Brewery' && styles.squareImage}`}
                     dangerouslySetInnerHTML={createSafeHTML(article.content)}
-                ></div>
+                >
+
+                </div>
             </div>
         </section>
     )

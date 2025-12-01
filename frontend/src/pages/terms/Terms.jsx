@@ -2,13 +2,13 @@ import Header from "@/global-components/Header/Header"
 import Footer from "@/global-components/Footer/Footer"
 import Wiki from "@/global-components/Wiki/Wiki"
 
-function Plugins() {
+function Terms() {
   return (
     <>
       <Header />
       <main>
         <Wiki
-          page='plugins'
+          page='terms'
         />
       </main>
       <Footer />
@@ -16,4 +16,4 @@ function Plugins() {
   )
 }
 
-export default Plugins
+export default Terms
