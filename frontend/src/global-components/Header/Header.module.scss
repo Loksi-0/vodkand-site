@@ -27,7 +27,13 @@
     background: url('@/assets/icons/logo.svg') center/contain no-repeat;
 }
 
-.accountButton {
-    @include square(#{fluid(30, 20)});
-    background: url('@/assets/icons/account.svg') center/contain no-repeat;
+.account {
+    &Link {
+        @include square(#{fluid(40, 20)});
+    }
+    
+    &Icon {
+        border-radius: fluid(10, 5);
+        background-color: var(--color-gray-25);
+    }
 }

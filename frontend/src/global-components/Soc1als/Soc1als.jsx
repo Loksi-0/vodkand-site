@@ -14,6 +14,7 @@ const Soc1als = (props) => {
                         <a 
                             className={styles.link}
                             href={link.link}
+                            target='_blank'
                         >
                             <span className='visually-hidden'>{link.title}</span>
                         </a>

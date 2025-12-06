@@ -4,7 +4,7 @@ import pass from '@/assets/images/frog.png'
 
 const List = () => {
     return (
-        <div className={styles.list}>
+        <section className={styles.list}>
             <ul className={`${styles.list__inner} container`}>
                 <li className={styles.list__item}>
                     <div className={styles.list__imageWrapper}>
@@ -28,7 +28,7 @@ const List = () => {
                     </div>
                 </li>
             </ul>
-        </div>
+        </section>
     )
 }
 

@@ -5,7 +5,8 @@ const Button = (props) => {
     color,
     text,
     type = 'button',
-    isBig = false
+    isBig = false,
+    onClick = () => {}
   } = props
 
   return (
@@ -16,6 +17,7 @@ const Button = (props) => {
         ${styles[color]} 
         ${isBig ? styles.isBig : ''
       }`}
+      onClick={onClick}
     >{text}</button>
   )
 }

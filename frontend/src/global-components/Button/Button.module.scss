@@ -4,8 +4,8 @@
     @include fluid-text(20, 16);
 
     border: #{rem(3)} solid transparent;
-    padding: fluid(20, 15);
-    border-radius: fluid(20, 15);
+    padding: fluid(15, 10);
+    border-radius: fluid(15, 10);
     user-select: none;
     transition-duration: var(--transition-duration);
 
@@ -25,6 +25,15 @@
 .redPale {
     background-color: var(--color-red-20);
     border: border(var(--color-red-10));
+}
+
+.yellow {
+    background-color: var(--color-yellow);
+}
+
+.dark {
+    color: var(--color-light);
+    background-color: var(--color-dark);
 }
 
 .isBig {

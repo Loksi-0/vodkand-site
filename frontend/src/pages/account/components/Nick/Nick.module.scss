@@ -8,8 +8,9 @@
 
     &Image {
         aspect-ratio: 1;
-        height: fluid(75, 60);
+        height: fluid(75, 40);
         border-radius: fluid(10, 5);
+        background-color: var(--color-gray-20);
     }
 
     &Field {
@@ -23,6 +24,7 @@
             height: fluid(20, 10);
             border: none;
             background: url('@/assets/icons/edit.svg') center/contain no-repeat;
+            display: none;
         }
     }
 }

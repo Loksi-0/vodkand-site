@@ -3,8 +3,7 @@ import styles from './Warns.module.scss'
 import warn from '@/assets/icons/warn.png'
 
 const Warns = () => {
-    const warns = [
-    ]
+    const warns = []
 
     return (
         <section className={styles.warns}>

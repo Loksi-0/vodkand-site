@@ -1,12 +1,16 @@
-import Button from '@/global-components/Button/Button'
 import styles from './Buttons.module.scss'
 
-const Buttons = () => {
+import Button from '@/global-components/Button/Button'
+
+const Buttons = (props) => {
+    const { onLogout } = props
+
     return (
         <section className={styles.buttons}>
             <Button 
                 color='red'
-                text='Удалить аккаунт'
+                text='Выйти из аккаунта'
+                onClick={onLogout}
             />
             <Button 
                 color='redPale'

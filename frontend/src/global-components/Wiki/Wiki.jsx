@@ -8,7 +8,7 @@ import loading from '@/assets/icons/loading.gif'
 const Tabs = (props) => {
     const { page } = props
 
-    const url = `http://127.0.0.1:5000/api/`
+    const url = import.meta.env.VITE_API_URL
 
     const [article, setArticle] = useState({ icon: loading, title: 'Загрузка...' })
     const [navigation, setNavigation] = useState([{ icon: loading, title: 'Загрузка...' }])
@@ -17,7 +17,7 @@ const Tabs = (props) => {
     const tab = Number(searchParams.get('tab')) || 1
 
     useEffect(() => {
-        fetch(`${url}${page}?tab=${tab}`, {
+        fetch(`${url}/${page}?tab=${tab}`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -44,7 +44,7 @@ const Tabs = (props) => {
     }, [tab]) // fetching article
 
     useEffect(() => {
-        fetch(`${url}${page}?navigation=true`)
+        fetch(`${url}/${page}?navigation=true`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Не удалось загрузить навигацию. ', response.status)
