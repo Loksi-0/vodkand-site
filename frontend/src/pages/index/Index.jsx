@@ -3,6 +3,7 @@ import Footer from "@/global-components/Footer/Footer"
 import Hero from "./components/Hero/Hero"
 import About from "./components/About/About"
 import Accordion from "@/global-components/Accordion/Accordion"
+import NavigationTile from "@/global-components/NavigationTile/NavigationTile"
 
 function Index() {
   return (
@@ -12,6 +13,7 @@ function Index() {
         <Hero />
         <About />
         <Accordion />
+        <NavigationTile />
       </main>
       <Footer />
     </>

@@ -3,14 +3,22 @@
 .button {
     @include fluid-text(20, 16);
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: #{rem(3)} solid transparent;
     padding: fluid(15, 10);
     border-radius: fluid(15, 10);
+    -webkit-user-select: none;
     user-select: none;
     transition-duration: var(--transition-duration);
 
     @include hover {
         opacity: 0.8;
+    }
+
+    &:active {
+        scale: 0.95;
     }
 }
 
@@ -33,7 +41,33 @@
 
 .dark {
     color: var(--color-light);
-    background-color: var(--color-dark);
+    background-color: var(--color-dark-10);
+}
+
+.transparentAccent {
+    background-color: transparent;
+    color: var(--color-accent);
+    padding: fluid(10, 5);
+}
+
+.transparentDark {
+    background-color: transparent;
+    color: var(--color-dark);
+    padding: fluid(10, 5);
+
+    @include hover {
+        background-color: var(--color-gray-20);
+    }
+}
+
+.icon {
+    background-color: transparent;
+    padding: fluid(5, 3);
+    border-radius: rem(30);
+
+    @include hover {
+        background-color: var(--color-gray-20);
+    }
 }
 
 .isBig {

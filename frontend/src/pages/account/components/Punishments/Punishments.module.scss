@@ -1,6 +1,6 @@
 @use '@/styles/helpers' as *;
 
-.warns {
+.punishments {
     display: flex;
     flex-direction: column;
     row-gap: fluid(20, 10);
@@ -9,8 +9,7 @@
         --padding: #{rem(10)};
         --borderRadius: #{fluid(30, 20)};
 
-        min-height: rem(300);
-        max-height: rem(400);
+        height: rem(400);
         display: flex;
         flex-direction: column;
         row-gap: fluid(10, 5);
@@ -18,6 +17,7 @@
         background-color: var(--color-gray-25);
         border: border(var(--color-gray-20));
         border-radius: var(--borderRadius);
+        -webkit-user-select: none;
         user-select: none;
         overflow-y: scroll;
         scrollbar-width: none;
@@ -31,8 +31,6 @@
             flex-direction: row;
             align-items: center;
             column-gap: fluid(20, 15);
-            background-color: var(--color-yellow-10);
-            border: border(var(--color-yellow));
             border-radius: calc(var(--borderRadius) - var(--padding));
             padding: fluid(20, 10);
         }
@@ -45,10 +43,12 @@
             display: flex;
             flex-direction: column;
             row-gap: fluid(5, 0);
+            -webkit-user-select: none;
+            user-select: text;
         }
 
         &__reason {
-            margin-bottom: fluid(20, 10);
+            margin-bottom: fluid(10, 5);
         }
 
         &__expires {
@@ -58,13 +58,34 @@
     }
 }
 
+.warn {
+    background-color: var(--color-yellow-10);
+    border: border(var(--color-yellow));
+}
+
+.ban {
+    background-color: var(--color-red-20);
+    border: border(var(--color-red-10));
+}
+
+.mute {
+    background-color: var(--color-gray-20);
+    border: border(var(--color-gray-10));
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .isEmpty {
     display: flex;
     align-items: center;
     justify-content: center;
 
     &::after {
-        content: 'нет предупреждений';
+        content: 'нет наказаний';
         color: var(--color-gray);
     }
 }

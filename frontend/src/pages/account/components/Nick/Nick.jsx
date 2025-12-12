@@ -1,5 +1,6 @@
-import { useContext } from 'react'
 import styles from './Nick.module.scss'
+
+import { useContext } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 

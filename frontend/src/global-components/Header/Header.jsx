@@ -1,6 +1,7 @@
+import styles from './Header.module.scss'
+
 import { useContext } from 'react'
 import Logo from '../Logo/Logo'
-import styles from './Header.module.scss'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import accountIcon from '@/assets/icons/account.svg'
@@ -15,13 +16,16 @@ const Header = (props) => {
             <div className={`${styles.header__inner} container-big`}>
                 <Logo />
                 <a 
-                    className={styles.accountLink}
+                    className={`${styles.accountLink}  ${store.isLoading && styles.loading}`}
                     href={store.isAuth ? '/account' : '/auth'}
                     draggable='false'
                 >
                     <img 
-                        className={styles.accountIcon}
-                        src={store.user.nickname ? `https://mineskin.eu/helm/${store.user.nickname}` : accountIcon}
+                        className={`${styles.accountIcon} ${store.user.nickname && styles.authorized}`}
+                        src={!store.isLoading 
+                            ? ((store.user.nickname && store.isAuth && `https://mineskin.eu/helm/${store.user.nickname}`) 
+                                || ((!store.user.nickname || !store.isAuth) && accountIcon))
+                            : null}
                         alt=''
                         loading='lazy'
                         draggable='false'

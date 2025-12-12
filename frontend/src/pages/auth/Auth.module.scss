@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     flex-grow: 1;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -13,59 +14,72 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    column-gap: fluid(50, 30);
+    column-gap: fluid(50, 25);
     background-color: var(--color-gray-25);
-    padding: fluid(50, 30);
-    border-radius: fluid(50, 30);
+    padding: fluid(50, 25);
+    border-radius: fluid(50, 25);
 
     &__content {
-        max-width: rem(450);
+        max-width: rem(350);
         display: flex;
         flex-direction: column;
-        row-gap: fluid(30, 15);
-    }
-
-    &__image {
-        width: fluid(300, 150);
+        row-gap: fluid(60, 30);
     }
 
     &__body {
         display: flex;
         flex-direction: column;
-        row-gap: fluid(15, 7);
+        row-gap: fluid(30, 15);
     }
 }
 
 .title {
+    -webkit-user-select: text;
     user-select: text; 
     text-align: center;
 }
 
 .input {
-    padding: fluid(20, 10);
-    background-color: var(--color-light);
-    border: border(var(--color-gray-20));
-    border-radius: fluid(20, 15);
+    flex-grow: 1;
+    padding-bottom: fluid(10, 5);
+    border: none;
+    border-bottom: border(var(--color-gray-10), 2);
+    background-color: transparent;
+
+    &:focus-visible {
+        outline: none;
+        border-color: var(--color-accent);
+    }
 
     &.invalid {
         border-color: var(--color-red);
-        background-color: var(--color-red-20);
     }
+}
+
+.passwordInputWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row;
 }
 
 .error {
     color: var(--color-red);
     align-self: center;
     text-align: center;
+
+    &.empty {
+        display: none;
+    }
 }
 
 .mail {
+    max-width: rem(600);
     display: flex;
     flex-direction: column;
     align-items: center;
     row-gap: fluid(20, 10);
-    padding: fluid(50, 30);
-    border-radius: fluid(50, 30);
+    padding: fluid(50, 25);
+    border-radius: fluid(50, 25);
     background-color: var(--color-gray-25);
     animation: mailFadeIn 0.5s ease 0s 1;
 
@@ -80,50 +94,25 @@
 
     &__icon {
         width: 100%;
-        max-width: rem(100);
-        animation: mail 2s ease-in-out 2s infinite;
-    }
 
-    @keyframes mail {
-        10% {
-            transform: rotate(-10deg);
-        }
-        15% {
-            transform: rotate(-5deg);
-        }
-        20% {
-            transform: rotate(-10deg);
-        }
-        25% {
-            transform: rotate(-5deg);
-        }
-        30% {
-            transform: rotate(-10deg);
-        }
-        35% {
-            transform: rotate(-5deg);
-        }
-        40% {
-            transform: rotate(-10deg);
-        }
-        45% {
-            transform: rotate(-5deg);
-        }
-        50% {
-            transform: rotate(-10deg);
-        }
-        55% {
-            transform: rotate(-5deg);
-        }
-        60% {
-            transform: rotate(0deg);
+        &Wrapper {
+            @include square(rem(100));
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-accent);
+            padding: rem(25);
+            border-radius: rem(60);
         }
     }
 
     &__body {
         display: flex;
         flex-direction: column;
+        row-gap: rem(5);
         align-items: center;
+        -webkit-user-select: none;
         user-select: text;
     }
 
@@ -133,5 +122,19 @@
 
     &__description {
         text-align: center;
+    }
+
+    &__button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: var(--border-split);
+        margin-top: rem(30);
+        padding-top: rem(10);
+    }
+
+    &Accent {
+        text-decoration: dashed;
     }
 }

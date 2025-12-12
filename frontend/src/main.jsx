@@ -14,9 +14,7 @@ import '@/styles/toaster.scss'
 
 const store = new Store()
 
-export const Context = createContext({
-  store
-})
+export const Context = createContext({ store })
 
 createRoot(document.getElementById('root')).render(
   <Context.Provider value={{
@@ -25,7 +23,7 @@ createRoot(document.getElementById('root')).render(
     <StrictMode>
       <Toaster 
         richColors 
-        position='bottom-center'
+        position='top-center'
         toastOptions={{
           classNames: {
             toast: 'toast',

@@ -3,7 +3,16 @@
 .navigation {
     display: flex;
     flex-direction: row;
-    column-gap: fluid(30, 10);
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid(30, 5);
+
+    &__item {
+        margin: 0;
+    }
 }
 
 .link {
@@ -13,5 +22,9 @@
 
     @include hover {
         background-color: var(--color-gray-20);
+    }
+
+    &:active {
+        scale: 0.95;
     }
 }

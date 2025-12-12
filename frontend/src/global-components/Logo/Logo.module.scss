@@ -4,4 +4,8 @@
     height: fluid(49, 32);
     width: fluid(148, 99);
     background: url('@/assets/icons/logo.svg') center/contain no-repeat;
+
+    &:active {
+        scale: 0.9;
+    }
 }

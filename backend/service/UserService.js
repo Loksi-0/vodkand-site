@@ -96,6 +96,27 @@ class UserService {
         await MailService.sendActivationMail(email, `${process.env.CLIENT_URL}/activate?link=${link}`)
     }
 
+    async changeNickname(nickname, email) {
+        const candidate = await User.findOne({ nickname })
+
+        console.log(candidate)
+
+        if (candidate) {
+            throw ApiError.BadRequest(`Пользователь с ником ${nickname} уже в вайтлисте`, ['alreadyExists'])
+        }
+
+        const user = await User.findOne({ email })
+
+        if (!user) {
+            throw ApiError.NotFound('Не удалось найти пользователя')
+        } else if (user.nickname) {
+            throw ApiError.BadRequest(`Пользователь ${email} уже установил себе ник`)
+        }
+
+        user.nickname = nickname
+        await user.save()
+    }
+
     async getAllUsers() {
         const users = await User.find()
         return users

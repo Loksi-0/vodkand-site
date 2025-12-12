@@ -28,6 +28,7 @@
             background-color: var(--color-accent-10);
             border: border(var(--color-accent));
             border-radius: fluid(30, 15);
+            -webkit-user-select: none;
             user-select: none;
         }
     }

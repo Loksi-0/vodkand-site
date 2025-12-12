@@ -19,6 +19,7 @@ const Activate = () => {
 
         fetch(`${url}/activate/${activationLink}`)
             .then(() => {
+                localStorage.setItem('isActivated', true)
                 setTitle('Активация прошла успешно')
                 setPreloader(`${styles.preloader} ${styles.ok}`)
                 setPreloaderIcon(ok)
@@ -55,17 +56,19 @@ const Activate = () => {
                 {status === 'ok' && 
                     <Link to='/'>
                         <Button 
-                            text='Вернуться на главную страницу'
                             color='accent'
-                        />
+                        >
+                            Вернуться на главную страницу
+                        </Button>
                     </Link>
                 }
                 {status === 'error' && 
                     <Button 
-                        text='Попробовать снова'
                         color='red'
                         onClick={handleClick}
-                    />
+                    >
+                        Попробовать снова
+                    </Button>
                 }
             </section>
         </main>

@@ -82,6 +82,17 @@ class authController {
         }
     }
 
+    async changeNickname(req, res, next) {
+        try {
+            const { nickname, email } = req.body
+            await UserService.changeNickname(nickname, email)
+
+            return res.status(200).end()
+        } catch(e) {
+            next(e)
+        }
+    }
+
     async getUsers(req, res, next) {
         try {
             const users = await UserService.getAllUsers()

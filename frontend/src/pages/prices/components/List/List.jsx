@@ -23,8 +23,9 @@ const List = () => {
                         </div>
                         <Button 
                             color='accent'
-                            text='Купить проходку'
-                        />
+                        >
+                            Купить проходку
+                        </Button>
                     </div>
                 </li>
             </ul>

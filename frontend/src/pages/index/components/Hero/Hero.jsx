@@ -3,30 +3,69 @@ import styles from './Hero.module.scss'
 import Button from "@/global-components/Button/Button"
 import Title from "../Title/Title"
 import CopyField from "@/global-components/CopyField/CopyField"
+import PunishmentAlert from '@/global-components/PunishmentAlert/PunishmentAlert'
+import { useContext, useEffect, useState } from 'react'
+import { Context } from '@/main'
+import { observer } from 'mobx-react-lite'
 
 const Hero = () => {
-  return (
-    <section className={`${styles.hero} container-big`}>
-      <div className={styles.text}>
-        <Title />
-        <p className={styles.description}>
-          Forever world с неограниченными возможностями для творчества
-        </p>
-      </div>
-      <div className={styles.buttons}>
-        <Button 
-          color='accent'
-          text='Купить проходку'
-          isBig
-        />
-        <CopyField 
-          text='play.vodkand.online'
-          hasSubtitle={true}
-          subtitle='1.21.8'
-        />
-      </div>
-    </section>
-  )
+    const { store } = useContext(Context)
+
+    const [width, setWidth] = useState(window.innerWidth)
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 767)
+
+    window.addEventListener('resize', () => setWidth(window.innerWidth))
+
+    useEffect(() => {
+        setIsMobile((window.innerWidth < 767))
+    }, [width])
+
+    const buttonHref = () => {
+        if (!store.isAuth) {
+            return '/auth'
+        } else if (!store.user.isActivated) {
+            return '/account'
+        } else if (!store.user.nickname) {
+            return '/whitelist'
+        } else {
+            return '/'
+        }
+    }
+
+    return (
+        <section className={`${styles.hero} container-big`}>
+            {isMobile && 
+                <div className={styles.alertWrapper}>
+                    <PunishmentAlert />
+                </div>
+            }
+            <div className={styles.text}>
+                <Title />
+                <p className={styles.description}>
+                    Forever world с неограниченными возможностями для творчества
+                </p>
+            </div>
+            <div className={styles.rightSide}>
+                {!isMobile && <PunishmentAlert />}
+                <div className={styles.buttons}>
+                    <Button 
+                        color='accent'
+                        isBig
+                        onClick={() => {
+                            window.location.href = buttonHref()
+                        }}
+                    >
+                        Купить проходку
+                    </Button>
+                    <CopyField 
+                        text='play.vodkand.online'
+                        hasSubtitle={true}
+                        subtitle='1.21.8'
+                    />
+                </div>
+            </div>
+        </section>
+    )
 }
 
-export default Hero
+export default observer(Hero)

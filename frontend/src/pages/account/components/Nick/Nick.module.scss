@@ -4,13 +4,14 @@
     display: flex;
     flex-direction: row;
     justify-content: start;
-    column-gap: fluid(20, 10);
+    column-gap: fluid(15, 7);
 
     &Image {
         aspect-ratio: 1;
-        height: fluid(75, 40);
+        height: fluid(60, 40);
         border-radius: fluid(10, 5);
         background-color: var(--color-gray-20);
+        caret-color: transparent;
     }
 
     &Field {
@@ -24,6 +25,7 @@
             height: fluid(20, 10);
             border: none;
             background: url('@/assets/icons/edit.svg') center/contain no-repeat;
+            
             display: none;
         }
     }

@@ -6,11 +6,12 @@ import Rules from '@/pages/rules/Rules'
 import Prices from '@/pages/prices/Prices'
 import Activate from '@/pages/activate/Activate'
 import Auth from '@/pages/auth/Auth'
+import ProtectedRoute from './global-components/ProtectedRoute/ProtectedRoute'
+import Whitelist from './pages/whitelist/Whitelist'
 import { BrowserRouter, Routes, Route } from "react-router"
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import ProtectedRoute from './global-components/ProtectedRoute/ProtectedRoute'
 
 const App = () => {
     const { store } = useContext(Context)
@@ -34,8 +35,13 @@ const App = () => {
                 <Route path='/prices' element={<Prices />} />
                 <Route path='/activate' element={<Activate />} />
                 <Route path='/auth' element={
-                    <ProtectedRoute redirect='/account' reversed>
+                    <ProtectedRoute redirect='/account' access='not-auth'>
                         <Auth />
+                    </ProtectedRoute>
+                } />
+                <Route path='/whitelist' element={
+                    <ProtectedRoute redirect='/' access='has-not-nick'>
+                        <Whitelist />
                     </ProtectedRoute>
                 } />
             </Routes>

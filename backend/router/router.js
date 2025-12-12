@@ -16,6 +16,7 @@ router.post('/registration',
 router.post('/login', authController.login)
 router.post('/logout', authController.logout)
 router.post('/sendmail', authController.sendMail)
+router.put('/nickname', authController.changeNickname)
 router.get('/activate/:link', authController.activate)
 router.get('/refresh', authController.refresh)
 router.get('/users', authController.getUsers)

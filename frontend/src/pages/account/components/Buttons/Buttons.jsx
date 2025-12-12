@@ -9,13 +9,15 @@ const Buttons = (props) => {
         <section className={styles.buttons}>
             <Button 
                 color='red'
-                text='Выйти из аккаунта'
                 onClick={onLogout}
-            />
-            <Button 
+            >
+                Выйти из аккаунта
+            </Button>
+            {/* <Button 
                 color='redPale'
-                text='Сообщить о нарушении'
-            />
+            >
+                Сообщить о нарушении
+            </Button> */}
         </section>
     )
 }

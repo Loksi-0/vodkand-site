@@ -83,10 +83,19 @@ class Store {
 
     async sendMail(email) {
         try {
-            console.log(email)
             await AuthService.sendMail(email)
         } catch(e) {
             console.log(e.response?.data?.message)
+        }
+    }
+
+    async changeNickname(nickname, email) {
+        try {
+            const response = await AuthService.changeNickname(nickname, email)
+
+            return response
+        } catch(e) {
+            return e.response?.data?.message
         }
     }
 }

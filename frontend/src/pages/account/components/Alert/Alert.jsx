@@ -1,36 +1,43 @@
-import Button from '@/global-components/Button/Button'
 import styles from './Alert.module.scss'
-import { useContext } from 'react'
-import { Context } from '@/main'
+
+import Button from '@/global-components/Button/Button'
+
+import warn from '@/assets/icons/warn.png'
+import ban from '@/assets/icons/ban.png'
 
 const Alert = (props) => {
-    const { type } = props
+    const { 
+        color, 
+        title, 
+        description, 
+        onClick, 
+        textButton 
+    } = props
 
-    const { store } = useContext(Context)
-
-    if (type === 'not-activated') {
-        return (
-            <section className={`${styles.notActivated} ${styles.alert}`}>
-                <div className={styles.body}>
-                    <h1 className={`${styles.title} h3`}>Аккаунт не активирован</h1>
-                    <p className={styles.description}>активируйте аккаунт по ссылке в письме</p>
+    return (
+        <section className={styles.alert}>
+            <div className={styles.content}>
+                <div className={`${styles.iconWrapper} ${styles[color]}`}>
+                    <img 
+                        className={styles.icon}
+                        src={color === 'red' ? ban : warn}
+                        alt=''
+                        loading='lazy' 
+                        draggable='false'
+                    />
                 </div>
-                <Button text='Отправить письмо еще раз' color='accent' onClick={() => store.sendMail(store.user.email)} />
-            </section>
-        )
-    }
-
-    if (type === 'has-not-pass') {
-        return (
-            <section className={`${styles.hasNotPass} ${styles.alert}`}>
                 <div className={styles.body}>
-                    <h1 className={`${styles.title} h3`}>Нет проходки</h1>
-                    <p className={styles.description}>Для использования аккаунта приобретите доступ на сервер</p>
+                    <h1 className={`${styles.title} h3`}>{title}</h1>
+                    <p className={styles.description}>{description}</p>
                 </div>
-                <Button text='Купить проходку' color='accent' onClick={() => store.sendMail(store.user.email)} />
-            </section>
-        )
-    }
+            </div>
+            <div className={styles.button}>
+                <Button color='dark' onClick={onClick}>
+                    {textButton}
+                </Button>
+            </div>
+        </section>
+    )
 }
 
 export default Alert

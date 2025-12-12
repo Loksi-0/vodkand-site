@@ -7,6 +7,7 @@
     background-color: var(--color-light);
     padding-block: fluid(20, 10);
     border-bottom: var(--border-dark);
+    caret-color: transparent;
 
     &__sticky {
         position: sticky;
@@ -30,10 +31,23 @@
 .account {
     &Link {
         @include square(#{fluid(40, 20)});
+
+        &.loading {
+            background-color: var(--color-gray-20);
+            border-radius: fluid(10, 5);
+        }
+
+        &:active {
+            scale: 0.9;
+        }
     }
     
     &Icon {
         border-radius: fluid(10, 5);
-        background-color: var(--color-gray-25);
+        padding: rem(4);
+
+        &.authorized {
+            padding: 0;
+        }
     }
 }

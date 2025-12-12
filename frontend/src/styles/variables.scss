@@ -2,7 +2,9 @@
 
 :root {
     --color-light: #FFFFFF;
+
     --color-dark: #000000;
+    --color-dark-10: #272727;
 
     --color-accent: #62E27D;
     --color-accent-10: #b8f0c4;
@@ -11,12 +13,12 @@
     --color-red-10: #FFC4C4;
     --color-red-20: #FFDDDD;
 
-    --color-yellow: #fff29a;
-    --color-yellow-10: #fff9d9;
+    --color-yellow: #ffeca8;
+    --color-yellow-10: #fffad4;
 
     --color-gray-25: #FAFAFA;
     --color-gray-20: #EDEDED;
-    --color-gray-10: #C8C8C8;
+    --color-gray-10: #d8d8d8;
     --color-gray: #808080;
 
     --border-split: #{rem(1)} solid var(--color-gray-10);

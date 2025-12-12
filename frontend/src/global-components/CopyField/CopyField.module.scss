@@ -38,6 +38,7 @@
     padding: rem(5);
     border-radius: rem(5);
     transition-duration: var(--transition-duration);
+    -webkit-user-select: none;
     user-select: none;
 
     @include hover {
@@ -46,11 +47,13 @@
 
     &:active {
         background-color: var(--color-gray-10);
+        scale: 0.9;
     }
 }
 
 .icon {
     display: block;
     height: 100%;
+    -webkit-user-select: none;
     user-select: none;
 }

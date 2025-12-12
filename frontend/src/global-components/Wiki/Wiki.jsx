@@ -1,17 +1,18 @@
 import styles from './Wiki.module.scss'
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "react-router"
 import DOMPurify from 'dompurify'
-import loading from '@/assets/icons/loading.gif'
 
 const Tabs = (props) => {
     const { page } = props
 
     const url = import.meta.env.VITE_API_URL
 
-    const [article, setArticle] = useState({ icon: loading, title: 'Загрузка...' })
-    const [navigation, setNavigation] = useState([{ icon: loading, title: 'Загрузка...' }])
+    const navRef = useRef(null)
+
+    const [article, setArticle] = useState({ title: 'Загрузка...' })
+    const [navigation, setNavigation] = useState([{ title: 'Загрузка...' }])
 
     const [searchParams] = useSearchParams()
     const tab = Number(searchParams.get('tab')) || 1
@@ -60,6 +61,23 @@ const Tabs = (props) => {
             })
     }, []) // fetching navigation
 
+    useEffect(() => {
+        const element = navRef.current
+        const scroll = sessionStorage.getItem('wikiNavScroll') ?? 0
+
+        if (tab === 1) {
+            element.scrollLeft = 0
+            return
+        }
+        
+        element.scrollLeft = scroll
+    }, [navigation])
+
+    const handleScroll = () => {
+        const element = navRef.current
+        sessionStorage.setItem('wikiNavScroll', element.scrollLeft)
+    }
+
     const createSafeHTML = (html) => {
         return { __html: DOMPurify.sanitize(html) }
     }
@@ -68,12 +86,19 @@ const Tabs = (props) => {
         <section className={`${styles.wiki} container-big`}>
             <h1 className='visually-hidden'>{page}</h1>
             <nav className={styles.navigation}>
-                <ul className={styles.navigationList}>
+                <ul 
+                    className={styles.navigationList}
+                    ref={navRef}
+                    onScroll={handleScroll}
+                >
                     {navigation.map((element, index) => {
                         const isCurrent = tab === index + 1
 
                         return (
-                            <li key={index} className={styles.navigationList__item}>
+                            <li 
+                                key={index} 
+                                className={`${styles.navigationList__item}`}
+                            >
                                 <a 
                                     href={`/${page}?tab=${index + 1}`} 
                                     className={`${styles.navigationList__link} ${isCurrent && styles.isCurrent}`}
@@ -95,7 +120,7 @@ const Tabs = (props) => {
                     })}
                 </ul>
             </nav>
-            <div className={styles.article}>
+            <article className={styles.article}>
                 <header className={styles.articleHeader}>
                     <div className={styles.articleHeader__inner}>
                         {article.icon && 
@@ -117,7 +142,7 @@ const Tabs = (props) => {
                 >
 
                 </div>
-            </div>
+            </article>
         </section>
     )
 }
