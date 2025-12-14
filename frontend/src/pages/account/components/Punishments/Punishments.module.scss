@@ -33,10 +33,21 @@
             column-gap: fluid(20, 15);
             border-radius: calc(var(--borderRadius) - var(--padding));
             padding: fluid(20, 10);
+            background-color: var(--color-gray-20);
+            border: border(var(--color-gray-10));
         }
 
         &__icon {
-            height: fluid(100, 50);
+            width: 100%;
+            height: 100%;
+
+            &Wrapper {
+                @include square(fluid(100, 70));
+
+                background-color: var(--color-red-10);
+                border-radius: rem(60);
+                padding: fluid(20, 15);
+            }
         }
 
         &__body {
@@ -60,17 +71,14 @@
 
 .warn {
     background-color: var(--color-yellow-10);
-    border: border(var(--color-yellow));
 }
 
 .ban {
     background-color: var(--color-red-20);
-    border: border(var(--color-red-10));
 }
 
 .mute {
-    background-color: var(--color-gray-20);
-    border: border(var(--color-gray-10));
+    background-color: var(--color-gray-10);
 }
 
 .loading {
@@ -79,7 +87,7 @@
     justify-content: center;
 }
 
-.isEmpty {
+.empty {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,5 +95,19 @@
     &::after {
         content: 'нет наказаний';
         color: var(--color-gray);
+    }
+}
+
+.poshalko {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::after {
+        @include square(fluid(300, 200));
+
+        content: '';
+        background: url('@/assets/images/poshalko.jpg') center/cover no-repeat;
+        border-radius: fluid(30, 20);
     }
 }

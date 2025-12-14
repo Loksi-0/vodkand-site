@@ -9,16 +9,29 @@ import Auth from '@/pages/auth/Auth'
 import ProtectedRoute from './global-components/ProtectedRoute/ProtectedRoute'
 import Whitelist from './pages/whitelist/Whitelist'
 import { BrowserRouter, Routes, Route } from "react-router"
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
+import NotFound from './pages/notFound/notFound'
 
 const App = () => {
     const { store } = useContext(Context)
 
-    if (localStorage.getItem('token')) {
-        store.checkAuth()
+    useEffect(() => {
+        const checkAuth = async () => {
+            await store.checkAuth()
+        }
+
+        checkAuth()
+    }, [store])
+
+    const savedTheme = localStorage.getItem('theme')
+
+    if (savedTheme === null) {
+        localStorage.setItem('theme', 'light')
     }
+
+    document.documentElement.setAttribute('theme', savedTheme === 'dark' ? 'dark' : 'light')
 
     return (
         <BrowserRouter>
@@ -26,7 +39,7 @@ const App = () => {
                 <Route path='/' element={<Index />} />
                 <Route path='/plugins' element={<Plugins />} />
                 <Route path='/account' element={
-                    <ProtectedRoute redirect='/'>
+                    <ProtectedRoute redirect='/auth'>
                         <Account />
                     </ProtectedRoute>
                 } />
@@ -40,10 +53,11 @@ const App = () => {
                     </ProtectedRoute>
                 } />
                 <Route path='/whitelist' element={
-                    <ProtectedRoute redirect='/' access='has-not-nick'>
+                    <ProtectedRoute redirect='/auth' access='has-not-nick'>
                         <Whitelist />
                     </ProtectedRoute>
                 } />
+                <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     )

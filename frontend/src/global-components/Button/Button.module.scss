@@ -66,6 +66,7 @@
     border-radius: rem(30);
 
     @include hover {
+        opacity: 1;
         background-color: var(--color-gray-20);
     }
 }

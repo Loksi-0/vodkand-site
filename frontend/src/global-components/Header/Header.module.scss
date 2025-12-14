@@ -22,6 +22,14 @@
     }
 }
 
+.rightContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: rem(10);
+    align-items: center;
+    justify-content: center;
+}
+
 .logo {
     height: fluid(49, 32);
     width: fluid(148, 99);
@@ -30,9 +38,19 @@
 
 .account {
     &Link {
-        @include square(#{fluid(40, 20)});
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            @include square(fluid(35, 20));
+            
+            color: var(--color-dark);
+        }
 
         &.loading {
+            @include square(fluid(40, 25));
+
             background-color: var(--color-gray-20);
             border-radius: fluid(10, 5);
         }
@@ -41,13 +59,24 @@
             scale: 0.9;
         }
     }
+
+    &__svgWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: rem(50);
+        padding: fluid(7, 5);
+        transition-duration: var(--transition-duration);
+
+        @include hover {
+            background-color: var(--color-gray-20);
+        }
+    }
     
     &Icon {
-        border-radius: fluid(10, 5);
-        padding: rem(4);
+        @include square(fluid(40, 25));
 
-        &.authorized {
-            padding: 0;
-        }
+        border-radius: fluid(10, 5);
+        padding: 0;
     }
 }

@@ -17,6 +17,8 @@
     padding-right: fluid(60, 30);
     border-radius: fluid(20, 10);
     animation: fadeIn var(--transition-duration);
+    background-color: var(--color-gray-25);
+    border: border(var(--color-gray-20));
 
     &__body {
         display: flex;
@@ -24,9 +26,17 @@
     }
 
     &__icon {
-        @include square(fluid(80, 50));
-
         caret-color: transparent;
+
+        &Wrapper {
+            @include square(fluid(100, 60));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-yellow-10);
+            padding: rem(20);
+            border-radius: rem(70);
+        }
     }
 
     &__title {
@@ -55,16 +65,13 @@
 }
 
 .ban {
-    background-color: var(--color-red-20);
-    border: border(var(--color-red-10));
+    background-color: var(--color-red-10);
 }
 
 .warn {
     background-color: var(--color-yellow-10);
-    border: border(var(--color-yellow));
 }
 
 .mute {
-    background-color: var(--color-gray-20);
-    border: border(var(--color-gray-10));
+    background-color: var(--color-gray-10);
 }

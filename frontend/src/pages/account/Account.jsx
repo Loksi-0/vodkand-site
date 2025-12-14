@@ -25,7 +25,7 @@ const Account = () => {
         <>
             <Header />
             <main className={`${styles.account} container`}>
-                {!store.user.isActivated && 
+                {!store.user.isActivated && !store.isLoading && 
                     <Alert 
                         color='yellow' 
                         title='Аккаунт не активирован' 
@@ -34,7 +34,7 @@ const Account = () => {
                         textButton='Отправить письмо еще раз'
                     />
                 }
-                {store.user.isActivated && !store.user.hasPass && 
+                {store.user.isActivated && !store.user.hasPass && !store.isLoading && 
                     <Alert 
                         color='red' 
                         title='Нет проходки' 
@@ -43,7 +43,7 @@ const Account = () => {
                         textButton='Купить проходку'
                     />
                 }
-                {store.user.isActivated && store.user.hasPass && !store.user.nickname &&
+                {store.user.isActivated && store.user.hasPass && !store.user.nickname && !store.isLoading &&
                     <Alert 
                         color='red' 
                         title='Аккаунт не в вайтлисте' 
@@ -52,7 +52,7 @@ const Account = () => {
                         textButton='Добавить ник'
                     />
                 }
-                {store.user.isActivated && store.user.hasPass && store.user.nickname && 
+                {store.user.isActivated && store.user.hasPass && store.user.nickname && !store.isLoading && 
                     <>
                         <Nick />
                         <Punishments />

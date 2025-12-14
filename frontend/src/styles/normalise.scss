@@ -105,6 +105,11 @@ button {
   font: inherit;
 }
 
+input,
+textarea {
+  color: inherit;
+}
+
 button {
   border: none;
   border-radius: 0;
@@ -163,7 +168,7 @@ label {
 /**
   Приводим к единому цвету svg-элементы
  */
-[fill] { fill: currentColor }
+[fill] { fill: none }
 [stroke] { stroke: currentColor }
 
 /**

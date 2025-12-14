@@ -13,6 +13,7 @@ const Punishments = () => {
 
     const [loading, setLoading] = useState(false)
     const [punishments, setPunishments] = useState([])
+    const [isPoshalko, setIsPoshalko] = useState(Math.random() < 0.03)
 
     useEffect(() => {
         setLoading(true)
@@ -44,29 +45,30 @@ const Punishments = () => {
     return (
         <section className={styles.punishments}>
             <h2 className='h3'>Наказания</h2>
-            <ul className={`${styles.punishmentsList} ${loading && styles.loading} ${!punishments[0] && !loading && styles.isEmpty}`}>
+            <ul className={`${styles.punishmentsList} ${loading && styles.loading} ${!punishments[0] && !loading && (isPoshalko ? styles.poshalko : styles.empty)}`}>
                 {loading &&
                     <Preloader size={50} />
                 }
                 {!loading && punishments.map((element, index) => {
                     return (
                         <li key={index} 
-                            className={
-                                `${styles.punishmentsList__item}
-                                ${(element.type === 'WARN' && styles.warn) 
-                                    || (element.type === 'BAN' && styles.ban) 
-                                    || (element.type === 'MUTE' && styles.mute)}
-                            `}
+                            className={styles.punishmentsList__item}
                         >
-                            <img 
-                                className={styles.punishmentsList__icon}
-                                src={(element.type === 'WARN' && warn) 
-                                    || (element.type === 'BAN' && ban) 
-                                    || (element.type === 'MUTE' && mute)}
-                                alt=''
-                                loading='lazy'
-                                draggable='false'
-                            />
+                            <div className={`${styles.punishmentsList__iconWrapper} 
+                                ${(element.type === 'WARN' && styles.warn) 
+                                || (element.type === 'BAN' && styles.ban) 
+                                || (element.type === 'MUTE' && styles.mute)}
+                            `}>
+                                <img 
+                                    className={styles.punishmentsList__icon}
+                                    src={(element.type === 'WARN' && warn) 
+                                        || (element.type === 'BAN' && ban) 
+                                        || (element.type === 'MUTE' && mute)}
+                                    alt=''
+                                    loading='lazy'
+                                    draggable='false'
+                                />
+                            </div>
                             <div className={styles.punishmentsList__body}>
                                 <h3 className='h4'>
                                     {(element.type === 'WARN' && 'Предупреждение') 

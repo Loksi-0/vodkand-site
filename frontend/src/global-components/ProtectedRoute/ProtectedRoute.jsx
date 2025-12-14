@@ -1,16 +1,23 @@
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Navigate } from 'react-router'
 import Header from '@/global-components/Header/Header'
 import Footer from '@/global-components/Footer/Footer'
 
 const ProtectedRoute = (props) => {
     const { children, redirect, access = 'auth' } = props
+    const [isChecking, setIsChecking] = useState(true)
 
     const { store } = useContext(Context)
 
-    if (store.isLoading) {
+    useEffect(() => {
+        if (!store.isLoading) {
+            setIsChecking(false)
+        }
+    }, [store.isLoading])
+
+    if (isChecking) {
         return (
             <>
                 <Header />

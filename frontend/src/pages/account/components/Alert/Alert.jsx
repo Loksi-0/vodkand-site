@@ -4,6 +4,7 @@ import Button from '@/global-components/Button/Button'
 
 import warn from '@/assets/icons/warn.png'
 import ban from '@/assets/icons/ban.png'
+import { observer } from 'mobx-react-lite'
 
 const Alert = (props) => {
     const { 

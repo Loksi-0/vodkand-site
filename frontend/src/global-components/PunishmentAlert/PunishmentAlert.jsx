@@ -44,22 +44,22 @@ const PunishmentAlert = () => {
         return (
             <div className={styles.alerts}>
                 <div 
-                    className={
-                        `${styles.alert} 
+                    className={styles.alert}
+                >
+                    <div className={`${styles.alert__iconWrapper} 
                         ${(punishment.type === 'WARN' && styles.warn) 
                         || (punishment.type === 'BAN' && styles.ban) 
-                        || (punishment.type === 'MUTE' && styles.mute)}`
-                    }
-                >
-                    <img 
-                        className={styles.alert__icon}
-                        src={(punishment.type === 'WARN' && warn) 
-                            || (punishment.type === 'BAN' && ban) 
-                            || (punishment.type === 'MUTE' && mute)}
-                        alt=''
-                        draggable='false'
-                        loading='lazy'
-                    />
+                        || (punishment.type === 'MUTE' && styles.mute)}`}>
+                        <img 
+                            className={styles.alert__icon}
+                            src={(punishment.type === 'WARN' && warn) 
+                                || (punishment.type === 'BAN' && ban) 
+                                || (punishment.type === 'MUTE' && mute)}
+                            alt=''
+                            draggable='false'
+                            loading='lazy'
+                        />
+                    </div>
                     <div className={styles.alert__body}>
                         <h4 className={styles.alert__title}>
                             {(punishment.type === 'WARN' && 'Предупреждение') 

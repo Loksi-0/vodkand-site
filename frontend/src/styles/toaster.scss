@@ -1,5 +1,9 @@
 @use './helpers' as *;
 
+.toast svg {
+    fill: currentColor;
+}
+
 .title {
     @include fluid-text(16, 14);
 

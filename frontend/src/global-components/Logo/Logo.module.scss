@@ -1,11 +1,18 @@
 @use '@/styles/helpers' as *;
 
 .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: fluid(49, 32);
     width: fluid(148, 99);
-    background: url('@/assets/icons/logo.svg') center/contain no-repeat;
+    color: var(--color-dark);
 
     &:active {
         scale: 0.9;
+    }
+
+    svg, path {
+        fill: currentColor;
     }
 }

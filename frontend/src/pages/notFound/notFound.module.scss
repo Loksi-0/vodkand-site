@@ -1,0 +1,59 @@
+@use '@/styles/helpers' as *;
+
+.main {
+    position: relative;
+    overflow: hidden;
+}
+
+.logo {
+    position: absolute;
+    width: fluid(250, 150);
+    user-select: none;
+    animation: rotate 1s cubic-bezier(.14,.78,.49,.99) 3s;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.section {
+    display: flex;
+    flex-direction: row;
+    gap: fluid(60, 30);
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--section-padding);
+
+    @include mobile {
+        flex-direction: column;
+    }
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    row-gap: fluid(30, 20);
+}
+
+.image {
+    width: fluid(250, 150);
+    height: fluid(153, 92);
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    caret-color: transparent;
+
+    @include mobile {
+        align-items: start;
+        justify-content: center;
+    }
+}
+
+.description {
+    margin: 0;
+}
