@@ -3,6 +3,7 @@ import styles from './Wiki.module.scss'
 import { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "react-router"
 import DOMPurify from 'dompurify'
+import usePageMetadata from '@/usePageMetadata'
 
 const Tabs = (props) => {
     const { page } = props
@@ -82,9 +83,27 @@ const Tabs = (props) => {
         return { __html: DOMPurify.sanitize(html) }
     }
 
+    const definePageName = (name) => {
+        switch (name) {
+            case 'plugins':
+                return 'Плагины'
+            case 'rules':
+                return 'Правила'
+            case 'terms':
+                return 'Условия'
+        }
+    }
+
+    usePageMetadata({
+        title: `${definePageName(page)} | ${article.title}`,
+        ogTitle: article.title,
+        ogDescription: article.description,
+        ogImage: article.icon
+    })
+
     return (
         <section className={`${styles.wiki} container-big`}>
-            <h1 className='visually-hidden'>{page}</h1>
+            <h1 className='visually-hidden'>{definePageName(page)}</h1>
             <nav className={styles.navigation}>
                 <ul 
                     className={styles.navigationList}

@@ -8,6 +8,7 @@
 .logo {
     position: absolute;
     width: fluid(250, 150);
+    -webkit-user-select: none;
     user-select: none;
     animation: rotate 1s cubic-bezier(.14,.78,.49,.99) 3s;
 }

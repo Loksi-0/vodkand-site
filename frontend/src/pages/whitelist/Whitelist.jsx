@@ -3,6 +3,7 @@ import styles from './Whitelist.module.scss'
 import Button from '@/global-components/Button/Button'
 import { Context } from '@/main'
 import Preloader from '@/global-components/Preloader/Preloader'
+import usePageMetadata from '@/usePageMetadata'
 
 const Whitelist = () => {
     const { store } = useContext(Context)
@@ -41,6 +42,12 @@ const Whitelist = () => {
             setError(data.error)
         }
     }
+
+    usePageMetadata({
+        title: 'Whitelist',
+        index: false,
+        follow: false
+    })
 
     return (
         <main>

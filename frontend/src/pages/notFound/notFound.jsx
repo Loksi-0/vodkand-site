@@ -5,6 +5,7 @@ import frog from '@/assets/images/frog.png'
 
 import React, { useEffect, useRef } from 'react'
 import Button from '@/global-components/Button/Button'
+import usePageMetadata from '@/usePageMetadata'
 
 const NotFound = () => {
     const logoRef = useRef(null)
@@ -15,45 +16,51 @@ const NotFound = () => {
     const velocity = useRef({ x: 2, y: 2 })
 
     useEffect(() => {
-    const logo = logoRef.current
-    const logoWidth = logo.clientWidth
-    const header = headerRef.current
-    const headerHeight = header.clientHeight
-    const main = mainRef.current
+        const logo = logoRef.current
+        const logoWidth = logo.clientWidth
+        const header = headerRef.current
+        const headerHeight = header.clientHeight
+        const main = mainRef.current
 
-    const boundingClientRect = logo.getBoundingClientRect()
+        const boundingClientRect = logo.getBoundingClientRect()
 
-    position.current.x = boundingClientRect.x
-    position.current.y = boundingClientRect.y - headerHeight
-
-    logo.style.top = `${position.current.y}px`
-    logo.style.left = `${position.current.x}px`
-
-    const animate = () => {
-        const { clientWidth, clientHeight } = main
-        const logoHeight = logo.clientHeight
-
-        position.current.x += velocity.current.x
-        position.current.y += velocity.current.y
-
-        if (position.current.x <= 0
-           || position.current.x + logoWidth >= clientWidth) {
-            velocity.current.x *= -1
-        }
-
-        if (position.current.y <= 0
-            || position.current.y + logoHeight  >= clientHeight) {
-            velocity.current.y *= -1
-        }
+        position.current.x = boundingClientRect.x
+        position.current.y = boundingClientRect.y - headerHeight
 
         logo.style.top = `${position.current.y}px`
         logo.style.left = `${position.current.x}px`
 
-        requestAnimationFrame(animate)
-    }
+        const animate = () => {
+            const { clientWidth, clientHeight } = main
+            const logoHeight = logo.clientHeight
 
-    setTimeout(animate, 4200)
+            position.current.x += velocity.current.x
+            position.current.y += velocity.current.y
+
+            if (position.current.x <= 0
+            || position.current.x + logoWidth >= clientWidth) {
+                velocity.current.x *= -1
+            }
+
+            if (position.current.y <= 0
+                || position.current.y + logoHeight  >= clientHeight) {
+                velocity.current.y *= -1
+            }
+
+            logo.style.top = `${position.current.y}px`
+            logo.style.left = `${position.current.x}px`
+
+            requestAnimationFrame(animate)
+        }
+
+        setTimeout(animate, 4200)
     }, [])
+
+    usePageMetadata({
+        title: 'Страница не найдена',
+        index: false,
+        follow: false
+    })
 
     return (
         <>

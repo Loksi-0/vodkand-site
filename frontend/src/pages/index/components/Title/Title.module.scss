@@ -10,10 +10,10 @@
         --width: #{fluid(125, 70)};
         --bottom: #{fluid(10, 5)};
 
-        aspect-ratio: 1.6;
+        aspect-ratio: 1.62;
         width: var(--width);
         position: absolute;
-        right: calc(var(--width) * -1);
+        right: calc(var(--width) * -1 - rem(10));
         bottom: var(--bottom);
         display: inline-flex;
         content: '';

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { Link } from 'react-router'
 import ok from '@/assets/icons/ok.svg'
 import error from '@/assets/icons/error.svg'
+import usePageMetadata from '@/usePageMetadata'
 
 const Activate = () => {
     const url = import.meta.env.VITE_API_URL
@@ -36,6 +37,12 @@ const Activate = () => {
     const handleClick = () => {
         location.reload()
     }
+
+    usePageMetadata({
+        title: 'Активация',
+        index: false,
+        follow: false
+    })
 
     return (
         <main>

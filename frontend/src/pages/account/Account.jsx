@@ -9,6 +9,7 @@ import { useContext } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import Alert from './components/Alert/Alert'
+import usePageMetadata from '@/usePageMetadata'
 
 const Account = () => {
     const { store } = useContext(Context)
@@ -20,6 +21,12 @@ const Account = () => {
             console.log(result)
         }
     }
+
+    usePageMetadata({
+        title: store.user.nickname ? `Аккаунт | ${store.user.nickname}` : 'Аккаунт',
+        index: false,
+        follow: false
+    })
 
     return (
         <>

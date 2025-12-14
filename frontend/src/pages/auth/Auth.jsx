@@ -7,6 +7,7 @@ import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { Navigate } from 'react-router'
 import Preloader from '@/global-components/Preloader/Preloader'
+import usePageMetadata from '@/usePageMetadata'
 
 const Auth = () => {
     const url = import.meta.env.VITE_API_URL
@@ -118,6 +119,12 @@ const Auth = () => {
                 setError('Непредвиденная ошибка')
             })
     }
+
+    usePageMetadata({
+        title: 'Авторизация',
+        index: false,
+        follow: false
+    })
 
     return (
         <main>
