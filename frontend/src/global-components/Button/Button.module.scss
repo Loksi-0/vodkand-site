@@ -3,12 +3,13 @@
 .button {
     @include fluid-text(20, 16);
 
+    color: #000000;
     display: flex;
     align-items: center;
     justify-content: center;
     border: #{rem(3)} solid transparent;
-    padding: fluid(15, 10);
     border-radius: fluid(15, 10);
+    padding: fluid(15, 10);
     -webkit-user-select: none;
     user-select: none;
     transition-duration: var(--transition-duration);
@@ -68,6 +69,10 @@
     @include hover {
         opacity: 1;
         background-color: var(--color-gray-20);
+    }
+
+    &:active {
+        scale: 0.9;
     }
 }
 

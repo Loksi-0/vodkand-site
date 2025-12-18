@@ -1,0 +1,44 @@
+@use '@/styles/helpers' as *;
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        @include square(fluid(35, 20));
+        
+        color: var(--color-dark);
+    }
+
+    &.loading {
+        @include square(fluid(40, 25));
+
+        background-color: var(--color-gray-20);
+        border-radius: fluid(10, 5);
+    }
+
+    &:active {
+        scale: 0.9;
+    }
+}
+
+.svgWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: rem(50);
+    padding: fluid(7, 5);
+    transition-duration: var(--transition-duration);
+
+    @include hover {
+        background-color: var(--color-gray-20);
+    }
+}
+
+.icon {
+    @include square(fluid(40, 25));
+
+    border-radius: fluid(10, 5);
+    padding: 0;
+}

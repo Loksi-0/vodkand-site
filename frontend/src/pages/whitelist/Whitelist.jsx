@@ -4,6 +4,7 @@ import Button from '@/global-components/Button/Button'
 import { Context } from '@/main'
 import Preloader from '@/global-components/Preloader/Preloader'
 import usePageMetadata from '@/usePageMetadata'
+import { observer } from 'mobx-react-lite'
 
 const Whitelist = () => {
     const { store } = useContext(Context)
@@ -16,30 +17,32 @@ const Whitelist = () => {
         event.preventDefault()
         setLoading(true)
 
-        const whitelistResult = await fetch(`http://65.108.227.231:25491/v1/whitelist?username=${nick}`, {
+        const whitelistResult = await fetch(
+            `${import.meta.env.VITE_API_URL}/minecraftapi/whitelist?username=${nick}`, 
+            {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
-                    'accept': '*/*',
-                    'Authorization': import.meta.env.VITE_MINECRAFT_API_KEY
+                    'Content-Type': 'application/json'
                 }
-            })
-
-        const data = await whitelistResult.json()
-
-        if (whitelistResult.ok) {
-            const result = await store.changeNickname(nick, store.user.email)
-
-            if (result.statusText === 'OK') {
-                setLoading(false)
-                window.location.href = '/'
-            } else {
-                setLoading(false)
-                setError(result)
             }
-        } else {
+        )
+
+        if (!whitelistResult.ok) {
+            const json = await whitelistResult.json()
             setLoading(false)
-            setError(data.error)
+            setError(JSON.parse(json).error)
+            return
+        }
+
+        const result = await store.changeNickname(nick, store.user.email)
+
+        setLoading(false)
+
+        if (result.statusText === 'OK') {
+            window.location.href = '/'
+        } else {
+            setError(result.data)
         }
     }
 
@@ -53,7 +56,7 @@ const Whitelist = () => {
         <main>
             <section className={`${styles.whitelist} container`}>
                 <form className={styles.form} onSubmit={handleSubmit}>
-                    <h1 className={`${styles.title} h3`}>Отлично! Теперь добавьте свой ник в вайтлист</h1>
+                    <h1 className={`${styles.title} h3`}>Добавьте свой ник в вайтлист</h1>
                     <div className={styles.form__body}>
                         <div className={styles.input}>
                             <img 
@@ -89,4 +92,4 @@ const Whitelist = () => {
     )
 }
 
-export default Whitelist
+export default observer(Whitelist)

@@ -28,6 +28,30 @@ class UserService {
         return { ...tokens, user: userDto }
     }
 
+    async googleAuth(email, sub) {
+        let user = await User.findOne({ email })
+
+        if (user) {
+            const isSubEquals = sub === user.sub
+
+            if (user.password) {
+                throw ApiError.BadRequest('На этом аккаунте уже используется способ входа по паролю. Вход несколькими способами пока что недоступен')
+            }
+
+            if (!isSubEquals) {
+                throw ApiError.BadRequest('Уникальный айди (sub) не совпадает с зарегистрированным ранее')
+            }
+        } else {
+            user = await User.create({ email, sub, isActivated: true })
+        }
+        
+        const userDto = new UserDto(user)
+        const tokens = TokenService.generateTokens({ ...userDto })
+        await TokenService.saveToken(userDto.id, tokens.refreshToken)
+
+        return { ...tokens, user: userDto }
+    }
+
     async activate(activationLink) {
         const user = await User.findOne({ activationLink })
 
@@ -44,6 +68,10 @@ class UserService {
 
         if (!user) {
             throw ApiError.BadRequest('Пользователь с таким email не найден')
+        }
+
+        if (user.sub) {
+            throw ApiError.BadRequest('К этому аккаунту уже привязан вход с Google. Пожалуйста, войдите через Google')
         }
 
         const isPassEquals = await bcrypt.compare(password, user.password)
@@ -77,6 +105,11 @@ class UserService {
         }
         
         const user = await User.findById(userData.id)
+
+        if (!user) {
+            throw ApiError.UnauthorizedError()
+        }
+
         const userDto = new UserDto(user)
         const tokens = TokenService.generateTokens({ ...userDto })
         await TokenService.saveToken(userDto.id, tokens.refreshToken)
@@ -99,8 +132,6 @@ class UserService {
     async changeNickname(nickname, email) {
         const candidate = await User.findOne({ nickname })
 
-        console.log(candidate)
-
         if (candidate) {
             throw ApiError.BadRequest(`Пользователь с ником ${nickname} уже в вайтлисте`, ['alreadyExists'])
         }
@@ -117,9 +148,14 @@ class UserService {
         await user.save()
     }
 
-    async getAllUsers() {
-        const users = await User.find()
-        return users
+    async hasUser(email) {
+        const user = await User.findOne({ email })
+
+        if (user) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

@@ -17,7 +17,7 @@ const PunishmentAlert = () => {
             return
         }
 
-        fetch(`http://65.108.227.231:25491/v1/libertybans/all?username=${store.user.nickname}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user.nickname}`, {
             method: 'GET',
             mode: 'cors',
             headers: {

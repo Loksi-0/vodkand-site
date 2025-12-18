@@ -23,6 +23,19 @@ class Store {
         this.isLoading = bool
     }
 
+    async registration(email, password) {
+        try {
+            const response = await AuthService.registration(email, password)
+            localStorage.setItem('token', response.data.accessToken)
+            this.setAuth(true)
+            this.setUser(response.data.user)
+
+            return response
+        } catch(e) {
+            return e.response?.data?.message
+        }
+    }
+
     async login(email, password) {
         try {
             const response = await AuthService.login(email, password)
@@ -36,9 +49,9 @@ class Store {
         }
     }
 
-    async registration(email, password) {
+    async googleAuth(email, sub) {
         try {
-            const response = await AuthService.registration(email, password)
+            const response = await AuthService.googleAuth(email, sub)
             localStorage.setItem('token', response.data.accessToken)
             this.setAuth(true)
             this.setUser(response.data.user)

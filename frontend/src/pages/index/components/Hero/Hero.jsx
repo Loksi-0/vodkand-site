@@ -21,7 +21,9 @@ const Hero = () => {
     }, [width])
 
     const buttonHref = () => {
-        if (!store.isAuth) {
+        if (store.isLoading) {
+            return '/'
+        } else if (!store.isAuth) {
             return '/auth'
         } else if (!store.user.isActivated) {
             return '/account'

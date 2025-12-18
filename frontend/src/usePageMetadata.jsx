@@ -30,37 +30,40 @@ function usePageMetadata(props) {
         setMetaTag('name', 'twitter:description', ogDescription)
         setMetaTag('name', 'twitter:image', ogImage)
 
-        setMetaTag('name', 'robots', index ? 'index' : 'noindex')
-        setMetaTag('name', 'robots', follow ? 'follow' : 'nofollow')
+        setMetaTag('name', 'robots', [ index ? 'index' : 'noindex', follow ? 'follow' : 'nofollow'].join(' '))
 
         setLinkTag('canonical', url)
     }, [title, description, ogImage, type, url])
 }
 
 function setMetaTag(attr, name, content) {
-    if (!content) return
+    if (!content) {
+        return
+    }
 
     const selector = `meta[${attr}="${name}"]`
     let element = document.querySelector(selector)
 
     if (!element) {
-    element = document.createElement('meta')
-    element.setAttribute(attr, name)
-    document.head.appendChild(element)
+        element = document.createElement('meta')
+        element.setAttribute(attr, name)
+        document.head.appendChild(element)
     }
 
     element.content = content
 }
 
 function setLinkTag(rel, href) {
-    if (!href) return
+    if (!href) {
+        return
+    }
 
     let element = document.querySelector(`link[rel="${rel}"]`)
 
     if (!element) {
-    element = document.createElement('link')
-    element.rel = rel
-    document.head.appendChild(element)
+        element = document.createElement('link')
+        element.rel = rel
+        document.head.appendChild(element)
     }
 
     element.href = href

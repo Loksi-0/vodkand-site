@@ -2,41 +2,43 @@ import styles from './Activate.module.scss'
 
 import Button from "@/global-components/Button/Button"
 import { useEffect, useState } from "react"
-import { Link } from 'react-router'
 import ok from '@/assets/icons/ok.svg'
 import error from '@/assets/icons/error.svg'
 import usePageMetadata from '@/usePageMetadata'
 
 const Activate = () => {
-    const url = import.meta.env.VITE_API_URL
-
     const [title, setTitle] = useState('Выполняется активация...')
     const [status, setStatus] = useState('waiting')
     const [preloaderIcon, setPreloaderIcon] = useState(null)
     const [preloader, setPreloader] = useState(styles.preloader)
 
     useEffect(() => {
-        const activationLink = new URLSearchParams(window.location.search).get('link')
+        const activate = async () => {
+            try {
+                const activationLink = new URLSearchParams(window.location.search).get('link')
 
-        fetch(`${url}/activate/${activationLink}`)
-            .then(() => {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/activate/${activationLink}`)
+
+                if (!response.ok) {
+                    const data = await response.json()
+                    throw new Error(data.message)
+                }
+
                 localStorage.setItem('isActivated', true)
                 setTitle('Активация прошла успешно')
                 setPreloader(`${styles.preloader} ${styles.ok}`)
                 setPreloaderIcon(ok)
                 setStatus('ok')
-            })
-            .catch(e => {
-                setTitle(`Произошла ошибка. ${e.message}`)
+            } catch(e) {
+                setTitle(e.message)
                 setPreloader(`${styles.preloader} ${styles.error}`)
                 setPreloaderIcon(error)
                 setStatus('error')
-            })
-    }, [])
+            }
+        }
 
-    const handleClick = () => {
-        location.reload()
-    }
+        activate()
+    }, [])
 
     usePageMetadata({
         title: 'Активация',
@@ -61,20 +63,19 @@ const Activate = () => {
                     <div className={styles.preButton}></div>
                 }
                 {status === 'ok' && 
-                    <Link to='/'>
-                        <Button 
-                            color='accent'
-                        >
-                            Вернуться на главную страницу
-                        </Button>
-                    </Link>
+                    <Button 
+                        color='accent'
+                        onClick={() => window.location.href = '/account'}
+                    >
+                        Перейти в аккаунт
+                    </Button>
                 }
                 {status === 'error' && 
                     <Button 
                         color='red'
-                        onClick={handleClick}
+                        onClick={() => window.location.href = '/account'}
                     >
-                        Попробовать снова
+                        Перейти в аккаунт
                     </Button>
                 }
             </section>

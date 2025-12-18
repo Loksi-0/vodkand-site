@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite'
 import { useContext, useEffect, useState } from 'react'
 import { Navigate } from 'react-router'
 import Header from '@/global-components/Header/Header'
-import Footer from '@/global-components/Footer/Footer'
 
 const ProtectedRoute = (props) => {
     const { children, redirect, access = 'auth' } = props
@@ -22,7 +21,6 @@ const ProtectedRoute = (props) => {
             <>
                 <Header />
                 <main></main>
-                <Footer />
             </>
         )
     }
@@ -31,7 +29,7 @@ const ProtectedRoute = (props) => {
         return <Navigate to={redirect} replace />
     }
 
-    if (access === 'has-not-nick' && (store.user.nickname || !store.isAuth)) {
+    if (access === 'has-not-nick' && !store.isLoading && (store.user.nickname || !store.isAuth)) {
         return <Navigate to={redirect} replace />
     }
     

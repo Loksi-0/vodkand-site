@@ -13,19 +13,12 @@ const Punishments = () => {
 
     const [loading, setLoading] = useState(false)
     const [punishments, setPunishments] = useState([])
-    const [isPoshalko, setIsPoshalko] = useState(Math.random() < 0.03)
+    const [isPoshalko, setIsPoshalko] = useState(Math.random(Date.now()) < 0.01)
 
     useEffect(() => {
         setLoading(true)
 
-        fetch(`http://65.108.227.231:25491/v1/libertybans/all?username=${store.user.nickname}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'accept': '*/*',
-                'Authorization': import.meta.env.VITE_MINECRAFT_API_KEY
-            }
-        })
+        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user.nickname}`)
             .then(response => response.json())
             .then(data => { 
                 setLoading(false)

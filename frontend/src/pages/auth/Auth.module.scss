@@ -10,27 +10,31 @@
     user-select: none;
 }
 
-.form {
+.registration {
+    max-width: fluid(450, 310);
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: fluid(50, 25);
+    flex-direction: column;
+    row-gap: fluid(35, 25);
     background-color: var(--color-gray-25);
     padding: fluid(50, 25);
     border-radius: fluid(50, 25);
 
-    &__content {
-        max-width: fluid(350, 275);
-        display: flex;
-        flex-direction: column;
-        row-gap: fluid(60, 30);
-    }
-
     &__body {
         display: flex;
         flex-direction: column;
-        row-gap: fluid(30, 25);
+        row-gap: fluid(25, 20);
+
+        &Or {
+            align-self: center;
+            color: var(--color-black-10);
+        }
     }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    row-gap: fluid(30, 20);
 }
 
 .title {

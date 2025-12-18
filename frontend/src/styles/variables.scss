@@ -21,6 +21,8 @@
     --color-gray-10: #dcdcdc;
     --color-gray: #808080;
 
+    --color-select: var(--color-dark);
+
     --border-split: #{rem(1)} solid var(--color-gray-10);
     --border-dark: #{rem(1)} solid var(--color-dark);
 
@@ -66,5 +68,7 @@
     --color-gray-10: #3f3f3f;
     --color-gray: #8F8F8F;
 
-    --shadow-color: 150, 150, 150;
+    --color-select: var(--color-gray-25);
+
+    --shadow-color: 120, 120, 120;
 }

@@ -5,6 +5,7 @@ export default class UserDto {
     nickname
     hasPass
     activationLink
+    sub
 
     constructor(model) {
         this.email = model.email
@@ -13,5 +14,6 @@ export default class UserDto {
         this.nickname = model.nickname
         this.hasPass = model.hasPass
         this.activationLink = model.activationLink
+        this.sub = model.sub
     }
 }

@@ -21,6 +21,18 @@ class authController {
         }
     }
 
+    async googleAuth(req, res, next) {
+        try {
+            const { email, sub } = req.body
+            const userData = await UserService.googleAuth(email, sub)
+            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+
+            return res.json(userData)
+        } catch(e) {
+            next(e)
+        }
+    }
+
     async login(req, res, next) {
         try {
             const { email, password } = req.body
@@ -93,10 +105,12 @@ class authController {
         }
     }
 
-    async getUsers(req, res, next) {
+    async hasUser(req, res, next) {
         try {
-            const users = await UserService.getAllUsers()
-            return res.json(users)
+            const email = req.query.email
+            const hasUser = await UserService.hasUser(email)
+
+            return res.json(hasUser)
         } catch(e) {
             next(e)
         }

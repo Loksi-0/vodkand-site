@@ -13,17 +13,20 @@ import { useContext, useEffect } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import NotFound from './pages/notFound/notFound'
+import GoogleAuth from './pages/googleAuth/googleAuth'
 
 const App = () => {
     const { store } = useContext(Context)
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            await store.checkAuth()
-        }
+    if (localStorage.getItem('token')) {
+        useEffect(() => {
+            const checkAuth = async () => {
+                await store.checkAuth()
+            }
 
-        checkAuth()
-    }, [store])
+            checkAuth()
+        }, [store])
+    }
 
     const savedTheme = localStorage.getItem('theme')
 
@@ -53,10 +56,11 @@ const App = () => {
                     </ProtectedRoute>
                 } />
                 <Route path='/whitelist' element={
-                    <ProtectedRoute redirect='/auth' access='has-not-nick'>
+                    <ProtectedRoute redirect='/account' access='has-not-nick'>
                         <Whitelist />
                     </ProtectedRoute>
                 } />
+                <Route path='/auth/google' element={<GoogleAuth />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>

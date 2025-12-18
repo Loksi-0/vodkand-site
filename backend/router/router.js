@@ -1,7 +1,9 @@
 import Router from 'express'
 import wikiController from '../controllers/wikiController.js'
 import authController from '../controllers/authController.js'
+import openIDController from '../controllers/openIDController.js'
 import { body } from 'express-validator'
+import minecraftAPIController from '../controllers/minecraftAPIController.js'
 
 const router = new Router()
 
@@ -15,10 +17,18 @@ router.post('/registration',
     authController.registration)
 router.post('/login', authController.login)
 router.post('/logout', authController.logout)
+router.post('/googleauth', authController.googleAuth)
 router.post('/sendmail', authController.sendMail)
 router.put('/nickname', authController.changeNickname)
 router.get('/activate/:link', authController.activate)
 router.get('/refresh', authController.refresh)
-router.get('/users', authController.getUsers)
+router.get('/user', authController.hasUser)
+
+router.get('/google/url', openIDController.redirect)
+router.post('/auth/google/callback', openIDController.handleCode)
+
+router.get('/minecraftapi/punishments', minecraftAPIController.getPlayerPunishments)
+router.get('/minecraftapi/whitelist', minecraftAPIController.getWhitelist)
+router.post('/minecraftapi/whitelist', minecraftAPIController.postWhitelist)
 
 export default router

@@ -5,7 +5,7 @@ import Footer from '@/global-components/Footer/Footer'
 import Nick from './components/Nick/Nick'
 import Punishments from './components/Punishments/Punishments'
 import Buttons from './components/Buttons/Buttons'
-import { useContext } from 'react'
+import { useContext, useCallback } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import Alert from './components/Alert/Alert'
@@ -17,10 +17,22 @@ const Account = () => {
     const handleLogout = async () => {
         const result = await store.logout()
 
-        if (!result.statusText === 'OK') {
+        if (result.statusText !== 'OK') {
             console.log(result)
         }
     }
+
+    const handleSendMail = useCallback(() => {
+        if (store.user?.email) {
+            store.sendMail(store.user.email)
+        }
+    }, [store])
+
+    const handleBuyPass = useCallback(() => {}, [store])
+
+    const handleAddNick = useCallback(() => {
+        window.location.href = '/whitelist'
+    }, [store])
 
     usePageMetadata({
         title: store.user.nickname ? `Аккаунт | ${store.user.nickname}` : 'Аккаунт',
@@ -37,7 +49,7 @@ const Account = () => {
                         color='yellow' 
                         title='Аккаунт не активирован' 
                         description='активируйте аккаунт по ссылке в письме' 
-                        onClick={() => store.sendMail(store.user.email)}
+                        onClick={handleSendMail}
                         textButton='Отправить письмо еще раз'
                     />
                 }
@@ -46,7 +58,7 @@ const Account = () => {
                         color='red' 
                         title='Нет проходки' 
                         description='Для использования аккаунта приобретите доступ на сервер' 
-                        onClick={() => {}}
+                        onClick={handleBuyPass}
                         textButton='Купить проходку'
                     />
                 }
@@ -55,7 +67,7 @@ const Account = () => {
                         color='red' 
                         title='Аккаунт не в вайтлисте' 
                         description='Сейчас вы не сможете зайти на сервер. Чтобы получить доступ, добавьте свой ник в вайтлист' 
-                        onClick={() => window.location.href = '/whitelist'}
+                        onClick={handleAddNick}
                         textButton='Добавить ник'
                     />
                 }
