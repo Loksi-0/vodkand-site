@@ -17,19 +17,13 @@ const PunishmentAlert = () => {
             return
         }
 
-        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user?.nickname}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'accept': '*/*',
-                'Authorization': import.meta.env.VITE_MINECRAFT_API_KEY
-            }
-        })
-            .then(response => response.json())
-            .then(data => { 
-                setPunishment(data[0]) 
-            })
-            .catch(e => console.log(e))
+        const getPunishments = async () => {
+            const response = await store.getPunishments(store.user?.nickname)
+
+            setPunishment(response.data[0])
+        }
+
+        getPunishments()
     }, [store.user?.nickname])
 
     const date = (seconds) => {

@@ -17,10 +17,10 @@ const Account = () => {
     const navigate = useNavigate()
 
     const handleLogout = async () => {
-        const result = await store.logout()
-
-        if (result.statusText !== 'OK') {
-            console.log(result)
+        try {
+            await store.logout()
+        } catch(e) {
+            console.log(e.response?.data?.message)
         }
     }
 

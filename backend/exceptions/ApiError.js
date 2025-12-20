@@ -23,4 +23,8 @@ export default class ApiError extends Error {
     static InternalError(message, errors = []) {
         return new ApiError(500, message, errors)
     }
+
+    static UniversalError(status, message, errors = []) {
+        return new ApiError(status, message, errors)
+    }
 }

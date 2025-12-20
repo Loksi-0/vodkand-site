@@ -20,10 +20,6 @@ class AuthService {
     static sendMail = async (email) => {
         return api.post('/sendmail', { email })
     }
-
-    static changeNickname = async (nickname, email) => {
-        return api.put('/auth/nickname', { nickname, email })
-    }
 }
 
 export default AuthService

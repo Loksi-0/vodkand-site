@@ -2,6 +2,7 @@ import Router from 'express'
 import wikiController from '../controllers/wikiController.js'
 import authController from '../controllers/authController.js'
 import openIDController from '../controllers/openIDController.js'
+import AuthMiddleware from '../middlewares/AuthMiddleware.js'
 import { body } from 'express-validator'
 import minecraftAPIController from '../controllers/minecraftAPIController.js'
 
@@ -15,10 +16,10 @@ router.post('/auth/registration',
     body('password').trim().notEmpty().isLength({ min: 6, max: 32 }),
     authController.registration)
 router.post('/auth/login', authController.login)
-router.post('/auth/logout', authController.logout)
+router.post('/auth/logout', AuthMiddleware, authController.logout)
 router.post('/auth/googleauth', authController.googleAuth)
 router.post('/sendmail', authController.sendMail)
-router.put('/auth/nickname', authController.changeNickname)
+router.put('/auth/nickname', AuthMiddleware, authController.changeNickname)
 router.get('/activate/:link', authController.activate)
 router.get('/refresh', authController.refresh)
 router.get('/user', authController.hasUser)
@@ -26,8 +27,8 @@ router.get('/user', authController.hasUser)
 router.get('/google/url', openIDController.redirect)
 router.get('/auth/google/callback', openIDController.handleCode)
 
-router.get('/minecraftapi/punishments', minecraftAPIController.getPlayerPunishments)
-router.get('/minecraftapi/whitelist', minecraftAPIController.getWhitelist)
+router.get('/minecraftapi/punishments', AuthMiddleware, minecraftAPIController.getPlayerPunishments)
+router.get('/minecraftapi/whitelist', AuthMiddleware, minecraftAPIController.getWhitelist)
 router.post('/minecraftapi/whitelist', minecraftAPIController.postWhitelist)
 
 export default router

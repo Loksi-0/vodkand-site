@@ -134,19 +134,43 @@ class UserService {
         await MailService.sendActivationMail(email, `${process.env.CLIENT_URL}/activate?link=${link}`)
     }
 
-    async changeNickname(nickname, email) {
+    async changeNickname(nickname, userId) {
+        const user = await User.findById(userId)
+
+        if (!user) {
+            throw ApiError.NotFound('Не удалось найти пользователя')
+        } 
+        if (user.nickname) {
+            throw ApiError.BadRequest(`Пользователь ${user.email} уже установил себе ник`)
+        }
+
         const candidate = await User.findOne({ nickname })
 
         if (candidate) {
             throw ApiError.BadRequest(`Пользователь с ником ${nickname} уже в вайтлисте`, ['alreadyExists'])
         }
 
-        const user = await User.findOne({ email })
+        const response = await fetch(`${process.env.API_URL}/minecraftapi/whitelist`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nickname
+            })
+        })
 
-        if (!user) {
-            throw ApiError.NotFound('Не удалось найти пользователя')
-        } else if (user.nickname) {
-            throw ApiError.BadRequest(`Пользователь ${email} уже установил себе ник`)
+        if (!response.ok) {
+            const text = await response.text()
+            let error
+
+            try {
+                error = JSON.parse(text)
+            } catch {
+                error = text
+            }
+
+            throw ApiError.UniversalError(response.status, error)
         }
 
         user.nickname = nickname

@@ -28,17 +28,27 @@ class authController {
 
     async googleAuth(req, res, next) {
         try {
+            const code = req.body.code
             const temp = req.session.googleAuthTemp
 
-            if (!temp || Date.now() - temp.createdAt > 10 * 60 * 1000) {
+            if (!temp) {
                 throw ApiError.BadRequest('Auth expired')
             }
 
-            delete req.session.googleAuthTemp
+            if (!code || code !== temp.code) {
+                throw ApiError.BadRequest('Invalid auth code')
+            }
+
+            if (Date.now() - temp.createdAt > 10 * 60 * 1000) {
+                throw ApiError.BadRequest('Auth expired')
+            }
 
             const { email, sub } = temp
 
+            delete req.session.googleAuthTemp
+
             const userData = await UserService.googleAuth(email, sub)
+
             res.cookie('refreshToken', userData.refreshToken, { 
                 maxAge: 30 * 24 * 60 * 60 * 1000, 
                 httpOnly: true,
@@ -73,7 +83,13 @@ class authController {
     async logout(req, res, next) {
         try {
             const { refreshToken } = req.cookies
+
+            if (!refreshToken) {
+                return res.status(204).end()
+            }
+
             const token = await UserService.logout(refreshToken)
+
             res.clearCookie('refreshToken', {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
@@ -129,8 +145,10 @@ class authController {
 
     async changeNickname(req, res, next) {
         try {
-            const { nickname, email } = req.body
-            await UserService.changeNickname(nickname, email)
+            const { nickname } = req.body
+            const userId = req.user.id
+
+            await UserService.changeNickname(nickname, userId)
 
             return res.status(200).end()
         } catch(e) {

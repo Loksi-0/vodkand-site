@@ -4,7 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import router from './router/router.js'
-import ErrorMiddeware from './middlewares/ErrorMiddeware.js'
+import ErrorMiddleware from './middlewares/ErrorMiddleware.js'
 import DeleteAccountManager from './managers/DeleteAccountManager.js'
 import session from 'express-session'
 import rateLimit from 'express-rate-limit'
@@ -59,7 +59,7 @@ app.use('/api/refresh', refreshLimiter)
 
 app.use('/uploads', express.static('uploads'))
 app.use('/api', router)
-app.use(ErrorMiddeware)
+app.use(ErrorMiddleware)
 
 const start = async () => {
     try {

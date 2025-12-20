@@ -29,13 +29,12 @@ const GoogleAuth = () => {
                 return
             }
 
-            const result = await store.googleAuth(tempCode)
+            try {
+                await store.googleAuth(tempCode)
 
-            if (result.statusText === 'OK') {
                 navigate('/account')
-            } else {
-                const error = await result.text()
-                setError(error)
+            } catch(e) {
+                setError(e.response?.data?.message)
             }
         }
 

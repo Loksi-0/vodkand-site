@@ -21,7 +21,7 @@ class openIDController {
                 .update(codeVerifier)
                 .digest('base64url')
 
-            params.append('redirect_uri', `${process.env.API_URL}/api/auth/google/callback`)
+            params.append('redirect_uri', `${process.env.API_URL}/auth/google/callback`)
             params.append('client_id', process.env.OAUTH_GOOGLE_CLIENT_ID)
             params.append('response_type', 'code')
             params.append('scope', 'openid email')
@@ -73,7 +73,7 @@ class openIDController {
                     client_id: process.env.OAUTH_GOOGLE_CLIENT_ID,
                     client_secret: process.env.OAUTH_GOOGLE_CLIENT_SECRET,
                     grant_type: 'authorization_code',
-                    redirect_uri: `${process.env.API_URL}/api/auth/google/callback`,
+                    redirect_uri: `${process.env.API_URL}/auth/google/callback`,
                     code: code,
                     code_verifier: req.session.pkceVerifier
                 })
@@ -91,11 +91,17 @@ class openIDController {
                 idToken,
                 audience: process.env.OAUTH_GOOGLE_CLIENT_ID
             })
-            const { email, sub } = ticket.getPayload()
+            const { email, email_verified, sub } = ticket.getPayload()
+
+            if (!email_verified) {
+                const error = 'Почта не подтверждена в Google'
+                return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?error=${error}`)
+            }
 
             const tempCode = crypto.randomUUID()
 
             req.session.googleAuthTemp = {
+                code: tempCode,
                 email,
                 sub,
                 createdAt: Date.now()

@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx"
 import AuthService from "./AuthService.js"
 import { setAccessToken, clearAccessToken } from './TokenManager'
 import { refreshToken } from "./refreshToken.js"
+import MinecraftAPIService from "./MinecraftAPIService.js"
 
 class Store {
     user = null
@@ -34,7 +35,7 @@ class Store {
 
             return response
         } catch(e) {
-            return e.response?.data?.message
+            throw e
         }
     }
 
@@ -48,7 +49,7 @@ class Store {
 
             return response
         } catch(e) {
-            return e.response?.data?.message
+            throw e
         }
     }
 
@@ -62,7 +63,7 @@ class Store {
 
             return response
         } catch(e) {
-            return e.response?.data?.message
+            throw e
         }
     }
 
@@ -78,7 +79,7 @@ class Store {
 
             return response
         } catch(e) {
-            console.log(e.response?.data?.message)
+            throw e
         } finally {
             this.setLoading(false)
         }
@@ -117,9 +118,19 @@ class Store {
         }
     }
 
-    async changeNickname(nickname, email) {
+    async changeNickname(nickname) {
         try {
-            const response = await AuthService.changeNickname(nickname, email)
+            const response = await MinecraftAPIService.changeNickname(nickname)
+
+            return response
+        } catch(e) {
+            return e.response
+        }
+    }
+
+    async getPunishments(nickname) {
+        try {
+            const response = await MinecraftAPIService.getPunishments(nickname)
 
             return response
         } catch(e) {

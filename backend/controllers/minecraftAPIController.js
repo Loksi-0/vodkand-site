@@ -59,14 +59,14 @@ class minecraftAPIController {
 
     async postWhitelist(req, res, next) {
         try {
-            const username = req.query.username
+            const nickname = req.body?.nickname
 
-            if (!username) {
-                throw ApiError.BadRequest('Необходимо указать username')
+            if (!nickname) {
+                return res.status(400).json('Необходимо указать nickname')
             }
 
             const response = await fetch(
-                `${process.env.MINECRAFT_API_URL}/v1/whitelist?username=${username}`, 
+                `${process.env.MINECRAFT_API_URL}/v1/whitelist?username=${nickname}`, 
                 {
                     method: 'POST',
                     headers: {
@@ -78,7 +78,15 @@ class minecraftAPIController {
 
             if (!response.ok) {
                 const text = await response.text()
-                return res.status(response.status).json(text)
+                let error
+
+                try {
+                    error = JSON.parse(text)
+                } catch {
+                    error = text
+                }
+                
+                return res.status(response.status).json(text.error)
             }
 
             const data = await response.json()

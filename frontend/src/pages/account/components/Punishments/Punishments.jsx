@@ -18,13 +18,14 @@ const Punishments = () => {
     useEffect(() => {
         setLoading(true)
 
-        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user?.nickname}`)
-            .then(response => response.json())
-            .then(data => { 
-                setLoading(false)
-                setPunishments(data) 
-            })
-            .catch(e => console.log(e))
+        const getPunishments = async () => {
+            const response = await store.getPunishments(store.user?.nickname)
+
+            setLoading(false)
+            setPunishments(response.data)
+        }
+
+        getPunishments()
     }, [])
 
     const date = (seconds) => {

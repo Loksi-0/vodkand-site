@@ -63,24 +63,24 @@ const Auth = () => {
     }
 
     const handleLogin = async (email, password) => {
-        const result = await store.login(email, password)
+        try {
+            await store.login(email, password)
 
-        if (result.statusText === 'OK') {
             navigate('/account')
-        } else {
-            setError(result)
+        } catch(e) {
+            setError(e.response?.data?.message)
         }
 
         setIsLoading(false)
     }
 
     const handleRegistration = async (email, password) => {
-        const result = await store.registration(email, password)
+        try {
+            await store.registration(email, password)
 
-        if (result.statusText === 'OK') {
             setPage(2)
-        } else {
-            setError(result)
+        } catch(e) {
+            setError(e.response?.data?.message)
         }
 
         setIsLoading(false)

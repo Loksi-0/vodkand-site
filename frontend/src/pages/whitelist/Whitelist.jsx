@@ -20,33 +20,16 @@ const Whitelist = () => {
         event.preventDefault()
         setLoading(true)
 
-        const whitelistResult = await fetch(
-            `${import.meta.env.VITE_API_URL}/minecraftapi/whitelist?username=${nick}`, 
-            {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        )
+        const response = await store.changeNickname(nick)
 
-        if (!whitelistResult.ok) {
-            const json = await whitelistResult.json()
+        if (response.status !== 200) {
             setLoading(false)
-            setError(JSON.parse(json).error)
+            setError(response?.data?.message)
             return
         }
 
-        const result = await store.changeNickname(nick, store.user?.email)
-
         setLoading(false)
-
-        if (result.statusText === 'OK') {
-            navigate('/')
-        } else {
-            setError(result.data)
-        }
+        window.location.href = '/'
     }
 
     usePageMetadata({
