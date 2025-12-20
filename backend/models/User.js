@@ -7,7 +7,8 @@ const User = new Schema({
     isActivated: { type: Boolean, default: false },
     hasPass: { type: Boolean, default: false },
     activationLink: { type: String, default: null },
-    sub: { type: String, unique: true, default: null }
+    sub: { type: String, unique: true, default: null },
+    creationDate: { type: Date, unique: false, required: true }
 })
 
 export default model('User', User)

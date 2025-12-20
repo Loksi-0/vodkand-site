@@ -18,7 +18,7 @@ const Punishments = () => {
     useEffect(() => {
         setLoading(true)
 
-        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user.nickname}`)
+        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user?.nickname}`)
             .then(response => response.json())
             .then(data => { 
                 setLoading(false)

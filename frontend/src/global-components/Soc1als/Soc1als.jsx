@@ -11,7 +11,7 @@ const Soc1als = (props) => {
                         key={index}
                         className={styles.list__item}
                     >
-                        <a 
+                        <a
                             className={styles.link}
                             href={link.link}
                             target='_blank'

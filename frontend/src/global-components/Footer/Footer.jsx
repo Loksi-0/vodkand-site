@@ -1,8 +1,8 @@
 import Logo from '@/global-components/Logo/Logo'
 import Navigation from '@/global-components/Navigation/Navigation'
 import Soc1als from '@/global-components/Soc1als/Soc1als'
-import Terms from '@/global-components/Terms/Terms'
 import styles from './Footer.module.scss'
+import Legal from '@/global-components/Legal/Legal'
 
 const Footer = () => {
     return (
@@ -36,7 +36,7 @@ const Footer = () => {
                             ]}
                         />
                     </div>
-                    <Terms />
+                    <Legal />
                     <p className={styles.disclaimer}>
                         Not an official Minecraft product. We are in no way affiliated with or endorsed by Mojang Synergies AB, Microsoft Corporation or other rightsholders.
                     </p>

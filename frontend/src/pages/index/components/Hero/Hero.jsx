@@ -7,9 +7,12 @@ import PunishmentAlert from '@/global-components/PunishmentAlert/PunishmentAlert
 import { useContext, useEffect, useState } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
+import { useNavigate } from 'react-router'
 
 const Hero = () => {
     const { store } = useContext(Context)
+
+    const navigate = useNavigate()
 
     const [width, setWidth] = useState(window.innerWidth)
     const [isMobile, setIsMobile] = useState(window.innerWidth < 767)
@@ -21,17 +24,11 @@ const Hero = () => {
     }, [width])
 
     const buttonHref = () => {
-        if (store.isLoading) {
-            return '/'
-        } else if (!store.isAuth) {
-            return '/auth'
-        } else if (!store.user.isActivated) {
-            return '/account'
-        } else if (!store.user.nickname) {
-            return '/whitelist'
-        } else {
-            return '/'
-        }
+        if (store.isLoading) return '/'
+        if (!store.isAuth) return '/auth'
+        if (!store.user?.isActivated) return '/account'
+        if (!store.user?.nickname) return '/whitelist'
+        return '/'
     }
 
     return (
@@ -54,7 +51,7 @@ const Hero = () => {
                         color='accent'
                         isBig
                         onClick={() => {
-                            window.location.href = buttonHref()
+                            navigate(buttonHref())
                         }}
                     >
                         Купить проходку

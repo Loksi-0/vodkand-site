@@ -6,8 +6,11 @@ import frog from '@/assets/images/frog.png'
 import React, { useEffect, useRef } from 'react'
 import Button from '@/global-components/Button/Button'
 import usePageMetadata from '@/usePageMetadata'
+import { useNavigate } from 'react-router'
 
 const NotFound = () => {
+    const navigate = useNavigate()
+
     const logoRef = useRef(null)
     const mainRef = useRef(null)
     const headerRef = useRef(null)
@@ -72,7 +75,7 @@ const NotFound = () => {
                             <h1 className='h0'>404</h1>
                             <p className={styles.description}>Страница не найдена</p>
                         </div>
-                        <Button color='accent' onClick={() => window.location.href = document.referrer !== '' ? document.referrer : '/'}>
+                        <Button color='accent' onClick={() => navigate(-1)}>
                             Назад
                         </Button>
                     </div>

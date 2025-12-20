@@ -10,7 +10,7 @@ class minecraftAPIController {
             }
 
             const response = await fetch(
-                `http://${process.env.MINECRAFT_API_SOCKET}/v1/libertybans/all?username=${encodeURIComponent(username)}`, 
+                `${process.env.MINECRAFT_API_URL}/v1/libertybans/all?username=${encodeURIComponent(username)}`, 
                 {
                     headers: {
                         'Authorization': process.env.MINECRAFT_API_KEY,
@@ -35,7 +35,7 @@ class minecraftAPIController {
     async getWhitelist(req, res, next) {
         try {
             const response = await fetch(
-                `http://${process.env.MINECRAFT_API_SOCKET}/v1/whitelist`, 
+                `${process.env.MINECRAFT_API_URL}/v1/whitelist`, 
                 {
                     headers: {
                         'Authorization': process.env.MINECRAFT_API_KEY,
@@ -66,7 +66,7 @@ class minecraftAPIController {
             }
 
             const response = await fetch(
-                `http://${process.env.MINECRAFT_API_SOCKET}/v1/whitelist?username=${username}`, 
+                `${process.env.MINECRAFT_API_URL}/v1/whitelist?username=${username}`, 
                 {
                     method: 'POST',
                     headers: {

@@ -13,11 +13,11 @@ const PunishmentAlert = () => {
     const [punishment, setPunishment] = useState(null)
 
     useEffect(() => {
-        if (!store.user.nickname) {
+        if (!store.user?.nickname) {
             return
         }
 
-        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user.nickname}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/minecraftapi/punishments?username=${store.user?.nickname}`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -30,7 +30,7 @@ const PunishmentAlert = () => {
                 setPunishment(data[0]) 
             })
             .catch(e => console.log(e))
-    }, [store.user.nickname])
+    }, [store.user?.nickname])
 
     const date = (seconds) => {
         let d = new Date(1970, 0, 1)

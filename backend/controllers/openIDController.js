@@ -1,23 +1,33 @@
 import ApiError from '../exceptions/apiError.js'
-import State from '../models/State.js'
 import crypto from 'crypto'
-import { jwtDecode } from 'jwt-decode'
+import { OAuth2Client } from 'google-auth-library'
 
 class openIDController {
-    generateRedirectUri = async (next) => {
+    generateRedirectUri = async (req, next) => {
         try {
             const baseUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
             const params = new URLSearchParams()
 
-            const randomState = crypto.randomBytes(16).toString('hex')
+            const randomState = crypto.randomBytes(32).toString('hex')
 
-            await State.create({ state: randomState })
+            req.session.oauthState = randomState
+            req.session.oauthStateCreatedAt = Date.now()
 
-            params.append('redirect_uri', `${process.env.CLIENT_URL}/auth/google`)
+            const codeVerifier = crypto.randomBytes(32).toString('base64url')
+            req.session.pkceVerifier = codeVerifier
+
+            const codeChallenge = crypto
+                .createHash('sha256')
+                .update(codeVerifier)
+                .digest('base64url')
+
+            params.append('redirect_uri', `${process.env.API_URL}/api/auth/google/callback`)
             params.append('client_id', process.env.OAUTH_GOOGLE_CLIENT_ID)
             params.append('response_type', 'code')
             params.append('scope', 'openid email')
             params.append('state', randomState)
+            params.append('code_challenge', codeChallenge)
+            params.append('code_challenge_method', 'S256')
 
             return `${baseUrl}?${params.toString()}`
         } catch(e) {
@@ -26,43 +36,77 @@ class openIDController {
     }
 
     redirect = async (req, res, next) => {
-        const uri = await this.generateRedirectUri(next)
+        const uri = await this.generateRedirectUri(req, next)
 
         return res.redirect(302, uri)
     }
 
     async handleCode(req, res, next) {
         try {
-            const { code, state } = req.body
+            const client = new OAuth2Client(process.env.OAUTH_GOOGLE_CLIENT_ID)
+
+            const { code, state, error } = req.query
             const googleTokenUrl = 'https://oauth2.googleapis.com/token'
 
-            const stateFromDb = State.findOne({ state })
+            if (error) {
+                return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?error=${error}`)
+            }
 
-            if (!stateFromDb) {
-                throw ApiError.BadRequest('параметр state не совпадает')
+            if (!code || !state) {
+                throw ApiError.BadRequest('Отсутствует параметр code или state')
+            }
+
+            if (!req.session.oauthState || req.session.oauthState !== state) {
+                throw ApiError.BadRequest('Invalid state')
+            }
+
+            if (Date.now() - req.session.oauthStateCreatedAt > 10 * 60 * 1000) {
+                throw ApiError.BadRequest('State is expired')
             }
 
             const response = await fetch(googleTokenUrl, {
                 method: 'POST',
-                body: JSON.stringify({
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
                     client_id: process.env.OAUTH_GOOGLE_CLIENT_ID,
                     client_secret: process.env.OAUTH_GOOGLE_CLIENT_SECRET,
                     grant_type: 'authorization_code',
-                    redirect_uri: `${process.env.CLIENT_URL}/auth/google`,
-                    code: code
+                    redirect_uri: `${process.env.API_URL}/api/auth/google/callback`,
+                    code: code,
+                    code_verifier: req.session.pkceVerifier
                 })
             })
 
             if (!response.ok) {
-                throw new Error(`Ошибка при выполнении запроса к google. ${response.json()}`)
+                const error = await response.json()
+                return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?error=${error.error}`)
             }
 
             const data = await response.json()
 
             const idToken = data.id_token
-            const userData = jwtDecode(idToken)
+            const ticket = await client.verifyIdToken({
+                idToken,
+                audience: process.env.OAUTH_GOOGLE_CLIENT_ID
+            })
+            const { email, sub } = ticket.getPayload()
 
-            return res.json(userData)
+            const tempCode = crypto.randomUUID()
+
+            req.session.googleAuthTemp = {
+                email,
+                sub,
+                createdAt: Date.now()
+            }
+
+            delete req.session.oauthState
+            delete req.session.oauthStateCreatedAt
+
+            delete req.session.pkceVerifier
+
+            return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?code=${tempCode}`)
         } catch(e) {
             next(e)
         }

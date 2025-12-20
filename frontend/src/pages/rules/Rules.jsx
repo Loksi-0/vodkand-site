@@ -8,7 +8,8 @@ function Rules() {
       <Header />
       <main>
         <Wiki
-          page='rules'
+          chapter='rules'
+          firstPage='bans'
         />
       </main>
       <Footer />

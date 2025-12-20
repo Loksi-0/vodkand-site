@@ -1,32 +1,27 @@
 import Index from '@/pages/index/Index.jsx'
 import Plugins from '@/pages/plugins/Plugins'
 import Account from '@/pages/account/Account'
-import Terms from '@/pages/terms/Terms'
+import Legal from '@/pages/legal/Legal'
 import Rules from '@/pages/rules/Rules'
 import Prices from '@/pages/prices/Prices'
 import Activate from '@/pages/activate/Activate'
 import Auth from '@/pages/auth/Auth'
 import ProtectedRoute from './global-components/ProtectedRoute/ProtectedRoute'
 import Whitelist from './pages/whitelist/Whitelist'
-import { BrowserRouter, Routes, Route } from "react-router"
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router"
 import { useContext, useEffect } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import NotFound from './pages/notFound/notFound'
 import GoogleAuth from './pages/googleAuth/googleAuth'
+import ScrollToTop from './global-components/ScrollToTop/ScrollToTop'
 
 const App = () => {
     const { store } = useContext(Context)
 
-    if (localStorage.getItem('token')) {
-        useEffect(() => {
-            const checkAuth = async () => {
-                await store.checkAuth()
-            }
-
-            checkAuth()
-        }, [store])
-    }
+    useEffect(() => {
+        store.checkAuth()
+    }, [])
 
     const savedTheme = localStorage.getItem('theme')
 
@@ -38,16 +33,20 @@ const App = () => {
 
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <Routes>
                 <Route path='/' element={<Index />} />
-                <Route path='/plugins' element={<Plugins />} />
+                <Route path='/plugins' element={<Navigate to='/plugins/brewery' replace />} />
+                <Route path='/plugins/:page' element={<Plugins />} />
+                <Route path='/rules' element={<Navigate to='/rules/bans' replace />} />
+                <Route path='/rules/:page' element={<Rules />} />
+                <Route path='/legal' element={<Navigate to='/legal/privacy-policy' replace />} />
+                <Route path='/legal/:page' element={<Legal />} />
                 <Route path='/account' element={
                     <ProtectedRoute redirect='/auth'>
                         <Account />
                     </ProtectedRoute>
                 } />
-                <Route path='/terms' element={<Terms />} />
-                <Route path='/rules' element={<Rules />} />
                 <Route path='/prices' element={<Prices />} />
                 <Route path='/activate' element={<Activate />} />
                 <Route path='/auth' element={

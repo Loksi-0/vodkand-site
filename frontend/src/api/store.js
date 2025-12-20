@@ -1,9 +1,10 @@
 import { makeAutoObservable } from "mobx"
 import AuthService from "./AuthService.js"
-import axios from "axios"
+import { setAccessToken, clearAccessToken } from './TokenManager'
+import { refreshToken } from "./refreshToken.js"
 
 class Store {
-    user = {}
+    user = null
     isAuth = false
     isLoading = false
 
@@ -26,7 +27,8 @@ class Store {
     async registration(email, password) {
         try {
             const response = await AuthService.registration(email, password)
-            localStorage.setItem('token', response.data.accessToken)
+            setAccessToken(response.data.accessToken)
+            localStorage.setItem('wasAuth', true)
             this.setAuth(true)
             this.setUser(response.data.user)
 
@@ -39,7 +41,8 @@ class Store {
     async login(email, password) {
         try {
             const response = await AuthService.login(email, password)
-            localStorage.setItem('token', response.data.accessToken)
+            setAccessToken(response.data.accessToken)
+            localStorage.setItem('wasAuth', true)
             this.setAuth(true)
             this.setUser(response.data.user)
 
@@ -49,10 +52,11 @@ class Store {
         }
     }
 
-    async googleAuth(email, sub) {
+    async googleAuth(code) {
         try {
-            const response = await AuthService.googleAuth(email, sub)
-            localStorage.setItem('token', response.data.accessToken)
+            const response = await AuthService.googleAuth(code)
+            setAccessToken(response.data.accessToken)
+            localStorage.setItem('wasAuth', true)
             this.setAuth(true)
             this.setUser(response.data.user)
 
@@ -67,9 +71,10 @@ class Store {
 
         try {
             const response = await AuthService.logout()
-            localStorage.removeItem('token')
+            clearAccessToken()
+            localStorage.removeItem('wasAuth')
             this.setAuth(false)
-            this.setUser({})
+            this.setUser(null)
 
             return response
         } catch(e) {
@@ -80,15 +85,25 @@ class Store {
     }
 
     async checkAuth() {
+        if (!localStorage.getItem('wasAuth')) {
+            this.setAuth(false)
+            this.setUser(null)
+            return
+        }
+
         this.setLoading(true)
         
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/refresh`, { withCredentials: true })
-            localStorage.setItem('token', response.data.accessToken)
+            const response = await refreshToken()
+            
+            setAccessToken(response.data.accessToken)
             this.setAuth(true)
             this.setUser(response.data.user)
+
+            return response
         } catch(e) {
-            console.log(e.response?.data?.message)
+            this.setAuth(false)
+            this.setUser(null)
         } finally {
             this.setLoading(false)
         }

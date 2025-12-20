@@ -1,86 +1,78 @@
 import styles from './Wiki.module.scss'
 
 import { useEffect, useRef, useState } from "react"
-import { useSearchParams } from "react-router"
-import DOMPurify from 'dompurify'
+import { Link, useLocation, useNavigate, useParams } from "react-router"
+import ReactMarkdown from 'react-markdown'
 import usePageMetadata from '@/usePageMetadata'
+import rehypeRaw from 'rehype-raw'
+import './markdown.scss'
 
 const Tabs = (props) => {
-    const { page } = props
-
-    const url = import.meta.env.VITE_API_URL
+    const { chapter, firstPage } = props
+    const { page } = useParams()
 
     const navRef = useRef(null)
+    const location = useLocation()
+    const navigate = useNavigate()
 
     const [article, setArticle] = useState({ title: 'Загрузка...' })
     const [navigation, setNavigation] = useState([{ title: 'Загрузка...' }])
-
-    const [searchParams] = useSearchParams()
-    const tab = Number(searchParams.get('tab')) || 1
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        fetch(`${url}/${page}?tab=${tab}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json'
-            }
-        })
-            .then(response => {
+        const getArticle = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/wiki/${chapter}/${page}`)
+
                 if (!response.ok) {
-                    throw new Error(response.status === 404 
-                        ? 'Страница не найдена' 
-                        : response.status
-                    )
+                    if (
+                        response.status === 404
+                        && location.pathname !== `/${chapter}/${firstPage}`
+                    ) {
+                        navigation(`/${chapter}/${firstPage}`)
+                        return
+                    }
+ 
+                    const error = await response.json()
+                    throw new Error(error.message)
                 }
 
-                return response.json()
-            })
-            .then(json => {
-                setArticle(json)
-            })
-            .catch(e => {
+                const data = await response.json()
+
+                setArticle(data)
+                setIsLoading(false)
+            } catch(e) {
                 setArticle({ title: e.message })
-            })
-    }, [tab]) // fetching article
+                setIsLoading(false)
+            }
+        }
 
-    useEffect(() => {
-        fetch(`${url}/${page}?navigation=true`)
-            .then(response => {
+        const getNavigation = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/wiki/${chapter}`)
+            
                 if (!response.ok) {
-                    throw new Error('Не удалось загрузить навигацию. ', response.status)
+                    const error = await response.json()
+                    throw new Error(error.message)
                 }
 
-                return response.json()
-            })
-            .then(json => {
-                setNavigation(json)
-            })
-            .catch(e => {
-                setNavigation([{ title: `Не удалось загрузить навигацию. ${e.message}` }])
-            })
-    }, []) // fetching navigation
+                const data = await response.json()
 
-    useEffect(() => {
-        const element = navRef.current
-        const scroll = sessionStorage.getItem('wikiNavScroll') ?? 0
-
-        if (tab === 1) {
-            element.scrollLeft = 0
-            return
+                setNavigation(data)
+                setIsLoading(false)
+            } catch(e) {
+                setNavigation([{ title: e.message }])
+                setIsLoading(false)
+            }
         }
-        
-        element.scrollLeft = scroll
-    }, [navigation])
+
+        getArticle()
+        getNavigation()
+    }, [page])
 
     const handleScroll = () => {
         const element = navRef.current
         sessionStorage.setItem('wikiNavScroll', element.scrollLeft)
-    }
-
-    const createSafeHTML = (html) => {
-        return { __html: DOMPurify.sanitize(html) }
     }
 
     const definePageName = (name) => {
@@ -89,13 +81,13 @@ const Tabs = (props) => {
                 return 'Плагины'
             case 'rules':
                 return 'Правила'
-            case 'terms':
-                return 'Условия'
+            case 'legal':
+                return 'Правовые сведения'
         }
     }
 
     usePageMetadata({
-        title: `${definePageName(page)} | ${article.title}`,
+        title: `${definePageName(chapter)} | ${article.title}`,
         ogTitle: article.title,
         ogDescription: article.description,
         ogImage: article.icon
@@ -103,7 +95,7 @@ const Tabs = (props) => {
 
     return (
         <section className={`${styles.wiki} container-big`}>
-            <h1 className='visually-hidden'>{definePageName(page)}</h1>
+            <h1 className='visually-hidden'>{definePageName(chapter)}</h1>
             <nav className={styles.navigation}>
                 <ul 
                     className={styles.navigationList}
@@ -111,15 +103,15 @@ const Tabs = (props) => {
                     onScroll={handleScroll}
                 >
                     {navigation.map((element, index) => {
-                        const isCurrent = tab === index + 1
+                        const isCurrent = element.page === page
 
                         return (
                             <li 
                                 key={index} 
                                 className={`${styles.navigationList__item}`}
                             >
-                                <a 
-                                    href={`/${page}?tab=${index + 1}`} 
+                                <Link 
+                                    to={`/${chapter}/${element.page}`} 
                                     className={`${styles.navigationList__link} ${isCurrent && styles.isCurrent}`}
                                 >
                                     {element.icon && 
@@ -133,13 +125,13 @@ const Tabs = (props) => {
                                     <div className={styles.navigationList__title} lang='ru'>
                                         {element.title}
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                         )
                     })}
                 </ul>
             </nav>
-            <article className={styles.article}>
+            <article className={`${styles.article} ${isLoading && styles.isLoading}`}>
                 <header className={styles.articleHeader}>
                     <div className={styles.articleHeader__inner}>
                         {article.icon && 
@@ -155,11 +147,10 @@ const Tabs = (props) => {
                     </div>
                     {article.description && <p className={styles.articleHeader__description}>{article.description}</p>}
                 </header>
-                <div 
-                    className={`${styles.articleContent} ${article.title === 'Brewery' && styles.squareImage}`}
-                    dangerouslySetInnerHTML={createSafeHTML(article.content)}
-                >
-
+                <div className='markdown'>
+                    <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                        {article.content}
+                    </ReactMarkdown>
                 </div>
             </article>
         </section>

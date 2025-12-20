@@ -6,6 +6,7 @@ export default class UserDto {
     hasPass
     activationLink
     sub
+    creationDate
 
     constructor(model) {
         this.email = model.email
@@ -15,5 +16,6 @@ export default class UserDto {
         this.hasPass = model.hasPass
         this.activationLink = model.activationLink
         this.sub = model.sub
+        this.creationDate = model.creationDate
     }
 }

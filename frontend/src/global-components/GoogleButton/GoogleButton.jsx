@@ -1,10 +1,13 @@
+import { useNavigate } from 'react-router'
 import styles from './GoogleButton.module.scss'
 
 import googleLogo from '@/assets/icons/google-logo.png'
 
 const GoogleButton = () => {
+    const navigate = useNavigate()
+
     const handleClick = () => {
-        window.location.href = `${import.meta.env.VITE_API_URL}/google/url`
+        navigate(`${import.meta.env.VITE_API_URL}/google/url`)
     }
 
     return (

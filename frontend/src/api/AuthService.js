@@ -2,19 +2,19 @@ import api from './axiosConfig.js'
 
 class AuthService {
     static registration = async (email, password) => {
-        return api.post('/registration', { email, password })
+        return api.post('/auth/registration', { email, password })
     }
 
     static login = async (email, password) => {
-        return api.post('/login', { email, password })
+        return api.post('/auth/login', { email, password })
     }
 
-    static googleAuth = async (email, sub) => {
-        return api.post('/googleauth', { email, sub })
+    static googleAuth = async (code) => {
+        return api.post('/auth/googleauth', { code })
     }
 
     static logout = async () => {
-        return api.post('/logout')
+        return api.post('/auth/logout')
     }
 
     static sendMail = async (email) => {
@@ -22,7 +22,7 @@ class AuthService {
     }
 
     static changeNickname = async (nickname, email) => {
-        return api.put('/nickname', { nickname, email })
+        return api.put('/auth/nickname', { nickname, email })
     }
 }
 

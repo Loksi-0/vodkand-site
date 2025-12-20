@@ -3,6 +3,9 @@ import styles from './List.module.scss'
 import pass from '@/assets/images/frog.png'
 
 const List = () => {
+    const price = Number(import.meta.env.VITE_PASS_PRICE)
+    const sale = Number(import.meta.env.VITE_PASS_SALE)
+
     return (
         <section className={styles.list}>
             <ul className={`${styles.list__inner} container`}>
@@ -18,8 +21,13 @@ const List = () => {
                     </div>
                     <div className={styles.list__content}>
                         <div className={styles.list__body}>
-                            <h2 className='h3'>Доступ на сервер</h2>
-                            <h3 className='h2'>100&nbsp;₽</h3>
+                            <h2 className={`${styles.list__title} h3`}>Доступ на сервер</h2>
+                            <div className={styles.list__price}>
+                                <h3 className='h2'>{sale ? sale : price}&nbsp;₽</h3>
+                                {sale && <p className={styles.list__priceOld}>
+                                    {price}&nbsp;₽
+                                </p>}
+                            </div>
                         </div>
                         <Button 
                             color='accent'

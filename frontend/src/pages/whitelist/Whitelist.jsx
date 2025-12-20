@@ -5,9 +5,12 @@ import { Context } from '@/main'
 import Preloader from '@/global-components/Preloader/Preloader'
 import usePageMetadata from '@/usePageMetadata'
 import { observer } from 'mobx-react-lite'
+import { useNavigate } from 'react-router'
 
 const Whitelist = () => {
     const { store } = useContext(Context)
+
+    const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
     const [nick, setNick] = useState('')
@@ -35,12 +38,12 @@ const Whitelist = () => {
             return
         }
 
-        const result = await store.changeNickname(nick, store.user.email)
+        const result = await store.changeNickname(nick, store.user?.email)
 
         setLoading(false)
 
         if (result.statusText === 'OK') {
-            window.location.href = '/'
+            navigate('/')
         } else {
             setError(result.data)
         }

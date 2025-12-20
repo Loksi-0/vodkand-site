@@ -15,11 +15,14 @@ class UserService {
             throw ApiError.BadRequest(`Пользователь с почтой ${email} уже существует`, ['alreadyExists'])
         }
 
-        const hashPassword = await bcrypt.hash(password, 5)
+        const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS) || 12
+
+        const hashPassword = await bcrypt.hash(password, SALT_ROUNDS)
         const activationLink = uuidv4()
-        const user = await User.create({ email, password: hashPassword, activationLink })
+        const creationDate = new Date()
+        const user = await User.create({ email, password: hashPassword, activationLink, creationDate })
         
-        this.sendMail(email, activationLink)
+        await this.sendMail(email, activationLink)
         
         const userDto = new UserDto(user)
         const tokens = TokenService.generateTokens({ ...userDto })
@@ -42,7 +45,8 @@ class UserService {
                 throw ApiError.BadRequest('Уникальный айди (sub) не совпадает с зарегистрированным ранее')
             }
         } else {
-            user = await User.create({ email, sub, isActivated: true })
+            const creationDate = new Date()
+            user = await User.create({ email, sub, isActivated: true, creationDate })
         }
         
         const userDto = new UserDto(user)
@@ -107,6 +111,7 @@ class UserService {
         const user = await User.findById(userData.id)
 
         if (!user) {
+            await TokenService.removeToken(refreshToken)
             throw ApiError.UnauthorizedError()
         }
 

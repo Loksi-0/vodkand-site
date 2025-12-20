@@ -1,6 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
+import { useLocation } from 'react-router'
 
 function usePageMetadata(props) {
+    const location = useLocation()
+
     const {
         title = '',
         ogTitle = '',
@@ -8,7 +11,7 @@ function usePageMetadata(props) {
         ogDescription = '',
         ogImage = '',
         type = 'website',
-        url = window.location.href,
+        url = location.href,
         keywords = '',
         index = true,
         follow = true

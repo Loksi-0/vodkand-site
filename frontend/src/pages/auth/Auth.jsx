@@ -5,7 +5,7 @@ import Button from "@/global-components/Button/Button"
 import mail from '@/assets/icons/mail.svg'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { Navigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
 import Preloader from '@/global-components/Preloader/Preloader'
 import usePageMetadata from '@/usePageMetadata'
 import Header from '@/global-components/Header/Header'
@@ -13,6 +13,8 @@ import GoogleButton from '@/global-components/GoogleButton/GoogleButton'
 
 const Auth = () => {
     const url = import.meta.env.VITE_API_URL
+
+    const navigate = useNavigate()
 
     const [page, setPage] = useState(1)
     const [email, setEmail] = useState('')
@@ -64,9 +66,9 @@ const Auth = () => {
         const result = await store.login(email, password)
 
         if (result.statusText === 'OK') {
-            window.location.href = '/account'
+            navigate('/account')
         } else {
-            setError(result.statusText)
+            setError(result)
         }
 
         setIsLoading(false)
@@ -78,7 +80,7 @@ const Auth = () => {
         if (result.statusText === 'OK') {
             setPage(2)
         } else {
-            setError(result.statusText)
+            setError(result)
         }
 
         setIsLoading(false)
@@ -169,7 +171,7 @@ const Auth = () => {
                                 <input 
                                     className={emailInput}
                                     type='email' 
-                                    placeholder='Email'
+                                    placeholder='example@email.com'
                                     name='email'
                                     title=''
                                     inputMode='email'

@@ -1,28 +1,29 @@
-import styles from './Terms.module.scss'
+import { Link } from 'react-router'
+import styles from './Legal.module.scss'
 
-const Terms = () => {
+const Legal = () => {
     return (
         <nav className={styles.terms}>
-            <a 
+            <Link 
                 className={styles.link}
-                href="/terms"
+                to="/legal/privacy-policy"
             >
                 политика конфиденциальности
-            </a>
-            <a 
+            </Link>
+            <Link 
                 className={styles.link}
-                href="/terms?tab=2"
+                to="/legal/payment-terms"
             >
                 условия оплаты
-            </a>
-            <a 
+            </Link>
+            <Link 
                 className={styles.link}
-                href="/terms?tab=3"
+                to="/legal/contacts"
             >
                 контакты
-            </a>
+            </Link>
         </nav>
     )
 }
 
-export default Terms
+export default Legal

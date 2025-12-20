@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import styles from './Navigation.module.scss'
 
 const Navigation = (props) => {
@@ -18,11 +19,13 @@ const Navigation = (props) => {
                             className={styles.list__item} 
                             key={index}
                         >
-                            <a 
+                            <Link
                                 className={styles.link}
-                                href={element.href}
+                                to={element.href}
                                 tabIndex={tabFocus ? 0 : -1}
-                            ><big>{element.title}</big></a>
+                            >
+                                <big>{element.title}</big>
+                            </Link>
                         </li>
                     )
                 })}

@@ -5,8 +5,12 @@ import { useEffect, useState } from "react"
 import ok from '@/assets/icons/ok.svg'
 import error from '@/assets/icons/error.svg'
 import usePageMetadata from '@/usePageMetadata'
+import { useLocation, useNavigate } from 'react-router'
 
 const Activate = () => {
+    const location = useLocation()
+    const navigate = useNavigate()
+
     const [title, setTitle] = useState('Выполняется активация...')
     const [status, setStatus] = useState('waiting')
     const [preloaderIcon, setPreloaderIcon] = useState(null)
@@ -15,7 +19,7 @@ const Activate = () => {
     useEffect(() => {
         const activate = async () => {
             try {
-                const activationLink = new URLSearchParams(window.location.search).get('link')
+                const activationLink = new URLSearchParams(location.search).get('link')
 
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/activate/${activationLink}`)
 
@@ -65,7 +69,7 @@ const Activate = () => {
                 {status === 'ok' && 
                     <Button 
                         color='accent'
-                        onClick={() => window.location.href = '/account'}
+                        onClick={() => navigate('/account')}
                     >
                         Перейти в аккаунт
                     </Button>
@@ -73,7 +77,7 @@ const Activate = () => {
                 {status === 'error' && 
                     <Button 
                         color='red'
-                        onClick={() => window.location.href = '/account'}
+                        onClick={() => navigate('/account')}
                     >
                         Перейти в аккаунт
                     </Button>

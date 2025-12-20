@@ -10,9 +10,11 @@ import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import Alert from './components/Alert/Alert'
 import usePageMetadata from '@/usePageMetadata'
+import { useNavigate } from 'react-router'
 
 const Account = () => {
     const { store } = useContext(Context)
+    const navigate = useNavigate()
 
     const handleLogout = async () => {
         const result = await store.logout()
@@ -31,11 +33,11 @@ const Account = () => {
     const handleBuyPass = useCallback(() => {}, [store])
 
     const handleAddNick = useCallback(() => {
-        window.location.href = '/whitelist'
+        navigate('/whitelist')
     }, [store])
 
     usePageMetadata({
-        title: store.user.nickname ? `Аккаунт | ${store.user.nickname}` : 'Аккаунт',
+        title: store.user?.nickname ? `Аккаунт | ${store.user.nickname}` : 'Аккаунт',
         index: false,
         follow: false
     })
@@ -44,7 +46,7 @@ const Account = () => {
         <>
             <Header />
             <main className={`${styles.account} container`}>
-                {!store.user.isActivated && !store.isLoading && 
+                {!store.user?.isActivated && !store.isLoading && 
                     <Alert 
                         color='yellow' 
                         title='Аккаунт не активирован' 
@@ -53,7 +55,7 @@ const Account = () => {
                         textButton='Отправить письмо еще раз'
                     />
                 }
-                {store.user.isActivated && !store.user.hasPass && !store.isLoading && 
+                {store.user?.isActivated && !store.user?.hasPass && !store.isLoading && 
                     <Alert 
                         color='red' 
                         title='Нет проходки' 
@@ -62,7 +64,7 @@ const Account = () => {
                         textButton='Купить проходку'
                     />
                 }
-                {store.user.isActivated && store.user.hasPass && !store.user.nickname && !store.isLoading &&
+                {store.user?.isActivated && store.user?.hasPass && !store.user?.nickname && !store.isLoading &&
                     <Alert 
                         color='red' 
                         title='Аккаунт не в вайтлисте' 
@@ -71,7 +73,7 @@ const Account = () => {
                         textButton='Добавить ник'
                     />
                 }
-                {store.user.isActivated && store.user.hasPass && store.user.nickname && !store.isLoading && 
+                {store.user?.isActivated && store.user?.hasPass && store.user?.nickname && !store.isLoading && 
                     <>
                         <Nick />
                         <Punishments />
