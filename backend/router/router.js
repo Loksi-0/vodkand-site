@@ -23,6 +23,7 @@ router.put('/auth/nickname', AuthMiddleware, authController.changeNickname)
 router.get('/activate/:link', authController.activate)
 router.get('/refresh', authController.refresh)
 router.get('/user', authController.hasUser)
+router.get('/me', AuthMiddleware, authController.me)
 
 router.get('/google/url', openIDController.redirect)
 router.get('/auth/google/callback', openIDController.handleCode)

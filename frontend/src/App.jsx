@@ -8,7 +8,7 @@ import Activate from '@/pages/activate/Activate'
 import Auth from '@/pages/auth/Auth'
 import ProtectedRoute from './global-components/ProtectedRoute/ProtectedRoute'
 import Whitelist from './pages/whitelist/Whitelist'
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router"
 import { useContext, useEffect } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
@@ -20,7 +20,7 @@ const App = () => {
     const { store } = useContext(Context)
 
     useEffect(() => {
-        store.checkAuth()
+        store.initAuth()
     }, [])
 
     const savedTheme = localStorage.getItem('theme')
@@ -62,7 +62,7 @@ const App = () => {
                 <Route path='/auth/google' element={<GoogleAuth />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
-        </BrowserRouter>
+        </BrowserRouter>   
     )
 }
 

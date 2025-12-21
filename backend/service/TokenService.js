@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import Token from '../models/Token.js'
+import ApiError from '../exceptions/apiError.js'
 
 class TokenService {
     generateTokens(payload) {
@@ -33,15 +34,20 @@ class TokenService {
     }
 
     async saveToken(userId, refreshToken) {
-        const tokenData = await Token.findOne({ user: userId })
-
-        if (tokenData) {
-            tokenData.refreshToken = refreshToken
-
-            return tokenData.save()
+        if (!refreshToken || !userId) {
+            throw ApiError.BadRequest('отсутствует поле refreshToken или userId')
         }
 
         const token = await Token.create({ user: userId, refreshToken })
+
+        const tokens = await Token.find({ user: userId })
+            .sort({ createdAt: -1 })
+
+        if (tokens.length > Number(process.env.MAX_REFRESH_TOKENS_FOR_USER)) {
+            const old = tokens.slice(Number(process.env.MAX_REFRESH_TOKENS_FOR_USER))
+            await Token.deleteMany({ _id: { $in: old.map(t => t._id) } })
+        }
+ 
         return token
     }
 

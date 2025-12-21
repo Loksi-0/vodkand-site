@@ -17,7 +17,7 @@ class WikiService {
             const raw = await fs.readFile(filePath, 'utf-8')
             const { data, content } = matter(raw)
 
-            return { ...data, content }
+            return { ...data, page, content }
         } catch(e) {
             if (e.code === 'ENOENT') {
                 throw ApiError.NotFound('Страница не найдена')

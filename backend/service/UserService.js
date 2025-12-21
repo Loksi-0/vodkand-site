@@ -119,7 +119,7 @@ class UserService {
         const tokens = TokenService.generateTokens({ ...userDto })
         await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-        return { ...tokens, user: userDto }
+        return { ...tokens }
     }
 
     async sendMail(email, activationLink) {
@@ -175,6 +175,26 @@ class UserService {
 
         user.nickname = nickname
         await user.save()
+    }
+
+    async me(refreshToken) {
+        const userData = TokenService.validateRefreshToken(refreshToken)
+        const tokenFromDb = await TokenService.findToken(refreshToken)
+
+        if (!userData || !tokenFromDb) {
+            throw ApiError.UnauthorizedError()
+        }
+
+        const user = await User.findById(userData.id)
+
+        if (!user) {
+            await TokenService.removeToken(refreshToken)
+            throw ApiError.UnauthorizedError()
+        }
+
+        const userDto = new UserDto(user)
+
+        return { user: userDto }
     }
 
     async hasUser(email) {

@@ -18,6 +18,7 @@
     }
 
     &__image {
+        min-width: rem(70);
         height: fluid(100, 50);
 
         &Wrapper {

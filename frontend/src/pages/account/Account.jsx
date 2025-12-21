@@ -20,7 +20,7 @@ const Account = () => {
         try {
             await store.logout()
         } catch(e) {
-            console.log(e.response?.data?.message)
+            console.error(e.response?.data?.message)
         }
     }
 

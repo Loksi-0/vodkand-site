@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getAccessToken, setAccessToken } from './TokenManager'
+import { getAccessToken } from './TokenManager'
 import { refreshToken } from './refreshToken'
 
 const api = axios.create({
@@ -7,18 +7,6 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     timeout: 10000
 })
-
-let isRefreshing = false
-let refreshSubscribers = []
-
-function subscribeTokenRefresh(cb) {
-  refreshSubscribers.push(cb)
-}
-
-function onRefreshed(token) {
-  refreshSubscribers.forEach(cb => cb(token))
-  refreshSubscribers = []
-}
 
 api.interceptors.request.use(config => {
     if (getAccessToken()) {
@@ -31,41 +19,26 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(config => config, async error => {
     const originalRequest = error.config
 
+    if (originalRequest.url.includes('/refresh')) {
+        throw error
+    }
+
     if (
         error.response.status === 401 
-        && error.config 
-        && !error.config._isRetry
-        && !originalRequest.url.includes('/refresh')
+        && originalRequest
+        && !originalRequest._isRetry
     ) {
         originalRequest._isRetry = true
 
-        if (isRefreshing) {
-            return new Promise(resolve => {
-                subscribeTokenRefresh(token => {
-                    originalRequest.headers.Authorization = `Bearer ${token}`
-                    resolve(api(originalRequest))
-                })
-            })
-        }
-
-        isRefreshing = true
-
         try {
-            const response = await refreshToken()
-
-            setAccessToken(response.data.accessToken)
-            onRefreshed(response.data.accessToken)
-
-            if (getAccessToken()) {
-                originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`
-            }
+            const newAccessToken = await refreshToken()
+            
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
 
             return api.request(originalRequest)
-        } catch(e) {
-            console.log('Не авторизован')
-            throw e
-        } finally {
-            isRefreshing = false
+        } catch {
+            console.error('Не авторизован')
+            throw error
         }
     }
 

@@ -68,6 +68,7 @@
         color: var(--color-dark);
         transition-duration: var(--transition-duration);
         cursor: pointer;
+        caret-color: transparent;
 
         &::before,
         &::after {

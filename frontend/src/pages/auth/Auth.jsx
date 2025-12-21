@@ -5,7 +5,7 @@ import Button from "@/global-components/Button/Button"
 import mail from '@/assets/icons/mail.svg'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { Navigate, useNavigate } from 'react-router'
+import { Navigate, replace, useNavigate } from 'react-router'
 import Preloader from '@/global-components/Preloader/Preloader'
 import usePageMetadata from '@/usePageMetadata'
 import Header from '@/global-components/Header/Header'
@@ -66,7 +66,7 @@ const Auth = () => {
         try {
             await store.login(email, password)
 
-            navigate('/account')
+            replace('/account')
         } catch(e) {
             setError(e.response?.data?.message)
         }
@@ -157,7 +157,7 @@ const Auth = () => {
 
     return (
         <>
-        <Header />
+            <Header />
             <main>
                 <section className={`${styles.auth} container`}>
                     <h1 className='visually-hidden'>Зарегистрироваться или войти</h1>

@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator'
 import UserService from '../service/UserService.js'
 import ApiError from '../exceptions/apiError.js'
+import UserDto from '../dtos/userDto.js'
 
 class authController {
     async registration(req, res, next) {
@@ -17,7 +18,8 @@ class authController {
                 maxAge: 30 * 24 * 60 * 60 * 1000, 
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax'
+                sameSite: 'lax',
+                path: '/'
             })
 
             return res.json(userData)
@@ -53,7 +55,8 @@ class authController {
                 maxAge: 30 * 24 * 60 * 60 * 1000, 
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax'
+                sameSite: 'lax',
+                path: '/'
             })
 
             return res.json(userData)
@@ -71,7 +74,8 @@ class authController {
                 maxAge: 30 * 24 * 60 * 60 * 1000, 
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax'
+                sameSite: 'lax',
+                path: '/'
             })
 
             return res.json(userData)
@@ -93,7 +97,8 @@ class authController {
             res.clearCookie('refreshToken', {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax'
+                sameSite: 'lax',
+                path: '/'
             })
 
             return res.json(token)
@@ -122,10 +127,13 @@ class authController {
                 maxAge: 30 * 24 * 60 * 60 * 1000, 
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax'
+                sameSite: 'lax',
+                path: '/'
             })
 
-            return res.json(userData)
+            return res.json({
+                accessToken: userData.accessToken
+            })
         } catch(e) {
             next(e)
         }
@@ -151,6 +159,22 @@ class authController {
             await UserService.changeNickname(nickname, userId)
 
             return res.status(200).end()
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async me(req, res, next) {
+        try {
+            const user = req.user
+
+            if (!user) {
+                throw ApiError.UnauthorizedError()
+            }
+
+            const userData = new UserDto(user)
+
+            return res.json({ user: userData })
         } catch(e) {
             next(e)
         }

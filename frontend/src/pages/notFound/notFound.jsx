@@ -33,10 +33,14 @@ const NotFound = () => {
         logo.style.top = `${position.current.y}px`
         logo.style.left = `${position.current.x}px`
 
-        const animate = () => {
-            const { clientWidth, clientHeight } = main
-            const logoHeight = logo.clientHeight
+        const { clientWidth, clientHeight } = main
 
+        let logoHeight
+        setTimeout(() => {
+            logoHeight = logo.clientHeight
+        }, 50)
+
+        const animate = () => {
             position.current.x += velocity.current.x
             position.current.y += velocity.current.y
 
@@ -85,6 +89,7 @@ const NotFound = () => {
                             ref={logoRef}
                             src={frog}
                             alt='' 
+                            draggable='false'
                         />
                     </div>
                 </section>

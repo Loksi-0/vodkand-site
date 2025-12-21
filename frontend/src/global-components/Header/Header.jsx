@@ -4,6 +4,7 @@ import Logo from '../Logo/Logo'
 import { observer } from 'mobx-react-lite'
 import SwitchTheme from '../SwitchTheme/SwitchTheme'
 import AccountButton from '../AccountButton/AccountButton'
+import TopLoader from '../TopLoader/HeaderLoader/HeaderLoader'
 
 const Header = (props) => {
     const { sticky = true, ref } = props
@@ -17,6 +18,7 @@ const Header = (props) => {
                     <AccountButton />
                 </div>
             </div>
+            <TopLoader />
         </header>
     )
 }

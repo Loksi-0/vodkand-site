@@ -49,7 +49,8 @@ app.use(session({
     httpOnly: true,
     secure: isProd,
     sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 1000,
+    path: '/'
   }
 }))
 

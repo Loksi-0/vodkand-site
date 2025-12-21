@@ -1,10 +1,35 @@
 import axios from 'axios'
+import { setAccessToken } from './TokenManager'
 
-export async function refreshToken() {
-    const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/refresh`,
-        { withCredentials: true }
-    )
-    
-    return response
+const refreshApi = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true
+})
+
+let refreshPromise = null
+let isRefreshingFailed = false
+
+export function refreshToken() {
+    if (isRefreshingFailed) {
+        return Promise.reject(new Error('Session expired'))
+    }
+
+    if (refreshPromise) {
+        return refreshPromise
+    }
+
+    refreshPromise = refreshApi.get('/refresh')
+    .then(res => {
+        setAccessToken(res.data.accessToken)
+        return res.data.accessToken
+    })
+    .catch(err => {
+        isRefreshingFailed = true
+        throw err
+    })
+    .finally(() => {
+        refreshPromise = null
+    })
+
+    return refreshPromise
 }

@@ -1,35 +1,50 @@
 import styles from './Wiki.module.scss'
 
-import { useEffect, useRef, useState } from "react"
-import { Link, useLocation, useNavigate, useParams } from "react-router"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { useLocation, useNavigate, useParams } from "react-router"
 import ReactMarkdown from 'react-markdown'
 import usePageMetadata from '@/usePageMetadata'
 import rehypeRaw from 'rehype-raw'
 import './markdown.scss'
+import LoadingLink from '../TopLoader/hooks/LoadingLink'
+import { useRouteLoading } from '../TopLoader/LoaderProvider'
 
-const Tabs = (props) => {
+const Wiki = (props) => {
     const { chapter, firstPage } = props
     const { page } = useParams()
+    const { stopLoading } = useRouteLoading()
+    const navigate = useNavigate()
 
     const navRef = useRef(null)
     const location = useLocation()
-    const navigate = useNavigate()
 
-    const [article, setArticle] = useState({ title: 'Загрузка...' })
-    const [navigation, setNavigation] = useState([{ title: 'Загрузка...' }])
+    const navSkeletonCount = 4
+
+    const navWidths = useMemo(
+        () =>
+            Array.from({ length: navSkeletonCount }, () =>
+            Math.floor(Math.random() * (200 - 90) + 90)
+            ),
+        []
+    )
+
+    const [article, setArticle] = useState({ icon: 'loading', title: null, description: null })
+    const [navigation, setNavigation] = useState(Array.from({ length: navSkeletonCount }, () => { return {} }))
     const [isLoading, setIsLoading] = useState(true)
+
+    const controller = new AbortController()
 
     useEffect(() => {
         const getArticle = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/wiki/${chapter}/${page}`)
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/wiki/${chapter}/${page}`, { signal: controller.signal })
 
                 if (!response.ok) {
                     if (
                         response.status === 404
                         && location.pathname !== `/${chapter}/${firstPage}`
                     ) {
-                        navigation(`/${chapter}/${firstPage}`)
+                        navigate(`/${chapter}/${firstPage}`)
                         return
                     }
  
@@ -41,9 +56,13 @@ const Tabs = (props) => {
 
                 setArticle(data)
                 setIsLoading(false)
+                stopLoading()
             } catch(e) {
+                if (e.name === 'AbortError') return
+
                 setArticle({ title: e.message })
                 setIsLoading(false)
+                stopLoading()
             }
         }
 
@@ -68,12 +87,9 @@ const Tabs = (props) => {
 
         getArticle()
         getNavigation()
-    }, [page])
 
-    const handleScroll = () => {
-        const element = navRef.current
-        sessionStorage.setItem('wikiNavScroll', element.scrollLeft)
-    }
+        return () => controller.abort()
+    }, [page])
 
     const definePageName = (name) => {
         switch (name) {
@@ -87,7 +103,7 @@ const Tabs = (props) => {
     }
 
     usePageMetadata({
-        title: `${definePageName(chapter)} | ${article.title}`,
+        title: article.title ? `${definePageName(chapter)} | ${article.title}` : definePageName(chapter),
         ogTitle: article.title,
         ogDescription: article.description,
         ogImage: article.icon
@@ -100,7 +116,6 @@ const Tabs = (props) => {
                 <ul 
                     className={styles.navigationList}
                     ref={navRef}
-                    onScroll={handleScroll}
                 >
                     {navigation.map((element, index) => {
                         const isCurrent = element.page === page
@@ -108,13 +123,14 @@ const Tabs = (props) => {
                         return (
                             <li 
                                 key={index} 
-                                className={`${styles.navigationList__item}`}
+                                className={`${styles.navigationList__item} ${isLoading && styles.isLoading}`}
+                                style={isLoading ? { width: navWidths[index] } : undefined}
                             >
-                                <Link 
-                                    to={`/${chapter}/${element.page}`} 
+                                <LoadingLink 
+                                    to={element?.page ? `/${chapter}/${element.page}` : `/${chapter}`} 
                                     className={`${styles.navigationList__link} ${isCurrent && styles.isCurrent}`}
                                 >
-                                    {element.icon && 
+                                    {element?.icon && 
                                     <img 
                                         className={styles.navigationList__icon}
                                         src={element.icon}
@@ -123,9 +139,9 @@ const Tabs = (props) => {
                                         draggable='false'
                                     />}
                                     <div className={styles.navigationList__title} lang='ru'>
-                                        {element.title}
+                                        {element?.title}
                                     </div>
-                                </Link>
+                                </LoadingLink>
                             </li>
                         )
                     })}
@@ -134,8 +150,9 @@ const Tabs = (props) => {
             <article className={`${styles.article} ${isLoading && styles.isLoading}`}>
                 <header className={styles.articleHeader}>
                     <div className={styles.articleHeader__inner}>
-                        {article.icon && 
-                        <img 
+                        {article.icon === 'loading'
+                        ? <div className={`${styles.articleHeader__iconSkeleton}`}></div>
+                        : article.icon && <img 
                             className={styles.articleHeader__icon}
                             src={article.icon}
                             alt=''
@@ -143,9 +160,16 @@ const Tabs = (props) => {
                             draggable='false'
                         />
                         }
-                        <h2 className={styles.articleHeader__title}>{article.title}</h2>
+                        <h2 className={`${styles.articleHeader__title} ${isLoading && styles.isLoading}`}>
+                            {article.title}
+                        </h2>
                     </div>
-                    {article.description && <p className={styles.articleHeader__description}>{article.description}</p>}
+                    {isLoading 
+                    ? <div className={styles.articleHeader__descriptionSkeleton}></div>
+                    : <p className={styles.articleHeader__description}>
+                        {article.description}
+                    </p>
+                    }
                 </header>
                 <div className='markdown'>
                     <ReactMarkdown rehypePlugins={[rehypeRaw]}>
@@ -157,4 +181,4 @@ const Tabs = (props) => {
     )
 }
 
-export default Tabs
+export default Wiki

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx"
 import AuthService from "./AuthService.js"
-import { setAccessToken, clearAccessToken } from './TokenManager'
+import { setAccessToken, clearAccessToken, getAccessToken } from './TokenManager'
 import { refreshToken } from "./refreshToken.js"
 import MinecraftAPIService from "./MinecraftAPIService.js"
 
@@ -85,7 +85,7 @@ class Store {
         }
     }
 
-    async checkAuth() {
+    async initAuth() {
         if (!localStorage.getItem('wasAuth')) {
             this.setAuth(false)
             this.setUser(null)
@@ -93,18 +93,17 @@ class Store {
         }
 
         this.setLoading(true)
-        
+
         try {
-            const response = await refreshToken()
-            
-            setAccessToken(response.data.accessToken)
+            const response = await AuthService.me()
+
             this.setAuth(true)
             this.setUser(response.data.user)
 
             return response
         } catch(e) {
-            this.setAuth(false)
             this.setUser(null)
+            this.setAuth(false)
         } finally {
             this.setLoading(false)
         }
@@ -114,7 +113,7 @@ class Store {
         try {
             await AuthService.sendMail(email)
         } catch(e) {
-            console.log(e.response?.data?.message)
+            throw e
         }
     }
 
@@ -124,7 +123,7 @@ class Store {
 
             return response
         } catch(e) {
-            return e.response
+            throw e
         }
     }
 
@@ -134,7 +133,7 @@ class Store {
 
             return response
         } catch(e) {
-            return e.response?.data?.message
+            throw e
         }
     }
 }

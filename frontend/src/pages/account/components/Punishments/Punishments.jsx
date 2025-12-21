@@ -19,10 +19,14 @@ const Punishments = () => {
         setLoading(true)
 
         const getPunishments = async () => {
-            const response = await store.getPunishments(store.user?.nickname)
+            try {
+                const response = await store.getPunishments(store.user?.nickname)
 
-            setLoading(false)
-            setPunishments(response.data)
+                setLoading(false)
+                setPunishments(response.data)
+            } catch(e) {
+                console.log(e)
+            }
         }
 
         getPunishments()

@@ -20,6 +20,10 @@ class AuthService {
     static sendMail = async (email) => {
         return api.post('/sendmail', { email })
     }
+
+    static me = async () => {
+        return api.get('/me')
+    }
 }
 
 export default AuthService

@@ -11,28 +11,31 @@ import '@/styles/variables.scss'
 import '@/styles/globals.scss'
 import '@/styles/utils.scss'
 import '@/styles/toaster.scss'
+import { RouteLoadingProvider } from './global-components/TopLoader/LoaderProvider'
 
 const store = new Store()
 
 export const Context = createContext({ store })
 
 createRoot(document.getElementById('root')).render(
-  <Context.Provider value={{
-    store
-  }}>
-    <StrictMode>
-      <Toaster 
-        richColors 
-        position='top-center'
-        toastOptions={{
-          classNames: {
-            toast: 'toast',
-            title: 'title',
-            description: 'description'
-          }
-        }}
-      />
-      <App />
-    </StrictMode>
-  </Context.Provider>
+  <RouteLoadingProvider>
+    <Context.Provider value={{
+      store
+    }}>
+      <StrictMode>
+        <Toaster 
+          richColors 
+          position='top-center'
+          toastOptions={{
+            classNames: {
+              toast: 'toast',
+              title: 'title',
+              description: 'description'
+            }
+          }}
+        />
+        <App />
+      </StrictMode>
+    </Context.Provider>
+  </RouteLoadingProvider>
 )

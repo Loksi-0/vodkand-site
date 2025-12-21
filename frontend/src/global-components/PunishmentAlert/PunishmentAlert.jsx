@@ -18,9 +18,13 @@ const PunishmentAlert = () => {
         }
 
         const getPunishments = async () => {
-            const response = await store.getPunishments(store.user?.nickname)
+            try {
+                const response = await store.getPunishments(store.user?.nickname)
 
-            setPunishment(response.data[0])
+                setPunishment(response.data[0])
+            } catch(e) {
+                console.log(e.response?.data?.message)
+            }
         }
 
         getPunishments()
