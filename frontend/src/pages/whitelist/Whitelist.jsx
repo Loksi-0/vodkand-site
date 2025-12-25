@@ -69,8 +69,9 @@ const Whitelist = () => {
                         className={styles.button}
                         type='submit'
                         color='accent'
+                        loading={loading}
                     >
-                        {!loading ? 'Готово' : <Preloader size={27} />}
+                        Готово
                     </Button>
                 </form>
             </section>

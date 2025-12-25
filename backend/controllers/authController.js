@@ -2,6 +2,7 @@ import { validationResult } from 'express-validator'
 import UserService from '../service/UserService.js'
 import ApiError from '../exceptions/apiError.js'
 import UserDto from '../dtos/userDto.js'
+import User from '../models/User.js'
 
 class authController {
     async registration(req, res, next) {
@@ -173,6 +174,23 @@ class authController {
             }
 
             const userData = new UserDto(user)
+
+            return res.json({ user: userData })
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async agree(req, res, next) {
+        try {
+            const user = req.user
+            const { formData } = req.body
+
+            if (!user) {
+                throw ApiError.UnauthorizedError()
+            }
+
+            const userData = await UserService.agree(user, formData)
 
             return res.json({ user: userData })
         } catch(e) {

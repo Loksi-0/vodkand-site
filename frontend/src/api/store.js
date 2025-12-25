@@ -95,6 +95,8 @@ class Store {
         this.setLoading(true)
 
         try {
+            await refreshToken()
+
             const response = await AuthService.me()
 
             this.setAuth(true)
@@ -120,6 +122,16 @@ class Store {
     async changeNickname(nickname) {
         try {
             const response = await MinecraftAPIService.changeNickname(nickname)
+
+            return response
+        } catch(e) {
+            throw e
+        }
+    }
+
+    async agreeTerms(formData) {
+        try {
+            const response = await AuthService.agree(formData)
 
             return response
         } catch(e) {

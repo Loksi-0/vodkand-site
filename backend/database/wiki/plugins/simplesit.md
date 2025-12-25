@@ -3,6 +3,7 @@ order: 6
 title: SimpleSit
 description: Позволяет сидеть
 icon: /uploads/plugins/icons/simplesit.png
+link: https://www.spigotmc.org/resources/simple-sit-spigot-bukkit-1-8-8-through-1-19.14706/
 ---
 
 ### Использование

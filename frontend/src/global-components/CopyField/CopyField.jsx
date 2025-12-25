@@ -5,7 +5,6 @@ import Button from '../Button/Button'
 const CopyField = (props) => {
     const {
         text,
-        hasSubtitle = false,
         subtitle = ''
     } = props
 
@@ -21,7 +20,7 @@ const CopyField = (props) => {
 
     return (
         <div className={styles.copyField}>
-            {hasSubtitle && <p className={styles.subtitle}>{subtitle}</p>}
+            {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
             <div className={styles.field}>
                 <p className={styles.text}>{text}</p>
                 <Button color='icon' onClick={handleCopy}>

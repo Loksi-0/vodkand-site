@@ -10,32 +10,38 @@ const Alert = (props) => {
         color, 
         title, 
         description, 
+        disclaimer = false,
         onClick, 
-        textButton 
+        textButton
     } = props
 
     return (
         <section className={styles.alert}>
-            <div className={styles.content}>
-                <div className={`${styles.iconWrapper} ${styles[color]}`}>
-                    <img 
-                        className={styles.icon}
-                        src={color === 'red' ? ban : warn}
-                        alt=''
-                        loading='lazy' 
-                        draggable='false'
-                    />
+            <div className={styles.alert__body}>
+                <div className={styles.content}>
+                    <div className={`${styles.iconWrapper} ${styles[color]}`}>
+                        <img 
+                            className={styles.icon}
+                            src={color === 'red' ? ban : warn}
+                            alt=''
+                            loading='lazy' 
+                            draggable='false'
+                        />
+                    </div>
+                    <div className={styles.body}>
+                        <h1 className={`${styles.title} h3`}>{title}</h1>
+                        <p className={styles.description}>{description}</p>
+                    </div>
                 </div>
-                <div className={styles.body}>
-                    <h1 className={`${styles.title} h3`}>{title}</h1>
-                    <p className={styles.description}>{description}</p>
+                <div className={styles.button}>
+                    <Button color='dark' onClick={onClick}>
+                        {textButton}
+                    </Button>
                 </div>
             </div>
-            <div className={styles.button}>
-                <Button color='dark' onClick={onClick}>
-                    {textButton}
-                </Button>
-            </div>
+            {
+                disclaimer && <p className='gray-text'>Неактивированные аккаунты и аккаунты без проходки удаляются через 10 дней</p>
+            }
         </section>
     )
 }

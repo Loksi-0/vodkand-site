@@ -1,10 +1,26 @@
 import Button from '@/global-components/Button/Button'
 import styles from './List.module.scss'
 import pass from '@/assets/images/frog.png'
+import { useNavigate } from 'react-router'
+import { useContext } from 'react'
+import { Context } from '@/main'
 
 const List = () => {
+    const { store } = useContext(Context)
+
+    const navigate = useNavigate()
+
     const price = Number(import.meta.env.VITE_PASS_PRICE)
     const sale = Number(import.meta.env.VITE_PASS_SALE)
+
+    const buttonHref = () => {
+        if (store.isLoading) return
+        if (!store.isAuth) return '/auth'
+        if (!store.user?.isActivated) return '/account'
+        if (!store.user?.hasPass) return '/payment'
+        if (!store.user?.nickname) return '/whitelist'
+        return
+    }
 
     return (
         <section className={styles.list}>
@@ -31,6 +47,7 @@ const List = () => {
                         </div>
                         <Button 
                             color='accent'
+                            onClick={() => navigate(buttonHref())}
                         >
                             Купить проходку
                         </Button>

@@ -1,7 +1,7 @@
 import styles from './Wiki.module.scss'
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import { useLocation, useNavigate, useParams } from "react-router"
+import { Link, useLocation, useNavigate, useParams } from "react-router"
 import ReactMarkdown from 'react-markdown'
 import usePageMetadata from '@/usePageMetadata'
 import rehypeRaw from 'rehype-raw'
@@ -102,6 +102,12 @@ const Wiki = (props) => {
         }
     }
 
+    const modifyLink = ({ href, children }) => {
+        if (!href) return children
+
+        return <Link to={href}>{children}</Link>
+    }
+
     usePageMetadata({
         title: article.title ? `${definePageName(chapter)} | ${article.title}` : definePageName(chapter),
         ogTitle: article.title,
@@ -130,14 +136,16 @@ const Wiki = (props) => {
                                     to={element?.page ? `/${chapter}/${element.page}` : `/${chapter}`} 
                                     className={`${styles.navigationList__link} ${isCurrent && styles.isCurrent}`}
                                 >
-                                    {element?.icon && 
-                                    <img 
-                                        className={styles.navigationList__icon}
-                                        src={element.icon}
-                                        alt=''
-                                        loading='lazy'
-                                        draggable='false'
-                                    />}
+                                    {
+                                        element?.icon && 
+                                        <img 
+                                            className={styles.navigationList__icon}
+                                            src={element.icon}
+                                            alt=''
+                                            loading='lazy'
+                                            draggable='false'
+                                        />
+                                    }
                                     <div className={styles.navigationList__title} lang='ru'>
                                         {element?.title}
                                     </div>
@@ -150,29 +158,49 @@ const Wiki = (props) => {
             <article className={`${styles.article} ${isLoading && styles.isLoading}`}>
                 <header className={styles.articleHeader}>
                     <div className={styles.articleHeader__inner}>
-                        {article.icon === 'loading'
-                        ? <div className={`${styles.articleHeader__iconSkeleton}`}></div>
-                        : article.icon && <img 
-                            className={styles.articleHeader__icon}
-                            src={article.icon}
-                            alt=''
-                            loading='lazy'
-                            draggable='false'
-                        />
+                        {
+                            article.icon === 'loading'
+                            ? <div className={`${styles.articleHeader__iconSkeleton}`}></div>
+                            : article.icon && <img 
+                                className={styles.articleHeader__icon}
+                                src={article.icon}
+                                alt=''
+                                loading='lazy'
+                                draggable='false'
+                            />
                         }
-                        <h2 className={`${styles.articleHeader__title} ${isLoading && styles.isLoading}`}>
-                            {article.title}
-                        </h2>
+                        {
+                            article.link 
+                            ? <a 
+                                className={styles.articleHeader__titleLink}
+                                href={article.link} 
+                                target='_blank' 
+                                title={article.link}
+                            >
+                                <h2 lang='ru' className={`${styles.articleHeader__title} ${isLoading && styles.isLoading}`}>
+                                    {article.title}
+                                </h2>
+                            </a>
+                            : <h2 className={`${styles.articleHeader__title} ${isLoading && styles.isLoading}`}>
+                                {article.title}
+                            </h2>
+                        }
                     </div>
-                    {isLoading 
-                    ? <div className={styles.articleHeader__descriptionSkeleton}></div>
-                    : <p className={styles.articleHeader__description}>
-                        {article.description}
-                    </p>
+                    {
+                        isLoading 
+                        ? <div className={styles.articleHeader__descriptionSkeleton}></div>
+                        : <p className={styles.articleHeader__description}>
+                            {article.description}
+                        </p>
                     }
                 </header>
                 <div className='markdown'>
-                    <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                    <ReactMarkdown 
+                        rehypePlugins={[rehypeRaw]}
+                        components={{
+                            a: modifyLink
+                        }}
+                    >
                         {article.content}
                     </ReactMarkdown>
                 </div>

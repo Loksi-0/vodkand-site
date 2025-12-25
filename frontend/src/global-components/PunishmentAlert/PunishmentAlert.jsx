@@ -23,7 +23,7 @@ const PunishmentAlert = () => {
 
                 setPunishment(response.data[0])
             } catch(e) {
-                console.log(e.response?.data?.message)
+                console.error(e.response?.data?.message)
             }
         }
 

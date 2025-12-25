@@ -1,8 +1,9 @@
 ---
 order: 8
-title: Craftable Inv Frames
+title: Craftable Invisible Frames
 description: Делает доступным крафт блоков света, которые могут быть очень полезны в освещении города или построек
 icon: /uploads/plugins/icons/craftableinvframes.png
+link: https://modrinth.com/plugin/craftableinvframes
 ---
 
 ### Крафт

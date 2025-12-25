@@ -24,11 +24,12 @@ const Hero = () => {
     }, [width])
 
     const buttonHref = () => {
-        if (store.isLoading) return '/'
+        if (store.isLoading) return
         if (!store.isAuth) return '/auth'
         if (!store.user?.isActivated) return '/account'
+        if (!store.user?.hasPass) return '/payment'
         if (!store.user?.nickname) return '/whitelist'
-        return '/'
+        return
     }
 
     return (
@@ -58,7 +59,6 @@ const Hero = () => {
                     </Button>
                     <CopyField 
                         text='play.vodkand.online'
-                        hasSubtitle={true}
                         subtitle='1.21.8'
                     />
                 </div>

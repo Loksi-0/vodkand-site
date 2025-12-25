@@ -25,6 +25,12 @@
         margin-bottom: rem(10);
     }
 
+    & a {
+        text-decoration: underline;
+        text-decoration-thickness: rem(1);
+        text-underline-offset: rem(2);
+    }
+
     & div {
         width: 100%;
         display: flex;
@@ -72,5 +78,20 @@
         & img {
             @include square(fluid(300, 150));
         }
+    }
+
+    & table {
+        border-collapse: collapse;
+        border: rem(1) solid var(--color-dark);
+    }
+
+    & td, & th {
+        border: rem(1) solid var(--color-dark);
+        padding: rem(10);
+    }
+
+    & ul {
+        margin: 0;
+        padding-left: rem(20);
     }
 }

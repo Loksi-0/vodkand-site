@@ -82,3 +82,16 @@
     padding: fluid(30, 15);
     border-radius: fluid(30, 15);
 }
+
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    @include hover {
+        opacity: 0.6;
+    }
+
+    &:active {
+        scale: 1;
+    }
+}

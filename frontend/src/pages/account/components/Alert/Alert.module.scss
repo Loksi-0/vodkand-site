@@ -2,14 +2,25 @@
 
 .alert {
     display: flex;
-    flex-direction: row;
-    column-gap: fluid(20, 10);
-    justify-content: space-between;
-    align-items: center;
-    padding: fluid(30, 20);
-    border-radius: fluid(30, 20);
-    background-color: var(--color-gray-25);
-    border: border(var(--color-gray-20));
+    flex-direction: column;
+    row-gap: fluid(15, 10);
+
+    &__body {
+        display: flex;
+        flex-direction: row;
+        column-gap: fluid(20, 10);
+        justify-content: space-between;
+        align-items: center;
+        padding: fluid(30, 20);
+        border-radius: fluid(30, 20);
+        background-color: var(--color-gray-25);
+        border: border(var(--color-gray-20));
+
+        @include mobile {
+            flex-direction: column;
+            row-gap: fluid(40, 25);
+        }
+    }
 }
 
 .content {
@@ -23,11 +34,11 @@
     caret-color: transparent;
 
     &Wrapper {
-        @include square(fluid(100, 60)); 
+        @include square(fluid(100, 70)); 
         
         flex-shrink: 0;
         border-radius: rem(100);
-        padding: fluid(20, 10);
+        padding: fluid(20, 15);
     }
 }
 

@@ -197,6 +197,26 @@ class UserService {
         return { user: userDto }
     }
 
+    async agree({ id }, formData) {
+        const user = await User.findById(id)
+
+        if (!user) {
+            throw ApiError.BadRequest('Пользователь не найден')
+        }
+
+        if (!formData.agreed) {
+            throw ApiError.BadRequest('Согласие не дано')
+        }
+
+        user.agreedTerms = true
+        user.agreedTermsAt = Date.now()
+        user.agreedTermsSource = formData.source
+
+        const userData = await user.save()
+
+        return userData
+    }
+
     async hasUser(email) {
         const user = await User.findOne({ email })
 

@@ -5,16 +5,13 @@ import Button from "@/global-components/Button/Button"
 import mail from '@/assets/icons/mail.svg'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { Navigate, replace, useNavigate } from 'react-router'
-import Preloader from '@/global-components/Preloader/Preloader'
+import { Link, Navigate, replace, useNavigate } from 'react-router'
 import usePageMetadata from '@/usePageMetadata'
 import Header from '@/global-components/Header/Header'
 import GoogleButton from '@/global-components/GoogleButton/GoogleButton'
 
 const Auth = () => {
     const url = import.meta.env.VITE_API_URL
-
-    const navigate = useNavigate()
 
     const [page, setPage] = useState(1)
     const [email, setEmail] = useState('')
@@ -225,19 +222,18 @@ const Auth = () => {
                                 <Button
                                     type='submit'
                                     color='accent'
+                                    loading={isLoading}
                                 >
-                                    {isLoading 
-                                        ? <Preloader size={27} />
-                                        : 'Продолжить'
-                                    }
+                                    Продолжить
                                 </Button>
+                                <p className={styles.disclaimer}>Продолжая, вы принимаете <Link className={styles.disclaimer__link} to='/legal/privacy-policy'>Пользовательское соглашение</Link> и <Link className={styles.disclaimer__link} to='/legal/privacy-policy'>Политику конфиденциальности</Link></p>
                             </form>
                         </div>
                     </div>
                     }
                     {page === 2 && 
                     (isActivated
-                    ? <Navigate to='/' />
+                    ? <Navigate to='/account' />
                     : <div className={styles.mail}>
                         <div className={styles.mail__iconWrapper}>
                             <img 

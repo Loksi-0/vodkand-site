@@ -8,7 +8,10 @@ const User = new Schema({
     hasPass: { type: Boolean, default: false },
     activationLink: { type: String, default: null },
     sub: { type: String, unique: true, default: null },
-    creationDate: { type: Date, unique: false, required: true }
+    creationDate: { type: Date, unique: false, required: true },
+    agreedTerms: { type: Boolean, default: false },
+    agreedTermsAt: { type: Date, default: null },
+    agreedTermsSource: { type: String, enum: ['checkout'], default: null }
 })
 
 export default model('User', User)

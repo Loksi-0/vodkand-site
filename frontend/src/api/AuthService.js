@@ -24,6 +24,10 @@ class AuthService {
     static me = async () => {
         return api.get('/me')
     }
+
+    static agree = async (formData) => {
+        return api.post('/agree', { formData })
+    }
 }
 
 export default AuthService

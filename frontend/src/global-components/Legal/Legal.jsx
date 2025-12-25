@@ -12,9 +12,21 @@ const Legal = () => {
             </Link>
             <Link 
                 className={styles.link}
+                to="/legal/user-agreement"
+            >
+                пользовательское соглашение
+            </Link>
+            <Link 
+                className={styles.link}
                 to="/legal/payment-terms"
             >
-                условия оплаты
+                условия оплаты и возврата средств
+            </Link>
+            <Link 
+                className={styles.link}
+                to="/legal/public-offer"
+            >
+                публичная оферта
             </Link>
             <Link 
                 className={styles.link}

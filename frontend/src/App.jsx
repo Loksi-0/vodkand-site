@@ -15,6 +15,7 @@ import { observer } from 'mobx-react-lite'
 import NotFound from './pages/notFound/notFound'
 import GoogleAuth from './pages/googleAuth/googleAuth'
 import ScrollToTop from './global-components/ScrollToTop/ScrollToTop'
+import Payment from './pages/payment/Payment'
 
 const App = () => {
     const { store } = useContext(Context)
@@ -23,10 +24,13 @@ const App = () => {
         store.initAuth()
     }, [])
 
-    const savedTheme = localStorage.getItem('theme')
+    let savedTheme = localStorage.getItem('theme')
 
-    if (savedTheme === null) {
-        localStorage.setItem('theme', 'light')
+    if (!savedTheme) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+        localStorage.setItem('theme', prefersDark ? 'dark' : 'light')
+        savedTheme = prefersDark ? 'dark' : 'light'
     }
 
     document.documentElement.setAttribute('theme', savedTheme === 'dark' ? 'dark' : 'light')
@@ -43,7 +47,7 @@ const App = () => {
                 <Route path='/legal' element={<Navigate to='/legal/privacy-policy' replace />} />
                 <Route path='/legal/:page' element={<Legal />} />
                 <Route path='/account' element={
-                    <ProtectedRoute redirect='/auth'>
+                    <ProtectedRoute redirect='/auth' access='auth'>
                         <Account />
                     </ProtectedRoute>
                 } />
@@ -57,6 +61,11 @@ const App = () => {
                 <Route path='/whitelist' element={
                     <ProtectedRoute redirect='/account' access='has-not-nick'>
                         <Whitelist />
+                    </ProtectedRoute>
+                } />
+                <Route path='/payment' element={
+                    <ProtectedRoute redirect='/auth' access='auth'>
+                        <Payment />
                     </ProtectedRoute>
                 } />
                 <Route path='/auth/google' element={<GoogleAuth />} />

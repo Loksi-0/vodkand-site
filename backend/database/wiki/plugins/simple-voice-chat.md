@@ -3,6 +3,7 @@ order: 7
 title: Simple Voice Chat
 description: Плагин для использования голосового чата прямо в игре
 icon: /uploads/plugins/icons/simplevoicechat.png
+link: https://modrinth.com/plugin/simple-voice-chat
 ---
 
 ### Использование

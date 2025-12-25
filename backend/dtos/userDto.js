@@ -7,6 +7,9 @@ export default class UserDto {
     activationLink
     sub
     creationDate
+    agreedTerms
+    agreedTermsAt
+    agreedTermsSource
 
     constructor(model) {
         this.email = model.email
@@ -17,5 +20,8 @@ export default class UserDto {
         this.activationLink = model.activationLink
         this.sub = model.sub
         this.creationDate = model.creationDate
+        this.agreedTerms = model.agreedTerms
+        this.agreedTermsAt = model.agreedTermsAt
+        this.agreedTermsSource = model.agreedTermsSource
     }
 }

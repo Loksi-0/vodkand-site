@@ -19,6 +19,7 @@ const NavigationTile = () => {
             <div className={styles.tile}>
                 <Navigation 
                     tabFocus={false}
+                    usedInTile
                 />
             </div>
         </div>

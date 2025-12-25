@@ -3,6 +3,7 @@ order: 1
 title: Brewery
 description: Плагин на пивоварение. Вы можете варить разные алкогольные напитки и получать от них соответствующий эффект
 icon: /uploads/plugins/icons/brewery.png
+link: https://modrinth.com/plugin/breweryx
 ---
 
 ### Предметы для приготовления

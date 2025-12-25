@@ -25,7 +25,7 @@ const Punishments = () => {
                 setLoading(false)
                 setPunishments(response.data)
             } catch(e) {
-                console.log(e)
+                console.error(e.response?.data?.message)
             }
         }
 

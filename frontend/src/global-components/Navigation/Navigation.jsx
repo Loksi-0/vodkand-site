@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import styles from './Navigation.module.scss'
 
 const Navigation = (props) => {
-    const { tabFocus = true } = props
+    const { tabFocus = true, usedInTile = false } = props
 
     const links = [
         { title: 'Правила', href: '/rules' },
@@ -20,7 +20,7 @@ const Navigation = (props) => {
                             key={index}
                         >
                             <Link
-                                className={styles.link}
+                                className={`${styles.link} ${usedInTile && styles.inTile}`}
                                 to={element.href}
                                 tabIndex={tabFocus ? 0 : -1}
                             >

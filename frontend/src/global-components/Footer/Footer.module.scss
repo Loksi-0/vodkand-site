@@ -22,7 +22,7 @@
 
     & > nav {
         margin-inline: auto;
-        caret-color: black;
+        caret-color: var(--color-dark);
     }
     
     &:not(:last-child) {
@@ -43,7 +43,7 @@
     flex-direction: column;
     row-gap: rem(10);
     padding-top: var(--padding);
-    caret-color: black;
+    caret-color: var(--color-dark);
 }
 
 .mobileRow {

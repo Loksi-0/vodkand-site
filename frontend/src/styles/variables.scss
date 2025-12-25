@@ -17,8 +17,8 @@
     --color-yellow-10: #fffad1;
 
     --color-gray-25: #f9f9f9;
-    --color-gray-20: #f0f0f0;
-    --color-gray-10: #dcdcdc;
+    --color-gray-20: #f1f1f1;
+    --color-gray-10: #e7e7e7;
     --color-gray: #808080;
 
     --color-select: var(--color-dark);
@@ -27,7 +27,7 @@
     --border-dark: #{rem(1)} solid var(--color-dark);
 
     --shadow-color: 0, 0, 0;
-    --shadow: 0 0 1rem rgba(var(--shadow-color), 0.1);
+    --shadow: 0 0 1rem rgba(var(--shadow-color), 0.15);
 
     --section-padding: #{fluid(80, 40)};
     

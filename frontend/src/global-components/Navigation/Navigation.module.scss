@@ -27,4 +27,10 @@
     &:active {
         scale: 0.95;
     }
+
+    &.inTile {
+        @include hover {
+            background-color: var(--color-gray-10);
+        }
+    }
 }

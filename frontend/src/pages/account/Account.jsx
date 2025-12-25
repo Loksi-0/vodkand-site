@@ -5,7 +5,7 @@ import Footer from '@/global-components/Footer/Footer'
 import Nick from './components/Nick/Nick'
 import Punishments from './components/Punishments/Punishments'
 import Buttons from './components/Buttons/Buttons'
-import { useContext, useCallback } from 'react'
+import { useContext, useCallback, useState } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import Alert from './components/Alert/Alert'
@@ -15,10 +15,15 @@ import { useNavigate } from 'react-router'
 const Account = () => {
     const { store } = useContext(Context)
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleLogout = async () => {
         try {
+            setIsLoading(true)
+
             await store.logout()
+
+            setIsLoading(false)
         } catch(e) {
             console.error(e.response?.data?.message)
         }
@@ -30,7 +35,9 @@ const Account = () => {
         }
     }, [store])
 
-    const handleBuyPass = useCallback(() => {}, [store])
+    const handleBuyPass = useCallback(() => {
+        navigate('/payment')
+    }, [store])
 
     const handleAddNick = useCallback(() => {
         navigate('/whitelist')
@@ -50,9 +57,10 @@ const Account = () => {
                     <Alert 
                         color='yellow' 
                         title='Аккаунт не активирован' 
-                        description='активируйте аккаунт по ссылке в письме' 
+                        description='Активируйте аккаунт по ссылке, которая пришла на почту. Без активации аккаунта вы не сможете купить проходку' 
                         onClick={handleSendMail}
                         textButton='Отправить письмо еще раз'
+                        disclaimer
                     />
                 }
                 {store.user?.isActivated && !store.user?.hasPass && !store.isLoading && 
@@ -62,6 +70,7 @@ const Account = () => {
                         description='Для использования аккаунта приобретите доступ на сервер' 
                         onClick={handleBuyPass}
                         textButton='Купить проходку'
+                        disclaimer
                     />
                 }
                 {store.user?.isActivated && store.user?.hasPass && !store.user?.nickname && !store.isLoading &&
@@ -79,6 +88,7 @@ const Account = () => {
                         <Punishments />
                         <Buttons 
                             onLogout={handleLogout}
+                            loading={isLoading}
                         />
                     </>
                 }

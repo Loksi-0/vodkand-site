@@ -1,5 +1,14 @@
 @use '@/styles/helpers' as *;
 
+.googleButton {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: fluid(20, 10);
+    align-items: center;
+    justify-content: center;
+}
+
 .button {
     display: flex;
     flex-direction: row;
@@ -25,4 +34,10 @@
 
 .icon  {
     @include square(rem(30));
+}
+
+.agreement {
+    @include fluid-text(18, 14);
+
+    text-align: center;
 }

@@ -33,7 +33,7 @@ const ProtectedRoute = (props) => {
         return <Navigate to={redirect} replace />
     }
     
-    if (access === 'auth' && (!store.isAuth && !store.isLoading)) {
+    if (access === 'auth' && !store.isLoading && !store.isAuth) {
         return <Navigate to={redirect} replace />
     }
     
