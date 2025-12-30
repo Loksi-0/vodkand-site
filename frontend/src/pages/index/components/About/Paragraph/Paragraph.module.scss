@@ -48,6 +48,10 @@
 
 .title {
     color: var(--color-dark);
+
+    @include mobile-s {
+        text-align: center;
+    }
 }
 
 .image {

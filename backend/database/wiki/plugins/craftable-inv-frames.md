@@ -9,5 +9,5 @@ link: https://modrinth.com/plugin/craftableinvframes
 ### Крафт
 
 <div>
-    <img src='http://127.0.0.1:5000/uploads/plugins/content/invframes-craft.png' alt='одно туманное зелье невидимости посередине и 8 обычных рамок вокруг' loading='lazy' />
+    <img src='/uploads/plugins/content/invframes-craft.png' alt='одно туманное зелье невидимости посередине и 8 обычных рамок вокруг' loading='lazy' />
 </div>

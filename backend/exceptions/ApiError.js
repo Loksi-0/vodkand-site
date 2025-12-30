@@ -20,11 +20,11 @@ export default class ApiError extends Error {
         return new ApiError(404, message, errors)
     }
 
-    static InternalError(message, errors = []) {
-        return new ApiError(500, message, errors)
+    static Conflict(message, errors = []) {
+        return new ApiError(409, message, errors)
     }
 
-    static UniversalError(status, message, errors = []) {
-        return new ApiError(status, message, errors)
+    static InternalError(message, errors = []) {
+        return new ApiError(500, message, errors)
     }
 }

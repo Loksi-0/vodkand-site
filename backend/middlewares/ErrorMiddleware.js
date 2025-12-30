@@ -1,7 +1,7 @@
-import ApiError from "../exceptions/apiError.js"
+import ApiError from "../exceptions/ApiError.js"
 
 export default function (err, req, res, next) {
-    if (process.env.ENABLE_ERRORS_LOG === 'true' && !err.status === 401) {
+    if (process.env.ENABLE_ERRORS_LOG === 'true' && err.status !== 401) {
         console.log(err)
     }
 

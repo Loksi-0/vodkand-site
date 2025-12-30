@@ -1,4 +1,5 @@
 import styles from './About.module.scss'
+
 import Paragraph from './Paragraph/Paragraph'
 import bee from '@/assets/images/bee.png'
 import sniffer from '@/assets/images/sniffer.png'

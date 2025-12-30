@@ -3,6 +3,7 @@
 .about {
     background-color: var(--color-gray-25);
     padding-block: var(--section-padding);
+    border-block: var(--border-split);
 
     &__inner {
         display: flex;

@@ -10,9 +10,9 @@ link: https://modrinth.com/plugin/breweryx
 #### Бочка
 
 <div class='squareImage'>
-    <img src='http://127.0.0.1:5000/uploads/plugins/content/barrel_1.jpg' alt='' />
-    <img src='http://127.0.0.1:5000/uploads/plugins/content/barrel_2.jpg' alt='' />
-    <img src='http://127.0.0.1:5000/uploads/plugins/content/barrel_3.jpg' alt='' />
+    <img src='/uploads/plugins/content/barrel_1.jpg' alt='' />
+    <img src='/uploads/plugins/content/barrel_2.jpg' alt='' />
+    <img src='/uploads/plugins/content/barrel_3.jpg' alt='' />
 </div>
 
 Бочка нужна, чтобы выдерживать напитки. Она делается из 8 ступеней в виде бочки и таблички с надписью barrel в правом нижнем углу. Также есть увеличенная версия бочки, она вмещает в себя в 3 раза больше предметов. Разный материал бочки может понадобиться для разных напитков. Выдержка напитков в бочке считается в годах, 1 год = 1 майнкрафт день
@@ -20,7 +20,7 @@ link: https://modrinth.com/plugin/breweryx
 #### Котёл и кипячение жидкости
 
 <div class='squareImage'>
-    <img src='http://127.0.0.1:5000/uploads/plugins/content/cauldron.jpg' alt='' loading='lazy' />
+    <img src='/uploads/plugins/content/cauldron.jpg' alt='' loading='lazy' />
 </div>
 
 Чтобы создать и прокипятить смесь, используется котел. Под ним надо зажечь огонь, иначе процесс не пойдет. Чтобы начать варить алкоголь, наполните котел водой и кликните по нему правой кнопкой мыши, держа в руке необходимые ингредиенты

@@ -5,11 +5,14 @@ import Button from '@/global-components/Button/Button'
 
 import Header from '@/global-components/Header/Header'
 import { Context } from '@/main'
+import { observer } from 'mobx-react-lite'
 import { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 
 const Payment = () => {
     const { store } = useContext(Context)
+
+    const { status } = useParams()
 
     const [checkboxStyle, setCheckboxStyle] = useState(styles.form__checkboxIcon)
     const [checkboxValue, setCheckboxValue] = useState(false)
@@ -53,13 +56,47 @@ const Payment = () => {
             }
 
             setLoading(true)
-            const response = await store.agreeTerms(formData)
+            await store.agreeTerms(formData)
 
-            navigate(import.meta.env.VITE_PAYMENT_URL)
+            const response = await store.createOrder('pass')
+
+            navigate(response.data?.confirmation?.confirmation_url)
             setLoading(false)
         } catch(e) {
             setError(e.response?.data?.message)
         }
+    }
+
+    if (status === 'created') {
+        if (store.user?.hasPass) {
+            navigate('/account', { replace: true })
+        }
+
+        return (
+            <>
+                <Header />
+                <main className={styles.created}>
+                    <section className={styles.created__inner}>
+                        <div className={styles.created__icon}>
+                            <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 7V12L14.5 13.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </div>
+                        <div className={styles.created__body}>
+                            <h1 className='h2'>Успешно</h1>
+                            <p className={styles.created__description}>Заказ создан и будет выполнен в ближайшее время</p>
+                        </div>
+                        <Button 
+                            color='accent'
+                            className={styles.created__button}
+                            onClick={() => navigate('/account',{ replace: true })}
+                        >
+                            Перейти в аккаунт
+                        </Button>
+                        </section>
+                </main>
+            </>
+        )
     }
 
     return (
@@ -128,6 +165,7 @@ const Payment = () => {
                                 type='submit'
                                 color='accent'
                                 disabled={disabled}
+                                title={disabled ? 'Оплата сейчас отключена' : ''}
                                 loading={loading}
                             >
                                 Перейти к оплате
@@ -140,4 +178,4 @@ const Payment = () => {
     )
 }
 
-export default Payment
+export default observer(Payment)

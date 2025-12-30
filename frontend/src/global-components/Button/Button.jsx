@@ -10,7 +10,10 @@ const Button = (props) => {
         isBig = false,
         onClick = () => {},
         loading = false,
-        disabled = false
+        disabled = false,
+        className = '',
+        style = {},
+        title = ''
     } = props
 
     return (
@@ -21,8 +24,11 @@ const Button = (props) => {
                 ${styles[color]} 
                 ${isBig ? styles.isBig : ''}
                 ${disabled && styles.disabled}
+                ${className}
             `}
-            onClick={onClick}
+            style={style}
+            title={title}
+            onClick={!disabled ? onClick : undefined}
         >
             {
                 loading

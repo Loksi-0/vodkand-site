@@ -13,13 +13,15 @@ const Paragraph = (props) => {
             {image && <img 
                 className={styles.image}
                 src={image} 
-                alt="" 
+                alt='' 
                 draggable='false' loading='lazy'
             />}
 
             <div className={styles.text}>
-                <h2 className={styles.title}>{title}</h2>
-                <p className={styles.description}><big>{description}</big></p>
+                <h2 className={`${styles.title}`}>{title}</h2>
+                <p className={styles.description}>
+                    {description}
+                </p>
             </div>
         </div>
     )

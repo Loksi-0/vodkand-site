@@ -54,6 +54,13 @@
     caret-color: transparent;
 }
 
-.disclaimer {
+.copyright {
     color: var(--color-gray);
+    align-self: start;
+
+    @include hover {
+        text-decoration: underline;
+        text-decoration-thickness: rem(1);
+        text-underline-offset: rem(2);
+    }
 }

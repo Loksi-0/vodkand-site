@@ -22,7 +22,7 @@ const authLimiter = rateLimit({
 })
 const mailLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 10,
+    max: 5,
     message: 'Слишком много запросов на активацию, попробуйте чуть позже'
 })
 const refreshLimiter = rateLimit({
@@ -32,11 +32,23 @@ const refreshLimiter = rateLimit({
   legacyHeaders: false
 })
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:4173',
+    'https://vodkand.ru'
+]
+
 app.set('trust proxy', 1)
 
 app.use(cors({
     credentials: true,
-    origin: process.env.CLIENT_URL
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
 }))
 app.use(express.json())
 app.use(cookieParser())

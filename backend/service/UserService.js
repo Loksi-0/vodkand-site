@@ -3,8 +3,9 @@ import bcrypt from 'bcryptjs'
 import { v4 as uuidv4 } from 'uuid'
 import MailService from './MailService.js'
 import TokenService from './TokenService.js'
+import MinecraftAPIService from './MinecraftAPIService.js'
 import UserDto from '../dtos/userDto.js'
-import ApiError from '../exceptions/apiError.js'
+import ApiError from '../exceptions/ApiError.js'
 import 'dotenv/config'
 
 class UserService {
@@ -45,6 +46,12 @@ class UserService {
                 throw ApiError.BadRequest('Уникальный айди (sub) не совпадает с зарегистрированным ранее')
             }
         } else {
+            const candidate = await User.findOne({ sub })
+
+            if (candidate) {
+                throw ApiError.Conflict('Аккаунт уже зарегистрирован')
+            }
+
             const creationDate = new Date()
             user = await User.create({ email, sub, isActivated: true, creationDate })
         }
@@ -131,50 +138,37 @@ class UserService {
 
         const link = activationLink ? activationLink : user.activationLink
 
-        await MailService.sendActivationMail(email, `${process.env.CLIENT_URL}/activate?link=${link}`)
+        await MailService.sendActivationMail(email, `${process.env.CLIENT_DOMAIN}/activate?link=${link}`)
     }
 
     async changeNickname(nickname, userId) {
-        const user = await User.findById(userId)
-
-        if (!user) {
-            throw ApiError.NotFound('Не удалось найти пользователя')
-        } 
-        if (user.nickname) {
-            throw ApiError.BadRequest(`Пользователь ${user.email} уже установил себе ник`)
-        }
-
-        const candidate = await User.findOne({ nickname })
-
-        if (candidate) {
-            throw ApiError.BadRequest(`Пользователь с ником ${nickname} уже в вайтлисте`, ['alreadyExists'])
-        }
-
-        const response = await fetch(`${process.env.API_URL}/minecraftapi/whitelist`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nickname
-            })
-        })
-
-        if (!response.ok) {
-            const text = await response.text()
-            let error
-
-            try {
-                error = JSON.parse(text)
-            } catch {
-                error = text
+        try {
+            if (!nickname || !userId) {
+                throw ApiError.BadRequest('Необходимо указать никнейм и userId')
             }
 
-            throw ApiError.UniversalError(response.status, error)
-        }
+            const user = await User.findById(userId)
 
-        user.nickname = nickname
-        await user.save()
+            if (!user) {
+                throw ApiError.NotFound('Не удалось найти пользователя')
+            } 
+            if (user.nickname) {
+                throw ApiError.BadRequest(`Пользователь ${user.email} уже установил себе ник`)
+            }
+
+            const candidate = await User.findOne({ nickname })
+
+            if (candidate) {
+                throw ApiError.Conflict(`Ник уже в вайтлисте`, ['alreadyExists'])
+            }
+
+            await MinecraftAPIService.postWhitelist(nickname)
+
+            user.nickname = nickname
+            await user.save()
+        } catch(e) {
+            throw e
+        }
     }
 
     async me(refreshToken) {

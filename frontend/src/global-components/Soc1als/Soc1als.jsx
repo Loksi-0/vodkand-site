@@ -1,7 +1,15 @@
 import styles from './Soc1als.module.scss'
 
-const Soc1als = (props) => {
-    const { links } = props
+import discord from '@/assets/icons/soc1als/discord.svg'
+
+const Soc1als = () => {
+    const links = [
+        {
+            title: 'Discord',
+            link: 'https://discord.gg/wQPsxX79',
+            icon: discord
+        }
+    ]
 
     return (
         <ul className={styles.list}>
@@ -17,6 +25,13 @@ const Soc1als = (props) => {
                             target='_blank'
                         >
                             <span className='visually-hidden'>{link.title}</span>
+                            <img 
+                                className={styles.icon}
+                                src={link.icon} 
+                                alt=''
+                                loading='lazy'
+                                draggable='false' 
+                            />
                         </a>
                     </li>
                 )

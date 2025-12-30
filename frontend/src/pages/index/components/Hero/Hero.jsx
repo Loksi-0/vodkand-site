@@ -24,11 +24,11 @@ const Hero = () => {
     }, [width])
 
     const buttonHref = () => {
-        if (store.isLoading) return
         if (!store.isAuth) return '/auth'
         if (!store.user?.isActivated) return '/account'
         if (!store.user?.hasPass) return '/payment'
         if (!store.user?.nickname) return '/whitelist'
+        if (store.user?.nickname) return '/account'
         return
     }
 
@@ -51,6 +51,7 @@ const Hero = () => {
                     <Button 
                         color='accent'
                         isBig
+                        disabled={store.isLoading}
                         onClick={() => {
                             navigate(buttonHref())
                         }}

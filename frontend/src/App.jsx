@@ -12,8 +12,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router"
 import { useContext, useEffect } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import NotFound from './pages/notFound/notFound'
-import GoogleAuth from './pages/googleAuth/googleAuth'
+import NotFound from './pages/notFound/NotFound'
+import GoogleAuth from './pages/googleAuth/GoogleAuth'
 import ScrollToTop from './global-components/ScrollToTop/ScrollToTop'
 import Payment from './pages/payment/Payment'
 
@@ -29,8 +29,8 @@ const App = () => {
     if (!savedTheme) {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
-        localStorage.setItem('theme', prefersDark ? 'dark' : 'light')
-        savedTheme = prefersDark ? 'dark' : 'light'
+        localStorage.setItem('theme', prefersDark ? 'dark' : import.meta.env.VITE_INITIAL_THEME)
+        savedTheme = prefersDark ? 'dark' : import.meta.env.VITE_INITIAL_THEME
     }
 
     document.documentElement.setAttribute('theme', savedTheme === 'dark' ? 'dark' : 'light')
@@ -64,6 +64,11 @@ const App = () => {
                     </ProtectedRoute>
                 } />
                 <Route path='/payment' element={
+                    <ProtectedRoute redirect='/auth' access='auth'>
+                        <Payment />
+                    </ProtectedRoute>
+                } />
+                <Route path='/payment/:status' element={
                     <ProtectedRoute redirect='/auth' access='auth'>
                         <Payment />
                     </ProtectedRoute>

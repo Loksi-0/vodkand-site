@@ -1,6 +1,6 @@
-import Button from '@/global-components/Button/Button'
 import styles from './GoogleAuth.module.scss'
 
+import Button from '@/global-components/Button/Button'
 import Preloader from '@/global-components/Preloader/Preloader'
 import { useContext, useEffect, useState } from 'react'
 import { Context } from '@/main'

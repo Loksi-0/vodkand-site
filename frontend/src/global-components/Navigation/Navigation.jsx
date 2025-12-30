@@ -1,5 +1,6 @@
-import { Link } from 'react-router'
 import styles from './Navigation.module.scss'
+
+import { Link } from 'react-router'
 
 const Navigation = (props) => {
     const { tabFocus = true, usedInTile = false } = props

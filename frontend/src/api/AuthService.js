@@ -17,6 +17,10 @@ class AuthService {
         return api.post('/auth/logout')
     }
 
+    static activate = async (link) => {
+        return api.get(`/activate/${link}`)
+    }
+
     static sendMail = async (email) => {
         return api.post('/sendmail', { email })
     }

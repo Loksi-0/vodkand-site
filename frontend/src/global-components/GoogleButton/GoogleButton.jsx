@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router'
 import styles from './GoogleButton.module.scss'
+
+import { useNavigate } from 'react-router'
 
 import googleLogo from '@/assets/icons/google-logo.png'
 

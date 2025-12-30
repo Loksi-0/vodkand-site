@@ -1,4 +1,4 @@
-import ApiError from '../exceptions/apiError.js'
+import ApiError from '../exceptions/ApiError.js'
 import crypto from 'crypto'
 import { OAuth2Client } from 'google-auth-library'
 
@@ -21,7 +21,7 @@ class openIDController {
                 .update(codeVerifier)
                 .digest('base64url')
 
-            params.append('redirect_uri', `${process.env.API_URL}/auth/google/callback`)
+            params.append('redirect_uri', `${process.env.API_DOMAIN}/auth/google/callback`)
             params.append('client_id', process.env.OAUTH_GOOGLE_CLIENT_ID)
             params.append('response_type', 'code')
             params.append('scope', 'openid email')
@@ -49,7 +49,7 @@ class openIDController {
             const googleTokenUrl = 'https://oauth2.googleapis.com/token'
 
             if (error) {
-                return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?error=${error}`)
+                return res.redirect(302, `${process.env.CLIENT_DOMAIN}/auth/google?error=${error}`)
             }
 
             if (!code || !state) {
@@ -73,7 +73,7 @@ class openIDController {
                     client_id: process.env.OAUTH_GOOGLE_CLIENT_ID,
                     client_secret: process.env.OAUTH_GOOGLE_CLIENT_SECRET,
                     grant_type: 'authorization_code',
-                    redirect_uri: `${process.env.API_URL}/auth/google/callback`,
+                    redirect_uri: `${process.env.API_DOMAIN}/auth/google/callback`,
                     code: code,
                     code_verifier: req.session.pkceVerifier
                 })
@@ -81,7 +81,7 @@ class openIDController {
 
             if (!response.ok) {
                 const error = await response.json()
-                return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?error=${error.error}`)
+                return res.redirect(302, `${process.env.CLIENT_DOMAIN}/auth/google?error=${error.error}`)
             }
 
             const data = await response.json()
@@ -95,7 +95,7 @@ class openIDController {
 
             if (!email_verified) {
                 const error = 'Почта не подтверждена в Google'
-                return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?error=${error}`)
+                return res.redirect(302, `${process.env.CLIENT_DOMAIN}/auth/google?error=${error}`)
             }
 
             const tempCode = crypto.randomUUID()
@@ -112,7 +112,7 @@ class openIDController {
 
             delete req.session.pkceVerifier
 
-            return res.redirect(302, `${process.env.CLIENT_URL}/auth/google?code=${tempCode}`)
+            return res.redirect(302, `${process.env.CLIENT_DOMAIN}/auth/google?code=${tempCode}`)
         } catch(e) {
             next(e)
         }

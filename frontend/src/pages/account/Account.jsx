@@ -75,7 +75,7 @@ const Account = () => {
                 }
                 {store.user?.isActivated && store.user?.hasPass && !store.user?.nickname && !store.isLoading &&
                     <Alert 
-                        color='red' 
+                        color='yellow' 
                         title='Аккаунт не в вайтлисте' 
                         description='Сейчас вы не сможете зайти на сервер. Чтобы получить доступ, добавьте свой ник в вайтлист' 
                         onClick={handleAddNick}

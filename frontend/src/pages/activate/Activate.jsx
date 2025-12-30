@@ -1,32 +1,32 @@
 import styles from './Activate.module.scss'
 
 import Button from "@/global-components/Button/Button"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import ok from '@/assets/icons/ok.svg'
 import error from '@/assets/icons/error.svg'
 import usePageMetadata from '@/usePageMetadata'
 import { useLocation, useNavigate } from 'react-router'
+import { observer } from 'mobx-react-lite'
+import { Context } from '@/main'
 
 const Activate = () => {
     const location = useLocation()
     const navigate = useNavigate()
+
+    const { store } = useContext(Context)
 
     const [title, setTitle] = useState('Выполняется активация...')
     const [status, setStatus] = useState('waiting')
     const [preloaderIcon, setPreloaderIcon] = useState(null)
     const [preloader, setPreloader] = useState(styles.preloader)
 
+
     useEffect(() => {
         const activate = async () => {
             try {
                 const activationLink = new URLSearchParams(location.search).get('link')
 
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/activate/${activationLink}`)
-
-                if (!response.ok) {
-                    const data = await response.json()
-                    throw new Error(data.message)
-                }
+                const response = await store.activate(activationLink)
 
                 localStorage.setItem('isActivated', true)
                 setTitle('Активация прошла успешно')
@@ -59,6 +59,7 @@ const Activate = () => {
                             className={styles.icon}
                             src={preloaderIcon} 
                             alt='' 
+                            draggable='false'
                         />
                     </div>
                 </div>
@@ -69,7 +70,7 @@ const Activate = () => {
                 {status === 'ok' && 
                     <Button 
                         color='accent'
-                        onClick={() => navigate('/account')}
+                        onClick={() => window.location.href = '/account'}
                     >
                         Перейти в аккаунт
                     </Button>
@@ -77,7 +78,7 @@ const Activate = () => {
                 {status === 'error' && 
                     <Button 
                         color='red'
-                        onClick={() => navigate('/account')}
+                        onClick={() => window.location.href = '/account'}
                     >
                         Перейти в аккаунт
                     </Button>
@@ -87,4 +88,4 @@ const Activate = () => {
     )
 }
 
-export default Activate
+export default observer(Activate)

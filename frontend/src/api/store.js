@@ -3,11 +3,12 @@ import AuthService from "./AuthService.js"
 import { setAccessToken, clearAccessToken, getAccessToken } from './TokenManager'
 import { refreshToken } from "./refreshToken.js"
 import MinecraftAPIService from "./MinecraftAPIService.js"
+import PaymentService from "./PaymentService.js"
 
 class Store {
     user = null
     isAuth = false
-    isLoading = false
+    isLoading = true
 
     constructor() {
         makeAutoObservable(this)
@@ -89,6 +90,7 @@ class Store {
         if (!localStorage.getItem('wasAuth')) {
             this.setAuth(false)
             this.setUser(null)
+            this.setLoading(false)
             return
         }
 
@@ -100,7 +102,7 @@ class Store {
             const response = await AuthService.me()
 
             this.setAuth(true)
-            this.setUser(response.data.user)
+            this.setUser(response.data?.user)
 
             return response
         } catch(e) {
@@ -108,6 +110,16 @@ class Store {
             this.setAuth(false)
         } finally {
             this.setLoading(false)
+        }
+    }
+
+    async activate(link) {
+        try {
+            const response = await AuthService.activate(link)
+
+            return response
+        } catch(e) {
+            throw e
         }
     }
 
@@ -132,6 +144,16 @@ class Store {
     async agreeTerms(formData) {
         try {
             const response = await AuthService.agree(formData)
+
+            return response
+        } catch(e) {
+            throw e
+        }
+    }
+
+    async createOrder(product) {
+        try {
+            const response = await PaymentService.createOrder(product)
 
             return response
         } catch(e) {

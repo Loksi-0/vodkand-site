@@ -1,8 +1,10 @@
+import styles from './Footer.module.scss'
+
 import Logo from '@/global-components/Logo/Logo'
 import Navigation from '@/global-components/Navigation/Navigation'
 import Soc1als from '@/global-components/Soc1als/Soc1als'
-import styles from './Footer.module.scss'
 import Legal from '@/global-components/Legal/Legal'
+import { Link } from 'react-router'
 
 const Footer = () => {
     return (
@@ -14,32 +16,19 @@ const Footer = () => {
                     </div>
                     <Navigation />
                     <div className={`${styles.soc1als} hidden-mobile`}>
-                        <Soc1als 
-                            links={[
-                                {
-                                    title: 'Discord',
-                                    link: 'https://discord.gg/wQPsxX79',
-                                }
-                            ]}
-                        />
+                        <Soc1als />
                     </div>
                 </header>
                 <div className={styles.bottomRow}>
                     <div className={`${styles.mobileRow} visible-mobile`}>
                         <Logo />
-                        <Soc1als 
-                            links={[
-                                {
-                                    title: 'Discord',
-                                    link: 'https://discord.gg/wQPsxX79',
-                                }
-                            ]}
-                        />
+                        <Soc1als />
                     </div>
                     <Legal />
-                    <p className={styles.disclaimer}>
-                        Not an official Minecraft product. We are in no way affiliated with or endorsed by Mojang Synergies AB, Microsoft Corporation or other rightsholders.
-                    </p>
+                    <Link to='/legal/copyright' className={styles.copyright}>
+                        Minecraft — товарный знак Mojang Studios <br />
+                        &copy; Vodkand, 2025
+                    </Link>
                 </div>
             </div>
         </footer>

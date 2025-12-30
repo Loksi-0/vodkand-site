@@ -5,13 +5,15 @@ import Button from "@/global-components/Button/Button"
 import mail from '@/assets/icons/mail.svg'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { Link, Navigate, replace, useNavigate } from 'react-router'
+import { Link, Navigate, useNavigate } from 'react-router'
 import usePageMetadata from '@/usePageMetadata'
 import Header from '@/global-components/Header/Header'
 import GoogleButton from '@/global-components/GoogleButton/GoogleButton'
 
 const Auth = () => {
     const url = import.meta.env.VITE_API_URL
+
+    const navigate = useNavigate()
 
     const [page, setPage] = useState(1)
     const [email, setEmail] = useState('')
@@ -63,7 +65,7 @@ const Auth = () => {
         try {
             await store.login(email, password)
 
-            replace('/account')
+            navigate('/account', { replace: true })
         } catch(e) {
             setError(e.response?.data?.message)
         }
@@ -73,14 +75,17 @@ const Auth = () => {
 
     const handleRegistration = async (email, password) => {
         try {
+            console.log('начинается регистрация')
             await store.registration(email, password)
+            console.log('регистрация успешна')
 
+            localStorage.setItem('isActivated', 'pending')
             setPage(2)
         } catch(e) {
             setError(e.response?.data?.message)
+        } finally {
+            setIsLoading(false)
         }
-
-        setIsLoading(false)
     }
 
     const handleSubmit = (event) => {
@@ -154,7 +159,7 @@ const Auth = () => {
 
     return (
         <>
-            <Header />
+            {page !== 2 && <Header />}
             <main>
                 <section className={`${styles.auth} container`}>
                     <h1 className='visually-hidden'>Зарегистрироваться или войти</h1>
@@ -226,14 +231,14 @@ const Auth = () => {
                                 >
                                     Продолжить
                                 </Button>
-                                <p className={styles.disclaimer}>Продолжая, вы принимаете <Link className={styles.disclaimer__link} to='/legal/privacy-policy'>Пользовательское соглашение</Link> и <Link className={styles.disclaimer__link} to='/legal/privacy-policy'>Политику конфиденциальности</Link></p>
+                                <p className={styles.disclaimer}>Нажимая "Продолжить", вы принимаете <Link className={styles.disclaimer__link} to='/legal/privacy-policy'>Пользовательское соглашение</Link> и <Link className={styles.disclaimer__link} to='/legal/privacy-policy'>Политику конфиденциальности</Link></p>
                             </form>
                         </div>
                     </div>
                     }
                     {page === 2 && 
                     (isActivated
-                    ? <Navigate to='/account' />
+                    ? <Navigate to='/account' replace />
                     : <div className={styles.mail}>
                         <div className={styles.mail__iconWrapper}>
                             <img 

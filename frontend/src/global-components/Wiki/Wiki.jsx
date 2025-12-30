@@ -1,6 +1,6 @@
 import styles from './Wiki.module.scss'
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { Link, useLocation, useNavigate, useParams } from "react-router"
 import ReactMarkdown from 'react-markdown'
 import usePageMetadata from '@/usePageMetadata'
@@ -15,8 +15,10 @@ const Wiki = (props) => {
     const { stopLoading } = useRouteLoading()
     const navigate = useNavigate()
 
-    const navRef = useRef(null)
     const location = useLocation()
+
+    const listRef = useRef(null)
+    const currentRef = useRef(null)
 
     const navSkeletonCount = 4
 
@@ -33,6 +35,20 @@ const Wiki = (props) => {
     const [isLoading, setIsLoading] = useState(true)
 
     const controller = new AbortController()
+
+    useLayoutEffect(() => {
+        if (!listRef.current || !currentRef.current) return
+
+        const current = currentRef.current
+        const list = listRef.current
+
+        const offset =
+            current.offsetLeft -
+            (list.clientWidth / 2) +
+            (current.clientWidth / 2)
+
+        list.scrollTo({ left: offset })
+    }, [isLoading])
 
     useEffect(() => {
         const getArticle = async () => {
@@ -120,14 +136,15 @@ const Wiki = (props) => {
             <h1 className='visually-hidden'>{definePageName(chapter)}</h1>
             <nav className={styles.navigation}>
                 <ul 
+                    ref={listRef}
                     className={styles.navigationList}
-                    ref={navRef}
                 >
                     {navigation.map((element, index) => {
                         const isCurrent = element.page === page
 
                         return (
                             <li 
+                                ref={isCurrent ? currentRef : null}
                                 key={index} 
                                 className={`${styles.navigationList__item} ${isLoading && styles.isLoading}`}
                                 style={isLoading ? { width: navWidths[index] } : undefined}

@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs/promises'
 import matter from 'gray-matter'
-import ApiError from '../../exceptions/apiError.js'
+import ApiError from '../../exceptions/ApiError.js'
 
 class WikiService {
     basePath = path.resolve('database/wiki')

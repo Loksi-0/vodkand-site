@@ -1,5 +1,6 @@
-import { Link } from 'react-router'
 import styles from './Legal.module.scss'
+
+import { Link } from 'react-router'
 
 const Legal = () => {
     return (

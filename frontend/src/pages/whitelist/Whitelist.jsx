@@ -1,35 +1,38 @@
-import { useContext, useState } from 'react'
 import styles from './Whitelist.module.scss'
+
+import { useContext, useState } from 'react'
 import Button from '@/global-components/Button/Button'
 import { Context } from '@/main'
-import Preloader from '@/global-components/Preloader/Preloader'
 import usePageMetadata from '@/usePageMetadata'
 import { observer } from 'mobx-react-lite'
-import { useNavigate } from 'react-router'
+import { toast } from 'sonner'
 
 const Whitelist = () => {
     const { store } = useContext(Context)
-
-    const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
     const [nick, setNick] = useState('')
     const [error, setError] = useState('')
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
-        setLoading(true)
+        try {
+            event.preventDefault()
+            setLoading(true)
 
-        const response = await store.changeNickname(nick)
+            await store.changeNickname(nick)
 
-        if (response.status !== 200) {
             setLoading(false)
-            setError(response?.data?.message)
-            return
+            window.location.href = '/'
+        } catch(e) {
+            setLoading(false)
+            setError(e.response?.data?.message)
         }
+    }
 
-        setLoading(false)
-        window.location.href = '/'
+    const handleInvalid = (event) => {
+        event.preventDefault()
+
+        setError('Заполните поле')
     }
 
     usePageMetadata({
@@ -54,16 +57,28 @@ const Whitelist = () => {
                                 draggable='false'
                             />
                             <input 
-                                className={styles.input__field}
+                                className={`${styles.input__field} ${error && styles.input__error}`}
                                 type='text'
                                 placeholder='nagibator777'
                                 value={nick}
-                                onChange={(e) => setNick(e.target.value.trim().replace(/[^a-zA-Z0-9_]/g, ''))}
+                                onChange={(e) => {
+                                    const expression = /[^a-zA-Z0-9_]/g
+                                    const value = e.target.value
+
+                                    if (expression.test(value)) {
+                                        toast.error('Разрешены только английские буквы, цифры и символ _')
+                                    }
+
+                                    setNick(value.trim().replace(expression, ''))
+                                    setError('')
+                                }}
+                                onInvalid={handleInvalid}
+                                title=''
                                 required
                             />
                             {error && <p className={styles.error}>{error}</p>}
                         </div>
-                        <p className={`${styles.disclaimer} gray-text`}>Потом поменять ник нельзя. Если вы неправильно вписали ник, обратитесь к администратору</p>
+                        <p className={`${styles.disclaimer} gray-text`}>Потом поменять ник будет нельзя. Если вы неправильно вписали ник, обратитесь к администратору</p>
                     </div>
                     <Button 
                         className={styles.button}

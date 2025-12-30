@@ -1,9 +1,11 @@
-import Button from '@/global-components/Button/Button'
 import styles from './List.module.scss'
+
+import Button from '@/global-components/Button/Button'
 import pass from '@/assets/images/frog.png'
 import { useNavigate } from 'react-router'
 import { useContext } from 'react'
 import { Context } from '@/main'
+import { observer } from 'mobx-react-lite'
 
 const List = () => {
     const { store } = useContext(Context)
@@ -14,11 +16,11 @@ const List = () => {
     const sale = Number(import.meta.env.VITE_PASS_SALE)
 
     const buttonHref = () => {
-        if (store.isLoading) return
         if (!store.isAuth) return '/auth'
         if (!store.user?.isActivated) return '/account'
         if (!store.user?.hasPass) return '/payment'
         if (!store.user?.nickname) return '/whitelist'
+        if (store.user?.nickname) return '/account'
         return
     }
 
@@ -47,6 +49,7 @@ const List = () => {
                         </div>
                         <Button 
                             color='accent'
+                            disabled={store.isLoading}
                             onClick={() => navigate(buttonHref())}
                         >
                             Купить проходку
@@ -58,4 +61,4 @@ const List = () => {
     )
 }
 
-export default List
+export default observer(List)

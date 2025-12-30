@@ -1,22 +1,15 @@
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { Navigate } from 'react-router'
 import Header from '@/global-components/Header/Header'
 
 const ProtectedRoute = (props) => {
     const { children, redirect, access = 'auth' } = props
-    const [isChecking, setIsChecking] = useState(true)
 
     const { store } = useContext(Context)
 
-    useEffect(() => {
-        if (!store.isLoading) {
-            setIsChecking(false)
-        }
-    }, [store.isLoading])
-
-    if (isChecking) {
+    if (store.isLoading) {
         return (
             <>
                 <Header />
@@ -25,15 +18,15 @@ const ProtectedRoute = (props) => {
         )
     }
 
-    if (access === 'not-auth' && (store.isAuth && store.user?.isActivated && !store.isLoading)) {
+    if (access === 'not-auth' && store.isAuth && localStorage.getItem('isActivated') === 'pending') {
         return <Navigate to={redirect} replace />
     }
 
-    if (access === 'has-not-nick' && !store.isLoading && (store.user?.nickname || !store.isAuth)) {
+    if (access === 'has-not-nick' && (store.user?.nickname || !store.isAuth)) {
         return <Navigate to={redirect} replace />
     }
     
-    if (access === 'auth' && !store.isLoading && !store.isAuth) {
+    if (access === 'auth' && !store.isAuth) {
         return <Navigate to={redirect} replace />
     }
     

@@ -9,6 +9,6 @@ link: https://modrinth.com/plugin/lightmaker
 ### Крафт
 
 <div>
-    <img src='http://127.0.0.1:5000/uploads/plugins/content/lightblock-craft_1.jpg' alt='одна бутылочка и светящиеся ягоды в верстаке' loading='lazy' />
-    <img src='http://127.0.0.1:5000/uploads/plugins/content/lightblock-craft_2.jpg' alt='силу освещения блоков света можно изменять в камнерезе' loading='lazy' />
+    <img src='/uploads/plugins/content/lightblock-craft_1.jpg' alt='одна бутылочка и светящиеся ягоды в верстаке' loading='lazy' />
+    <img src='/uploads/plugins/content/lightblock-craft_2.jpg' alt='силу освещения блоков света можно изменять в камнерезе' loading='lazy' />
 </div>
