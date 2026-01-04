@@ -29,6 +29,20 @@ const ModalWindow = (props) => {
     const [showTopShadow, setShowTopShadow] = useState(false)
     const [showBottomShadow, setShowBottomShadow] = useState(false)
 
+    const openSlider = (index) => {
+        setActiveImageIndex(index)
+        setIsExpanded(true)
+    }
+
+    const closeSlider = () => {
+        setIsSliderClosing(true)
+
+        setTimeout(() => {
+            setIsSliderClosing(false)
+            setIsExpanded(false)
+        }, 190)
+    }
+
     useEffect(() => {
         const getImages = async () => {
             try {
@@ -45,6 +59,8 @@ const ModalWindow = (props) => {
 
         getImages()
     }, [])
+
+    
 
     useLayoutEffect(() => {
         listRef.current.addEventListener('scroll', () => {
@@ -70,20 +86,6 @@ const ModalWindow = (props) => {
     useLayoutEffect(() => {
         setShowBottomShadow(listRef.current.scrollHeight > listRef.current.clientHeight)
     }, [images])
-
-    const openSlider = (index) => {
-        setActiveImageIndex(index)
-        setIsExpanded(true)
-    }
-
-    const closeSlider = () => {
-        setIsSliderClosing(true)
-
-        setTimeout(() => {
-            setIsSliderClosing(false)
-            setIsExpanded(false)
-        }, 190)
-    }
 
     return (
         <div className={styles.content}>
@@ -137,6 +139,7 @@ const ModalWindow = (props) => {
                         backgroundColor: color10,
                         borderColor: color
                     }}
+                    tabindex={-1}
                 >
                     Скачать мир сервера
                 </Button>
@@ -159,13 +162,18 @@ const ModalWindow = (props) => {
                                     key={index}
                                     className={styles.imagesItem}
                                 >
-                                    <img 
-                                        className={styles.imagesImage}
-                                        src={element} 
-                                        alt='' 
-                                        draggable='false'
+                                    <button
+                                        className={styles.imagesButton}
+                                        type='button'
                                         onClick={() => openSlider(index)}
-                                    />
+                                    >
+                                        <img 
+                                            className={styles.imagesImage}
+                                            src={element} 
+                                            alt='' 
+                                            draggable='false'
+                                        />
+                                    </button>
                                 </li>
                             )
                         })

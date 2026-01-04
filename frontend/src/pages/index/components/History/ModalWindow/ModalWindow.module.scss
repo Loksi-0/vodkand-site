@@ -57,6 +57,15 @@
         }
     }
 
+    &Item {
+        display: flex;
+    }
+
+    &Button {
+        margin: 0;
+        border: none;
+    }
+
     &Image {
         aspect-ratio: 1.77;
         object-fit: cover;

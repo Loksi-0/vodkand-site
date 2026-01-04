@@ -14,7 +14,8 @@ const Button = forwardRef((props, ref) => {
         disabled = false,
         className = '',
         style = {},
-        title = ''
+        title = '',
+        tabindex = 0
     } = props
 
     return (
@@ -31,6 +32,7 @@ const Button = forwardRef((props, ref) => {
             style={style}
             title={title}
             onClick={!disabled ? onClick : undefined}
+            tabIndex={tabindex}
         >
             {
                 loading
