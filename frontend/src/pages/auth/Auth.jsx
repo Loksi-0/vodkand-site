@@ -75,9 +75,7 @@ const Auth = () => {
 
     const handleRegistration = async (email, password) => {
         try {
-            console.log('начинается регистрация')
             await store.registration(email, password)
-            console.log('регистрация успешна')
 
             localStorage.setItem('isActivated', 'pending')
             setPage(2)

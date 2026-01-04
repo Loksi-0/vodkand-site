@@ -1,41 +1,51 @@
 import styles from './History.module.scss'
 
 import Button from '@/global-components/Button/Button'
+import Modal from '@/global-components/Modal/Modal'
 import { useRef, useState } from 'react'
+import ModalWindow from './ModalWindow/ModalWindow'
 
 const History = () => {
     const pages = [
         {
             title: '“сервер Loksi”',
             year: 2022,
-            description: 'Сервер, с которого начинается вся истроия водканда. Изначально был создан, чтобы просто играть с друзьями. Использовалась не совсем современная даже в то время версия 1.16.5',
+            description: 'Легендарный сервер, с которого начинается вся истроия водканда. Изначально был создан, чтобы просто играть с друзьями. Использовалась не совсем современная даже в то время версия 1.16.5',
+            version: '1.16.5',
             image: '/uploads/history/serverLoksi.jpg',
-            color: 'rgba(89, 128, 212, 0.1)',
-            color10: 'rgba(89, 128, 212, 0.05)'
+            color: 'rgba(89, 128, 212, 0.15)',
+            color10: 'rgba(89, 128, 212, 0.07)',
+            imageFolder: 'server-loksi'
         },
         {
             title: 'Vodkand',
             year: 2023,
             description: 'Первый сезон под знакомым названием. Сервер был обновлен до версии 1.19.2 и было добавлено больше плагинов. Впервые была введена избирательная система, и с этим было связано множество интересных моментов, в том числе и война Ярослава Лабутина против ГНР (Гумской народной республики)',
+            version: '1.19.2',
             image: '/uploads/history/vodkand.jpg',
-            color: 'rgba(89, 212, 175, 0.1)',
-            color10: 'rgba(89, 212, 175, 0.05)'
+            color: 'rgba(89, 212, 175, 0.15)',
+            color10: 'rgba(89, 212, 175, 0.07)',
+            imageFolder: 'vodkand'
         },
         {
             title: 'Vodkand Politics',
             year: 2024,
             description: 'Самый насыщенный и неоднозначный сезон. На нём можно было воевать, иначе говоря, гриферить, поэтому там никогда не было спокойно, но тем не менее, с ним связано много веселых событий. Стоит также отметить, что на нем впервые был добавлен легендарный плагин на пивоварение',
+            version: '1.19.2',
             image: '/uploads/history/politics.jpg',
-            color: 'rgba(193, 89, 212, 0.1)',
-            color10: 'rgba(193, 89, 212, 0.05)'
+            color: 'rgba(193, 89, 212, 0.15)',
+            color10: 'rgba(193, 89, 212, 0.07)',
+            imageFolder: 'vodkand-politics'
         },
         {
             title: 'Vodkand Rebirth',
             year: 2024,
             description: 'После 4 месяцев "анархии" всем хотелось просто спокойно поиграть, из-за чего и появился Rebirth. Само название намекает, что мы вернулись к идеям старых сезонов, поэтому на сервере традиционно действовал запрет на гриф, кражу и любые попытки помешать игре, однако, в отличие от прошлых сезонов, здесь уже не было централизованного государства, поэтому можно сказать, что сервер стал просто ванильным выживанием',
+            version: '1.20.4',
             image: '/uploads/history/rebirth.jpg',
-            color: 'rgba(183, 255, 173, 0.1)',
-            color10: 'rgba(183, 255, 173, 0.05)'
+            color: 'rgba(183, 255, 173, 0.15)',
+            color10: 'rgba(183, 255, 173, 0.07)',
+            imageFolder: 'vodkand-rebirth'
         },
         {
             title: 'Vodkand',
@@ -47,6 +57,9 @@ const History = () => {
         }
     ]
 
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const openGalleryButtonRef = useRef(null)
     const contentRef = useRef(null)
     const paragraphRef = useRef(null)
     const [currentPage, setCurrentPage] = useState(pages[0])
@@ -136,11 +149,27 @@ const History = () => {
                         <Button 
                             className={styles.article__button}
                             color='dark'
-                            disabled={true}
-                            title='Функция еще в разработке'
+                            disabled={pages.indexOf(currentPage) === pages.length - 1}
+                            onClick={() => setIsModalOpen(true)}
+                            ref={openGalleryButtonRef}
                         >
                             Посмотреть галерею
                         </Button>
+                        <Modal
+                            title={currentPage.title}
+                            isOpen={isModalOpen}
+                            onClose={() => {
+                                setIsModalOpen(false)
+                                openGalleryButtonRef.current.focus()
+                            }}
+                        >
+                            <ModalWindow 
+                                page={currentPage.imageFolder}
+                                version={currentPage.version}
+                                color={currentPage.color}
+                                color10={currentPage.color10}
+                            />
+                        </Modal>
                     </div>
                     <div className={styles.history__rightSide}>
                         <div 

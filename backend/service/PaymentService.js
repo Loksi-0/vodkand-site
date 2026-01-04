@@ -3,6 +3,7 @@ import ApiError from '../exceptions/ApiError.js'
 import OrderService from './OrderService.js'
 import Order from '../models/Order.js'
 import User from '../models/User.js'
+import MailService from './MailService.js'
 
 class PaymentService {
     async createOrder(product, user) {
@@ -48,7 +49,7 @@ class PaymentService {
 
         const data = await response.json()
 
-        await OrderService.create(data.id, user._id, product.value)
+        await OrderService.create(data.id, user, product)
 
         return data
     }
@@ -65,9 +66,14 @@ class PaymentService {
             throw ApiError.NotFound('Не удалось найти заказ или пользователя')
         }
 
-        if (order.userId !== user._id.toString()) {
+        if (order.userId.toString() !== user._id.toString()) {
             throw ApiError.BadRequest('У этого пользователя не найдено этого заказа')
         }
+
+        order.fullfillmentDate = Date.now()
+        await order.save()
+
+        await MailService.sendSuccessNotification(order)
 
         user.hasPass = true
         await user.save()

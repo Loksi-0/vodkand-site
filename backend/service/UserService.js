@@ -20,7 +20,7 @@ class UserService {
 
         const hashPassword = await bcrypt.hash(password, SALT_ROUNDS)
         const activationLink = uuidv4()
-        const creationDate = new Date()
+        const creationDate = Date.now()
         const user = await User.create({ email, password: hashPassword, activationLink, creationDate })
         
         await this.sendMail(email, activationLink)
@@ -52,7 +52,7 @@ class UserService {
                 throw ApiError.Conflict('Аккаунт уже зарегистрирован')
             }
 
-            const creationDate = new Date()
+            const creationDate = Date.now()
             user = await User.create({ email, sub, isActivated: true, creationDate })
         }
         

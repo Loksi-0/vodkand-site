@@ -53,6 +53,28 @@ class MailService {
                 `
         })
     }
+
+    async sendSuccessNotification(order) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to: process.env.MY_EMAIL,
+            subject: 'Новая продажа!',
+            text: '',
+            html: `
+                <h1>Приобретён товар: ${order.description}</h1>
+                <ul>
+                    <li>Сумма заказа: ${order.value}</li>
+                    <li>Email покупателя: ${order.userEmail}</li>
+                    <li>
+                        Дата создания заказа: ${order.creationDate.toLocaleDateString('ru-RU', { timeZone: 'Europe/Moscow' })}
+                    </li>
+                    <li>
+                        Дата выполнения заказа: ${order.fullfillmentDate.toLocaleDateString('ru-RU', { timeZone: 'Europe/Moscow' })}
+                    </li>
+                </ul>
+            `
+        })
+    }
 }
 
 export default new MailService()

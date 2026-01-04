@@ -56,7 +56,7 @@ const Account = () => {
                 {!store.user?.isActivated && !store.isLoading && 
                     <Alert 
                         color='yellow' 
-                        title='Аккаунт не активирован' 
+                        title='Активируйте аккаунт' 
                         description='Активируйте аккаунт по ссылке, которая пришла на почту. Без активации аккаунта вы не сможете купить проходку' 
                         onClick={handleSendMail}
                         textButton='Отправить письмо еще раз'
@@ -66,8 +66,8 @@ const Account = () => {
                 {store.user?.isActivated && !store.user?.hasPass && !store.isLoading && 
                     <Alert 
                         color='red' 
-                        title='Нет проходки' 
-                        description='Для использования аккаунта приобретите доступ на сервер' 
+                        title='Купите проходку' 
+                        description='Для использования аккаунта приобретите проходку' 
                         onClick={handleBuyPass}
                         textButton='Купить проходку'
                         disclaimer
@@ -76,7 +76,7 @@ const Account = () => {
                 {store.user?.isActivated && store.user?.hasPass && !store.user?.nickname && !store.isLoading &&
                     <Alert 
                         color='yellow' 
-                        title='Аккаунт не в вайтлисте' 
+                        title='Добавьте ник в вайтлист' 
                         description='Сейчас вы не сможете зайти на сервер. Чтобы получить доступ, добавьте свой ник в вайтлист' 
                         onClick={handleAddNick}
                         textButton='Добавить ник'

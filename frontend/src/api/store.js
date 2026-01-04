@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx"
 import AuthService from "./AuthService.js"
-import { setAccessToken, clearAccessToken, getAccessToken } from './TokenManager'
+import UserService from "./UserService.js"
+import { setAccessToken, clearAccessToken } from './TokenManager'
 import { refreshToken } from "./refreshToken.js"
 import MinecraftAPIService from "./MinecraftAPIService.js"
 import PaymentService from "./PaymentService.js"
@@ -164,6 +165,16 @@ class Store {
     async getPunishments(nickname) {
         try {
             const response = await MinecraftAPIService.getPunishments(nickname)
+
+            return response
+        } catch(e) {
+            throw e
+        }
+    }
+
+    async getGallery(page) {
+        try {
+            const response = await UserService.getGallery(page)
 
             return response
         } catch(e) {

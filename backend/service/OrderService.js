@@ -2,12 +2,22 @@ import ApiError from "../exceptions/ApiError.js"
 import Order from "../models/Order.js"
 
 class OrderService {
-    async create(orderId, userId, value) {
-        if (!orderId || !userId || !value) {
+    async create(orderId, user, product) {
+        if (!orderId || !user || !product) {
             throw ApiError.BadRequest('Необходимо указать orderId, userId и value')
         }
 
-        const order = await Order.create({ orderId, userId, value })
+        const { value, description } = product
+        const creationDate = Date.now()
+
+        const order = await Order.create({ 
+            orderId, 
+            userId: user._id, 
+            userEmail: user.email,
+            value, 
+            description,
+            creationDate
+        })
 
         return order
     }
@@ -31,6 +41,10 @@ class OrderService {
 
         if (!order) {
             throw ApiError.NotFound('Заказ не найден')
+        }
+
+        if (status === 'succeeded') {
+            order.creationDate = Date.now()
         }
 
         order.status = status

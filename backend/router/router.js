@@ -6,6 +6,7 @@ import AuthMiddleware from '../middlewares/AuthMiddleware.js'
 import { body } from 'express-validator'
 import minecraftAPIController from '../controllers/minecraftAPIController.js'
 import paymentController from '../controllers/paymentController.js'
+import uploadsController from '../controllers/uploadsController.js'
 
 const router = new Router()
 
@@ -26,6 +27,7 @@ router.get('/activate/:link', AuthMiddleware, authController.activate)
 router.get('/refresh', authController.refresh)
 router.get('/user', authController.hasUser)
 router.get('/me', AuthMiddleware, authController.me)
+router.get('/gallery/:page', uploadsController.getGallery)
 
 router.get('/google/url', openIDController.redirect)
 router.get('/auth/google/callback', openIDController.handleCode)

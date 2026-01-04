@@ -61,7 +61,6 @@ const Payment = () => {
             const response = await store.createOrder('pass')
 
             navigate(response.data?.confirmation?.confirmation_url)
-            setLoading(false)
         } catch(e) {
             setError(e.response?.data?.message)
         }

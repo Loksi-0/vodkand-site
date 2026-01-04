@@ -124,6 +124,12 @@ const Wiki = (props) => {
         return <Link to={href}>{children}</Link>
     }
 
+    const modifiedContent = useMemo(() => {
+        if (!article?.content) return ''
+
+        return article.content.replace('{{currentYear}}', new Date().getFullYear())
+    }, [article?.content])
+
     usePageMetadata({
         title: article.title ? `${definePageName(chapter)} | ${article.title}` : definePageName(chapter),
         ogTitle: article.title,
@@ -218,7 +224,7 @@ const Wiki = (props) => {
                             a: modifyLink
                         }}
                     >
-                        {article.content}
+                        {modifiedContent}
                     </ReactMarkdown>
                 </div>
             </article>

@@ -1,8 +1,9 @@
 import styles from './Button.module.scss'
 
 import Preloader from '../Preloader/Preloader'
+import { forwardRef } from 'react'
 
-const Button = (props) => {
+const Button = forwardRef((props, ref) => {
     const {
         color,
         children,
@@ -18,6 +19,7 @@ const Button = (props) => {
 
     return (
         <button 
+            ref={ref}
             type={type}
             className={`
                 ${styles.button}
@@ -37,6 +39,6 @@ const Button = (props) => {
             }
         </button>
     )
-}
+})
 
 export default Button

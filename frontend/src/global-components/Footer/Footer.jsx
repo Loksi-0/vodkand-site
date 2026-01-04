@@ -27,7 +27,7 @@ const Footer = () => {
                     <Legal />
                     <Link to='/legal/copyright' className={styles.copyright}>
                         Minecraft — товарный знак Mojang Studios <br />
-                        &copy; Vodkand, 2025
+                        &copy; Vodkand, {new Date().getFullYear()}
                     </Link>
                 </div>
             </div>
