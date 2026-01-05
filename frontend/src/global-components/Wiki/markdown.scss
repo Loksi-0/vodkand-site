@@ -1,97 +1,100 @@
 @use '@/styles/helpers' as *;
 
 .markdown {
+  display: flex;
+  flex-direction: column;
+
+  & h1,
+  & h2,
+  & h3 {
+    align-self: center;
+    text-align: center;
+    line-height: 115%;
+    margin: 0;
+  }
+
+  & h3 {
+    margin-top: fluid(40, 30);
+    margin-bottom: fluid(20, 15);
+  }
+  & h4 {
+    margin-block: rem(10);
+  }
+  & h5 {
+    margin: 0;
+  }
+  & p {
+    margin-bottom: rem(10);
+  }
+
+  & a {
+    text-decoration: underline;
+    text-decoration-thickness: rem(1);
+    text-underline-offset: rem(2);
+  }
+
+  & div {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: fluid(7, 5);
+    caret-color: transparent;
+    overflow: scroll;
+    scrollbar-width: none;
+    margin-block: rem(20);
 
-    & h1, & h2, & h3 {
-        align-self: center;
-        text-align: center;
-        line-height: 115%;
-        margin: 0;
-    }
-
-    & h3 {
-        margin-top: fluid(40, 30);
-        margin-bottom: fluid(20, 15);
-    }
-    & h4 {
-        margin-block: rem(10);
-    }
-    & h5 {
-        margin: 0;
-    }
-    & p {
-        margin-bottom: rem(10);
+    @include tablet {
+      justify-content: start;
     }
 
-    & a {
-        text-decoration: underline;
-        text-decoration-thickness: rem(1);
-        text-underline-offset: rem(2);
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  & img {
+    overflow: hidden;
+    object-fit: cover;
+
+    @include mobile {
+      flex-shrink: 0;
     }
 
-    & div {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        column-gap: fluid(7, 5);
-        caret-color: transparent;
-        overflow: scroll;
-        scrollbar-width: none;
-        margin-block: rem(20);
+    --border: #{fluid(30, 10)};
 
-        @include tablet {
-            justify-content: start;
-        }
-
-        &::-webkit-scrollbar {
-            display: none
-        }
+    &:first-child {
+      border-radius: var(--border) 0 0 var(--border);
     }
+    &:last-child {
+      border-radius: 0 var(--border) var(--border) 0;
+    }
+    &:only-child {
+      border-radius: var(--border);
+    }
+  }
+
+  & div.squareImage {
+    justify-content: start;
 
     & img {
-        overflow: hidden;
-        object-fit: cover;
-
-        @include mobile {
-            flex-shrink: 0;
-        }
-
-        --border: #{fluid(30, 10)};
-
-        &:first-child {
-            border-radius: var(--border) 0 0 var(--border);
-        }
-        &:last-child {
-            border-radius: 0 var(--border) var(--border) 0;
-        }
-        &:only-child {
-            border-radius: var(--border);
-        }
+      @include square(fluid(300, 150));
     }
+  }
 
-    & div.squareImage {
-        justify-content: start;
+  & table {
+    border-collapse: collapse;
+    border: rem(1) solid var(--color-dark);
+  }
 
-        & img {
-            @include square(fluid(300, 150));
-        }
-    }
+  & td,
+  & th {
+    border: rem(1) solid var(--color-dark);
+    padding: rem(10);
+  }
 
-    & table {
-        border-collapse: collapse;
-        border: rem(1) solid var(--color-dark);
-    }
-
-    & td, & th {
-        border: rem(1) solid var(--color-dark);
-        padding: rem(10);
-    }
-
-    & ul {
-        margin: 0;
-        padding-left: rem(20);
-    }
+  & ul {
+    margin: 0;
+    padding-left: rem(20);
+  }
 }

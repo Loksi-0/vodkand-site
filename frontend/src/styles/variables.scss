@@ -1,74 +1,74 @@
 @use './helpers' as *;
 
 :root {
-    --color-light: #FFFFFF;
+  --color-light: #ffffff;
 
-    --color-dark: #000000;
-    --color-dark-10: #272727;
+  --color-dark: #000000;
+  --color-dark-10: #272727;
 
-    --color-accent: #62E27D;
-    --color-accent-10: #b8f0c4;
+  --color-accent: #62e27d;
+  --color-accent-10: #b8f0c4;
 
-    --color-red: #ff6464;
-    --color-red-10: #FFC4C4;
-    --color-red-20: #FFDDDD;
+  --color-red: #ff6464;
+  --color-red-10: #ffc4c4;
+  --color-red-20: #ffdddd;
 
-    --color-yellow: #ffeca8;
-    --color-yellow-10: #fffad1;
+  --color-yellow: #ffeca8;
+  --color-yellow-10: #fffad1;
 
-    --color-gray-25: #fcfcfc;
-    --color-gray-20: #f7f7f7;
-    --color-gray-10: #e9e9e9;
-    --color-gray: #808080;
+  --color-gray-25: #fcfcfc;
+  --color-gray-20: #f7f7f7;
+  --color-gray-10: #e9e9e9;
+  --color-gray: #808080;
 
-    --color-select: var(--color-dark);
+  --color-select: var(--color-dark);
 
-    --border-split: #{rem(1)} solid var(--color-gray-10);
-    --border-dark: #{rem(1)} solid var(--color-dark);
+  --border-split: #{rem(1)} solid var(--color-gray-10);
+  --border-dark: #{rem(1)} solid var(--color-dark);
 
-    --shadow-color: 0, 0, 0;
-    --shadow: 0 0 1rem rgba(var(--shadow-color), 0.15);
+  --shadow-color: 0, 0, 0;
+  --shadow: 0 0 1rem rgba(var(--shadow-color), 0.15);
 
-    --section-padding: #{fluid(80, 40)};
-    
-    --font-family-base: 'PT Serif', sans-serif;
-    --font-family-accent: 'Yeseva One', sans-serif;
-    --font-family-logo: 'Abril Fatface', sans-serif;
+  --section-padding: #{fluid(80, 40)};
 
-    --container-width: #{rem(1100)}; 
-    --container-big-width: #{rem(1600)};
-    --container-padding-x: #{fluid(96, 16)};
+  --font-family-base: 'PT Serif', sans-serif;
+  --font-family-accent: 'Yeseva One', sans-serif;
+  --font-family-logo: 'Abril Fatface', sans-serif;
 
-    --transition-duration: 0.2s;
+  --container-width: #{rem(1100)};
+  --container-big-width: #{rem(1600)};
+  --container-padding-x: #{fluid(96, 16)};
 
-    --100vw: calc(100vw - var(--scrollbar-width));
+  --transition-duration: 0.2s;
 
-    @include tablet {
-        --container-padding-x: #{rem(24)};
-    }
+  --100vw: calc(100vw - var(--scrollbar-width));
+
+  @include tablet {
+    --container-padding-x: #{rem(24)};
+  }
 }
 
-[theme="dark"] {
-    --color-light: #101010;
-    --color-dark: #F0F0F0;
-    --color-dark-10: #F0F0F0;
-    
-    --color-accent: #68e983;
-    --color-accent-10: #426e4d;
-    
-    --color-red: #FF8282;
-    --color-red-10: #6E4242;
-    --color-red-20: #573838;
-    
-    --color-yellow: #FFEBB3;
-    --color-yellow-10: rgba(255, 235, 179, 0.4);
-    
-    --color-gray-25: #181818; 
-    --color-gray-20: #292929;
-    --color-gray-10: #3f3f3f;
-    --color-gray: #8F8F8F;
+[theme='dark'] {
+  --color-light: #101010;
+  --color-dark: #f0f0f0;
+  --color-dark-10: #f0f0f0;
 
-    --color-select: var(--color-gray-25);
+  --color-accent: #68e983;
+  --color-accent-10: #426e4d;
 
-    --shadow-color: 120, 120, 120;
+  --color-red: #ff8282;
+  --color-red-10: #6e4242;
+  --color-red-20: #573838;
+
+  --color-yellow: #ffebb3;
+  --color-yellow-10: rgba(255, 235, 179, 0.4);
+
+  --color-gray-25: #181818;
+  --color-gray-20: #292929;
+  --color-gray-10: #3f3f3f;
+  --color-gray: #8f8f8f;
+
+  --color-select: var(--color-gray-25);
+
+  --shadow-color: 120, 120, 120;
 }

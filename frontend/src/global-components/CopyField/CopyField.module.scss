@@ -1,62 +1,62 @@
 @use '@/styles/helpers' as *;
 
 .copyField {
-    @include fluid-text(24, 16);
+  @include fluid-text(24, 16);
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: rem(10);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: rem(10);
 
-    @include mobile {
-        flex-direction: row-reverse;
-    }
+  @include mobile {
+    flex-direction: row-reverse;
+  }
 }
 
 .subtitle {
-    color: var(--color-gray);
+  color: var(--color-gray);
 }
 
 .field {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: fluid(10, 5);
-    background-color: var(--color-gray-25);
-    border: border(var(--color-gray-20));
-    border-radius: fluid(30, 15);
-    padding: fluid(30, 15);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: fluid(10, 5);
+  background-color: var(--color-gray-25);
+  border: border(var(--color-gray-20));
+  border-radius: fluid(30, 15);
+  padding: fluid(30, 15);
 }
 
 .text {
-    color: var(--color-dark);
+  color: var(--color-dark);
 }
 
 .copy {
-    aspect-ratio: 1;
-    height: fluid(35, 25);
-    padding: rem(5);
-    border-radius: rem(5);
-    transition-duration: var(--transition-duration);
-    -webkit-user-select: none;
-    user-select: none;
+  aspect-ratio: 1;
+  height: fluid(35, 25);
+  padding: rem(5);
+  border-radius: rem(5);
+  transition-duration: var(--transition-duration);
+  -webkit-user-select: none;
+  user-select: none;
 
-    @include hover {
-        background-color: var(--color-gray-20);
-    }
+  @include hover {
+    background-color: var(--color-gray-20);
+  }
 
-    &:active {
-        background-color: var(--color-gray-10);
-        scale: 0.9;
-    }
+  &:active {
+    background-color: var(--color-gray-10);
+    scale: 0.9;
+  }
 }
 
 .icon {
-    @include square(fluid(35, 20));
+  @include square(fluid(35, 20));
 
-    svg {
-        width: 100%;
-        height: 100%;
-        color: var(--color-dark);
-    }
+  svg {
+    width: 100%;
+    height: 100%;
+    color: var(--color-dark);
+  }
 }

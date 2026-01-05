@@ -1,17 +1,17 @@
 @use './helpers' as *;
 
 .toast svg {
-    fill: currentColor;
+  fill: currentColor;
 }
 
 .title {
-    @include fluid-text(16, 14);
+  @include fluid-text(16, 14);
 
-    font-family: var(--font-family-base);
+  font-family: var(--font-family-base);
 }
 
 .description {
-    @include fluid-text(16, 14);
+  @include fluid-text(16, 14);
 
-    font-family: var(--font-family-base);
+  font-family: var(--font-family-base);
 }

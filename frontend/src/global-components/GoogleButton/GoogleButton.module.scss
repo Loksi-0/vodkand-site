@@ -1,43 +1,43 @@
 @use '@/styles/helpers' as *;
 
 .googleButton {
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    row-gap: fluid(20, 10);
-    align-items: center;
-    justify-content: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(20, 10);
+  align-items: center;
+  justify-content: center;
 }
 
 .button {
-    display: flex;
-    flex-direction: row;
-    column-gap: fluid(15, 10);
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    color: var(--color-dark);
-    background-color: var(--color-light);
-    border: border(var(--color-gray-20));
-    border-radius: rem(70);
-    padding-inline: fluid(30, 20);
-    padding-block: fluid(15, 10);
+  display: flex;
+  flex-direction: row;
+  column-gap: fluid(15, 10);
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  color: var(--color-dark);
+  background-color: var(--color-light);
+  border: border(var(--color-gray-20));
+  border-radius: rem(70);
+  padding-inline: fluid(30, 20);
+  padding-block: fluid(15, 10);
 
-    @include hover {
-        opacity: 0.8;
-    }
+  @include hover {
+    opacity: 0.8;
+  }
 
-    &:active {
-        scale: 0.95;
-    }
+  &:active {
+    scale: 0.95;
+  }
 }
 
-.icon  {
-    @include square(rem(30));
+.icon {
+  @include square(rem(30));
 }
 
 .agreement {
-    @include fluid-text(18, 14);
+  @include fluid-text(18, 14);
 
-    text-align: center;
+  text-align: center;
 }

@@ -5,28 +5,28 @@ import { useNavigate } from 'react-router'
 import googleLogo from '@/assets/icons/google-logo.png'
 
 const GoogleButton = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const handleClick = () => {
-        navigate(`${import.meta.env.VITE_API_URL}/google/url`)
-    }
+  const handleClick = () => {
+    navigate(`${import.meta.env.VITE_API_URL}/google/url`)
+  }
 
-    return (
-        <button 
-            type='button'
-            className={styles.button}
-            onClick={handleClick}
-        >
-            <img 
-                className={styles.icon}
-                src={googleLogo}
-                alt=''
-                loading='lazy'
-                draggable='false'
-            />
-            Войти через Google
-        </button>
-    )
+  return (
+    <button
+      type='button'
+      className={styles.button}
+      onClick={handleClick}
+    >
+      <img
+        className={styles.icon}
+        src={googleLogo}
+        alt=''
+        loading='lazy'
+        draggable='false'
+      />
+      Войти через Google
+    </button>
+  )
 }
 
 export default GoogleButton

@@ -1,70 +1,70 @@
 @use '@/styles/helpers' as *;
 
 .list {
-    padding-block: var(--section-padding);
-    background-color: var(--color-gray-25);
+  padding-block: var(--section-padding);
+  background-color: var(--color-gray-25);
 
-    &__inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid(50, 25);
+    align-items: center;
+  }
+
+  &__image {
+    min-width: rem(70);
+    height: fluid(100, 50);
+
+    &Wrapper {
+      aspect-ratio: 1;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: fluid(30, 15);
+      background-color: var(--color-accent-10);
+      border: border(var(--color-accent));
+      border-radius: fluid(30, 15);
+      -webkit-user-select: none;
+      user-select: none;
     }
+  }
 
-    &__item {
-        display: flex;
-        flex-direction: row;
-        column-gap: fluid(50, 25);
-        align-items: center;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: rem(20);
+    align-items: start;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    row-gap: fluid(15, 7);
+  }
+
+  &__title {
+    max-width: 50vw;
+  }
+
+  &__price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: fluid(15, 10);
+
+    &Old {
+      @include fluid-text(28, 20);
+
+      color: var(--color-red);
+      text-decoration: line-through;
     }
-
-    &__image {
-        min-width: rem(70);
-        height: fluid(100, 50);
-
-        &Wrapper {
-            aspect-ratio: 1;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: fluid(30, 15);
-            background-color: var(--color-accent-10);
-            border: border(var(--color-accent));
-            border-radius: fluid(30, 15);
-            -webkit-user-select: none;
-            user-select: none;
-        }
-    }
-
-    &__content {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        row-gap: rem(20);
-        align-items: start;
-    }
-
-    &__body {
-        display: flex;
-        flex-direction: column;
-        row-gap: fluid(15, 7);
-    }
-
-    &__title {
-        max-width: 50vw;
-    }
-
-    &__price {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        column-gap: fluid(15, 10);
-
-        &Old {
-            @include fluid-text(28, 20);
-            
-            color: var(--color-red);
-            text-decoration: line-through;
-        }
-    }
+  }
 }

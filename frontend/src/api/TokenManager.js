@@ -1,11 +1,11 @@
 let accessToken = null
 
 export function getAccessToken() {
-    return accessToken
+  return accessToken
 }
 
 export function setAccessToken(token) {
-    accessToken = token
+  accessToken = token
 }
 
 export function clearAccessToken() {

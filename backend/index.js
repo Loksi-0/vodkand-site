@@ -8,6 +8,7 @@ import ErrorMiddleware from './middlewares/ErrorMiddleware.js'
 import DeleteAccountManager from './managers/DeleteAccountManager.js'
 import session from 'express-session'
 import rateLimit from 'express-rate-limit'
+import MongoStore from 'connect-mongo'
 
 const app = express()
 
@@ -53,17 +54,24 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 app.use(session({
-  name: 'sid',
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000,
-    path: '/'
-  }
+    name: 'sid',
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_URL,
+        collectionName: 'sessions',
+        ttl: 60 * 60 * 24 * 3
+    }),
+
+    cookie: {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: 'lax',
+        maxAge: 24 * 60 * 60 * 1000,
+        path: '/'
+    }
 }))
 
 app.use('/api/auth', authLimiter)

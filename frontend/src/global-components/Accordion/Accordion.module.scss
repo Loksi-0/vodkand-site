@@ -1,100 +1,100 @@
 @use '@/styles/helpers' as *;
 
 .accordion {
-    margin-block: var(--section-padding);
+  margin-block: var(--section-padding);
 
-    &__inner {
-        background-color: var(--color-gray-25);
-        padding: fluid(30, 16) fluid(30, 16);
-        border-radius: fluid(30, 16);
-    }
+  &__inner {
+    background-color: var(--color-gray-25);
+    padding: fluid(30, 16) fluid(30, 16);
+    border-radius: fluid(30, 16);
+  }
 }
 
 .element {
-    --padding: #{fluid(25, 15)};
+  --padding: #{fluid(25, 15)};
 
-    display: flex;
-    flex-direction: column;
-    row-gap: rem(10);
-    padding-block: var(--padding);
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(10);
+  padding-block: var(--padding);
 
-    &:not(:last-child) {
-        border-bottom: var(--border-split);
-    }
+  &:not(:last-child) {
+    border-bottom: var(--border-split);
+  }
 
-    &:first-child {
-        padding-top: 0;
-        padding-bottom: var(--padding);
-    }
+  &:first-child {
+    padding-top: 0;
+    padding-bottom: var(--padding);
+  }
 
-    &:last-child {
-        padding-top: var(--padding);
-        padding-bottom: 0;
-    }
+  &:last-child {
+    padding-top: var(--padding);
+    padding-bottom: 0;
+  }
 
-    &__details {
-        &[open] {
-            .element__title {
-                &::before {
-                    rotate: -45deg;
-                }
-                &::after {
-                    rotate: 45deg;
-                }
-            }
-
-            & + .element__content {
-                grid-template-rows: 1fr;
-            }
+  &__details {
+    &[open] {
+      .element__title {
+        &::before {
+          rotate: -45deg;
         }
-    }
-
-    &__summary {
-        list-style: none;
-        color: var(--color-light);
-
-        @include hover {
-            color: var(--color-accent);
-        }
-
-        &::-webkit-details-marker {
-            display: none;
-        }
-    }
-
-    &__title {
-        position: relative;
-        padding-right: rem(50);
-        color: var(--color-dark);
-        transition-duration: var(--transition-duration);
-        cursor: pointer;
-        caret-color: transparent;
-
-        &::before,
         &::after {
-            @include abs-y;
-
-            content: '';
-            width: rem(18);
-            height: rem(2);
-            right: 0;
-            background-color: var(--color-dark);
-            border-radius: rem(1);
-            transition-duration: var(--transition-duration);
+          rotate: 45deg;
         }
+      }
 
-        &::after {
-            rotate: 90deg;
-        }
+      & + .element__content {
+        grid-template-rows: 1fr;
+      }
+    }
+  }
+
+  &__summary {
+    list-style: none;
+    color: var(--color-light);
+
+    @include hover {
+      color: var(--color-accent);
     }
 
-    &__content {
-        display: grid;
-        grid-template-rows: 0fr;
-        transition-duration: 0.3s;
-
-        &Inner {
-            overflow: hidden;
-        }
+    &::-webkit-details-marker {
+      display: none;
     }
+  }
+
+  &__title {
+    position: relative;
+    padding-right: rem(50);
+    color: var(--color-dark);
+    transition-duration: var(--transition-duration);
+    cursor: pointer;
+    caret-color: transparent;
+
+    &::before,
+    &::after {
+      @include abs-y;
+
+      content: '';
+      width: rem(18);
+      height: rem(2);
+      right: 0;
+      background-color: var(--color-dark);
+      border-radius: rem(1);
+      transition-duration: var(--transition-duration);
+    }
+
+    &::after {
+      rotate: 90deg;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition-duration: 0.3s;
+
+    &Inner {
+      overflow: hidden;
+    }
+  }
 }

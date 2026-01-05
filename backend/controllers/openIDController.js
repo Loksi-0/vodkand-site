@@ -21,7 +21,7 @@ class openIDController {
                 .update(codeVerifier)
                 .digest('base64url')
 
-            params.append('redirect_uri', `${process.env.API_DOMAIN}/auth/google/callback`)
+            params.append('redirect_uri', `${process.env.API_DOMAIN}${process.env.API_URL}/auth/google/callback`)
             params.append('client_id', process.env.OAUTH_GOOGLE_CLIENT_ID)
             params.append('response_type', 'code')
             params.append('scope', 'openid email')
@@ -73,7 +73,7 @@ class openIDController {
                     client_id: process.env.OAUTH_GOOGLE_CLIENT_ID,
                     client_secret: process.env.OAUTH_GOOGLE_CLIENT_SECRET,
                     grant_type: 'authorization_code',
-                    redirect_uri: `${process.env.API_DOMAIN}/auth/google/callback`,
+                    redirect_uri: `${process.env.API_DOMAIN}${process.env.API_URL}/auth/google/callback`,
                     code: code,
                     code_verifier: req.session.pkceVerifier
                 })

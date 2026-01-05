@@ -1,36 +1,36 @@
 @use '@/styles/helpers' as *;
 
 .navigation {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .list {
-    display: flex;
-    flex-direction: row;
-    column-gap: fluid(30, 5);
+  display: flex;
+  flex-direction: row;
+  column-gap: fluid(30, 5);
 
-    &__item {
-        margin: 0;
-    }
+  &__item {
+    margin: 0;
+  }
 }
 
 .link {
-    display: flex;
-    padding: rem(5) rem(15);
-    border-radius: rem(30);
+  display: flex;
+  padding: rem(5) rem(15);
+  border-radius: rem(30);
 
+  @include hover {
+    background-color: var(--color-gray-20);
+  }
+
+  &:active {
+    scale: 0.95;
+  }
+
+  &.inTile {
     @include hover {
-        background-color: var(--color-gray-20);
+      background-color: var(--color-gray-10);
     }
-
-    &:active {
-        scale: 0.95;
-    }
-
-    &.inTile {
-        @include hover {
-            background-color: var(--color-gray-10);
-        }
-    }
+  }
 }

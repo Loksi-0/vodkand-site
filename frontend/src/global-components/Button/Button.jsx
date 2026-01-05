@@ -4,43 +4,39 @@ import Preloader from '../Preloader/Preloader'
 import { forwardRef } from 'react'
 
 const Button = forwardRef((props, ref) => {
-    const {
-        color,
-        children,
-        type = 'button',
-        isBig = false,
-        onClick = () => {},
-        loading = false,
-        disabled = false,
-        className = '',
-        style = {},
-        title = '',
-        tabindex = 0
-    } = props
+  const {
+    color,
+    children,
+    type = 'button',
+    isBig = false,
+    onClick = () => {},
+    loading = false,
+    disabled = false,
+    className = '',
+    style = {},
+    title = '',
+    tabindex = 0
+  } = props
 
-    return (
-        <button 
-            ref={ref}
-            type={type}
-            className={`
-                ${styles.button}
-                ${styles[color]} 
-                ${isBig ? styles.isBig : ''}
-                ${disabled && styles.disabled}
-                ${className}
-            `}
-            style={style}
-            title={title}
-            onClick={!disabled ? onClick : undefined}
-            tabIndex={tabindex}
-        >
-            {
-                loading
-                ? <Preloader size={30} />
-                : children
-            }
-        </button>
-    )
+  return (
+    <button
+      ref={ref}
+      type={type}
+      className={`
+          ${styles.button}
+          ${styles[color]} 
+          ${isBig ? styles.isBig : ''}
+          ${disabled && styles.disabled}
+          ${className}
+      `}
+      style={style}
+      title={title}
+      onClick={!disabled ? onClick : undefined}
+      tabIndex={tabindex}
+    >
+      {loading ? <Preloader size={30} /> : children}
+    </button>
+  )
 })
 
 export default Button

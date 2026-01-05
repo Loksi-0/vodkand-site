@@ -2,7 +2,7 @@ import { createContext, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 
-import { Toaster } from "sonner"
+import { Toaster } from 'sonner'
 import Store from './api/store'
 
 import '@/styles/normalise.scss'
@@ -19,12 +19,14 @@ export const Context = createContext({ store })
 
 createRoot(document.getElementById('root')).render(
   <RouteLoadingProvider>
-    <Context.Provider value={{
-      store
-    }}>
+    <Context.Provider
+      value={{
+        store
+      }}
+    >
       <StrictMode>
-        <Toaster 
-          richColors 
+        <Toaster
+          richColors
           position='top-center'
           toastOptions={{
             classNames: {

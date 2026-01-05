@@ -5,32 +5,60 @@ import { Navigate } from 'react-router'
 import Header from '@/global-components/Header/Header'
 
 const ProtectedRoute = (props) => {
-    const { children, redirect, access = 'auth' } = props
+  const { children, redirect, access = 'auth' } = props
 
-    const { store } = useContext(Context)
+  const { store } = useContext(Context)
 
-    if (store.isLoading) {
-        return (
-            <>
-                <Header />
-                <main></main>
-            </>
-        )
-    }
+  if (store.isLoading) {
+    return (
+      <>
+        <Header />
+        <main></main>
+      </>
+    )
+  }
 
-    if (access === 'not-auth' && store.isAuth && localStorage.getItem('isActivated') === 'pending') {
-        return <Navigate to={redirect} replace />
-    }
+  if (
+    access === 'not-auth' &&
+    store.isAuth &&
+    localStorage.getItem('isActivated') === 'pending'
+  ) {
+    return (
+      <Navigate
+        to={redirect}
+        replace
+      />
+    )
+  }
 
-    if (access === 'has-not-nick' && (store.user?.nickname || !store.isAuth)) {
-        return <Navigate to={redirect} replace />
-    }
-    
-    if (access === 'auth' && !store.isAuth) {
-        return <Navigate to={redirect} replace />
-    }
-    
-    return children
+  if (access === 'has-not-nick' && (store.user?.nickname || !store.isAuth)) {
+    return (
+      <Navigate
+        to={redirect}
+        replace
+      />
+    )
+  }
+
+  if (access === 'auth' && !store.isAuth) {
+    return (
+      <Navigate
+        to={redirect}
+        replace
+      />
+    )
+  }
+
+  if (access === 'activated' && !store.user?.isActivated) {
+    return (
+      <Navigate
+        to={redirect}
+        replace
+      />
+    )
+  }
+
+  return children
 }
 
 export default observer(ProtectedRoute)
