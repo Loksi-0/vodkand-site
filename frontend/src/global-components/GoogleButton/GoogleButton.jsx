@@ -14,11 +14,11 @@ const GoogleButton = () => {
   return (
     <button
       type='button'
-      className={styles.button}
+      className={styles.googleButton}
       onClick={handleClick}
     >
       <img
-        className={styles.icon}
+        className={styles.googleButton__icon}
         src={googleLogo}
         alt=''
         loading='lazy'

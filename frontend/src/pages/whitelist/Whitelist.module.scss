@@ -16,56 +16,56 @@
   background-color: var(--color-gray-25);
   border-radius: fluid(30, 15);
 
+  &__title {
+    max-width: 75%;
+    align-self: center;
+    text-align: center;
+  }
+
   &__body {
     display: flex;
     flex-direction: column;
     row-gap: fluid(20, 10);
   }
-}
 
-.title {
-  max-width: 75%;
-  align-self: center;
-  text-align: center;
-}
-
-.input {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: end;
-  gap: fluid(20, 10);
-  caret-color: transparent;
+  &__disclaimer {
+    line-height: 115%;
+  }
 
   &__field {
-    max-width: rem(300);
-    padding-bottom: fluid(10, 5);
-    border: none;
-    border-bottom: border(var(--color-gray-10), 2);
-    background-color: transparent;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: end;
+    gap: fluid(20, 10);
     caret-color: transparent;
 
-    &:focus-visible {
-      outline: none;
-      border-color: var(--color-accent);
-      caret-color: initial;
+    &Icon {
+      @include square(fluid(60, 40));
+
+      border-radius: fluid(10, 5);
+      background-color: var(--color-gray-20);
+      caret-color: transparent;
+    }
+
+    &Input {
+      max-width: rem(300);
+      padding-bottom: fluid(10, 5);
+      border: none;
+      border-bottom: border(var(--color-gray-10), 2);
+      background-color: transparent;
+      caret-color: transparent;
+
+      &:focus-visible {
+        outline: none;
+        border-color: var(--color-accent);
+        caret-color: initial;
+      }
+
+      &Error {
+        border-color: var(--color-red);
+      }
     }
   }
-
-  &__icon {
-    @include square(fluid(60, 40));
-
-    border-radius: fluid(10, 5);
-    background-color: var(--color-gray-20);
-    caret-color: transparent;
-  }
-
-  &__error {
-    border-color: var(--color-red);
-  }
-}
-
-.disclaimer {
-  line-height: 115%;
 }
 
 .error {

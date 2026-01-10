@@ -1,5 +1,7 @@
 import styles from './Punishments.module.scss'
 
+import cx from 'clsx'
+
 import { useContext, useEffect, useState } from 'react'
 
 import mute from '@/assets/icons/mute.png'
@@ -44,7 +46,11 @@ const Punishments = () => {
     <section className={styles.punishments}>
       <h2 className='h3'>Наказания</h2>
       <ul
-        className={`${styles.punishmentsList} ${loading && styles.loading} ${!punishments[0] && !loading && (isPoshalko ? styles.poshalko : styles.empty)}`}
+        className={cx(styles.list, {
+          [styles.loading]: loading,
+          [styles.poshalko]: isPoshalko && !punishments[0] && !loading,
+          [styles.empty]: !isPoshalko && !punishments[0] && !loading
+        })}
       >
         {loading && <Preloader size={50} />}
         {!loading &&
@@ -52,19 +58,18 @@ const Punishments = () => {
             return (
               <li
                 key={index}
-                className={styles.punishmentsList__item}
+                className={styles.list__item}
               >
                 <div
-                  className={`${styles.punishmentsList__iconWrapper} 
-                      ${
-                        (element.type === 'WARN' && styles.warn) ||
-                        (element.type === 'BAN' && styles.ban) ||
-                        (element.type === 'MUTE' && styles.mute)
-                      }
-                  `}
+                  className={cx(
+                    styles.list__iconWrapper,
+                    (element.type === 'WARN' && styles.warn) ||
+                      (element.type === 'BAN' && styles.ban) ||
+                      (element.type === 'MUTE' && styles.mute)
+                  )}
                 >
                   <img
-                    className={styles.punishmentsList__icon}
+                    className={styles.list__icon}
                     src={
                       (element.type === 'WARN' && warn) ||
                       (element.type === 'BAN' && ban) ||
@@ -75,16 +80,14 @@ const Punishments = () => {
                     draggable='false'
                   />
                 </div>
-                <div className={styles.punishmentsList__body}>
+                <div className={styles.list__body}>
                   <h3 className='h4'>
                     {(element.type === 'WARN' && 'Предупреждение') ||
                       (element.type === 'BAN' && 'Бан') ||
                       (element.type === 'MUTE' && 'Мут')}
                   </h3>
-                  <p className={styles.punishmentsList__reason}>
-                    {element.reason}
-                  </p>
-                  <p className={styles.punishmentsList__expires}>
+                  <p className={styles.list__reason}>{element.reason}</p>
+                  <p className={styles.list__date}>
                     Срок действия:{' '}
                     {element.endDate !== 0
                       ? `до ${date(element.endDate)}`

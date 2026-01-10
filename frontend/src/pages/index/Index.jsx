@@ -5,7 +5,7 @@ import History from './components/History/History'
 import About from './components/About/About'
 import Accordion from '@/global-components/Accordion/Accordion'
 import NavigationTile from '@/global-components/NavigationTile/NavigationTile'
-import usePageMetadata from '@/usePageMetadata'
+import usePageMetadata from '@/hooks/usePageMetadata'
 import frog from '@/assets/images/frog.png'
 import BuyPassBanner from './components/BuyPassBanner/BuyPassBanner'
 

@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { Navigate } from 'react-router'
 import Header from '@/global-components/Header/Header'
 
-const ProtectedRoute = (props) => {
+const ProtectedRoute = observer((props) => {
   const { children, redirect, access = 'auth' } = props
 
   const { store } = useContext(Context)
@@ -59,6 +59,6 @@ const ProtectedRoute = (props) => {
   }
 
   return children
-}
+})
 
-export default observer(ProtectedRoute)
+export default ProtectedRoute

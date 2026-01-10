@@ -38,23 +38,23 @@
       flex-direction: column;
     }
   }
-}
 
-.text {
-  display: flex;
-  flex-direction: column;
-  row-gap: rem(10);
-  caret-color: var(--color-dark);
-}
-
-.title {
-  color: var(--color-dark);
-
-  @include mobile-s {
-    text-align: center;
+  &__image {
+    height: fluid(200, 116);
   }
-}
 
-.image {
-  height: fluid(200, 116);
+  &__body {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(10);
+    caret-color: var(--color-dark);
+  }
+
+  &__title {
+    color: var(--color-dark);
+
+    @include mobile-s {
+      text-align: center;
+    }
+  }
 }

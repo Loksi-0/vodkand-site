@@ -9,7 +9,7 @@
   border-bottom: var(--border-dark);
   caret-color: transparent;
 
-  &__sticky {
+  &.sticky {
     position: sticky;
     top: 0;
   }
@@ -20,63 +20,12 @@
     justify-content: space-between;
     align-items: center;
   }
-}
 
-.rightContainer {
-  display: flex;
-  flex-direction: row;
-  column-gap: rem(10);
-  align-items: center;
-  justify-content: center;
-}
-
-.logo {
-  height: fluid(49, 32);
-  width: fluid(148, 99);
-  background: url('@/assets/icons/logo.svg') center/contain no-repeat;
-}
-
-.account {
-  &Link {
+  &__right {
     display: flex;
+    flex-direction: row;
+    column-gap: rem(10);
     align-items: center;
     justify-content: center;
-
-    svg {
-      @include square(fluid(35, 20));
-
-      color: var(--color-dark);
-    }
-
-    &.loading {
-      @include square(fluid(40, 25));
-
-      background-color: var(--color-gray-20);
-      border-radius: fluid(10, 5);
-    }
-
-    &:active {
-      scale: 0.9;
-    }
-  }
-
-  &__svgWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: rem(50);
-    padding: fluid(7, 5);
-    transition-duration: var(--transition-duration);
-
-    @include hover {
-      background-color: var(--color-gray-20);
-    }
-  }
-
-  &Icon {
-    @include square(fluid(40, 25));
-
-    border-radius: fluid(10, 5);
-    padding: 0;
   }
 }

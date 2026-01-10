@@ -1,5 +1,7 @@
 import styles from './Alert.module.scss'
 
+import cx from 'clsx'
+
 import Button from '@/global-components/Button/Button'
 
 import warn from '@/assets/icons/warn.png'
@@ -18,8 +20,8 @@ const Alert = (props) => {
   return (
     <section className={styles.alert}>
       <div className={styles.alert__body}>
-        <div className={styles.content}>
-          <div className={`${styles.iconWrapper} ${styles[color]}`}>
+        <div className={styles.alert__content}>
+          <div className={cx(styles.alert__contentIconWrapper, styles[color])}>
             <img
               className={styles.icon}
               src={color === 'red' ? ban : warn}
@@ -28,12 +30,12 @@ const Alert = (props) => {
               draggable='false'
             />
           </div>
-          <div className={styles.body}>
-            <h1 className={`${styles.title} h3`}>{title}</h1>
-            <p className={styles.description}>{description}</p>
+          <div className={styles.alert__contentBody}>
+            <h1 className='h3'>{title}</h1>
+            <p>{description}</p>
           </div>
         </div>
-        <div className={styles.button}>
+        <div className={styles.alert__button}>
           <Button
             color='dark'
             onClick={onClick}
@@ -43,7 +45,7 @@ const Alert = (props) => {
         </div>
       </div>
       {disclaimer && (
-        <p className='gray-text'>
+        <p className='gray'>
           Неактивированные аккаунты и аккаунты без проходки удаляются через 10
           дней
         </p>

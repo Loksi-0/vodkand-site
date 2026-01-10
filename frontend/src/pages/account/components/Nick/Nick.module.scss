@@ -6,7 +6,7 @@
   justify-content: start;
   column-gap: fluid(15, 7);
 
-  &Image {
+  &__image {
     aspect-ratio: 1;
     height: fluid(60, 40);
     border-radius: fluid(10, 5);
@@ -14,19 +14,19 @@
     caret-color: transparent;
   }
 
-  &Field {
+  &__field {
     display: flex;
     flex-direction: row;
     align-items: center;
     column-gap: fluid(10, 5);
+  }
 
-    &__edit {
-      aspect-ratio: 1;
-      height: fluid(20, 10);
-      border: none;
-      background: url('@/assets/icons/edit.svg') center/contain no-repeat;
+  &__edit {
+    aspect-ratio: 1;
+    height: fluid(20, 10);
+    border: none;
+    background: url('@/assets/icons/edit.svg') center/contain no-repeat;
 
-      display: none;
-    }
+    display: none;
   }
 }

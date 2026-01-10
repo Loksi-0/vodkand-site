@@ -1,5 +1,7 @@
 import styles from './Account.module.scss'
 
+import cx from 'clsx'
+
 import Header from '@/global-components/Header/Header'
 import Footer from '@/global-components/Footer/Footer'
 import Nick from './components/Nick/Nick'
@@ -9,7 +11,7 @@ import { useContext, useCallback, useState } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import Alert from './components/Alert/Alert'
-import usePageMetadata from '@/usePageMetadata'
+import usePageMetadata from '@/hooks/usePageMetadata'
 import { useNavigate } from 'react-router'
 
 const Account = observer(() => {
@@ -54,7 +56,7 @@ const Account = observer(() => {
   return (
     <>
       <Header />
-      <main className={`${styles.account} container`}>
+      <main className={cx(styles.account, 'container')}>
         {!store.user?.isActivated &&
           localStorage.getItem('isActivated') !== 'true' &&
           !store.isLoading && (

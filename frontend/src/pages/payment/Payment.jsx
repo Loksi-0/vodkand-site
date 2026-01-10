@@ -1,5 +1,7 @@
 import styles from './Payment.module.scss'
 
+import cx from 'clsx'
+
 import pass from '@/assets/images/frog.png'
 import Button from '@/global-components/Button/Button'
 
@@ -7,14 +9,12 @@ import Header from '@/global-components/Header/Header'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { useContext, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
-const Payment = () => {
+const Payment = observer(() => {
   const { store } = useContext(Context)
 
-  const { status } = useParams()
-
-  const [checkboxStyle, setCheckboxStyle] = useState(styles.form__checkboxIcon)
+  const [checkboxStyle, setCheckboxStyle] = useState(styles.form__icon)
   const [checkboxValue, setCheckboxValue] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -41,7 +41,7 @@ const Payment = () => {
       return
     }
 
-    setCheckboxStyle(`${styles.form__checkboxIcon} ${styles.invalid}`)
+    setCheckboxStyle(cx(styles.form__checkboxIcon, styles.invalid))
     setError('Заполните выделенные поля')
   }
 
@@ -69,80 +69,34 @@ const Payment = () => {
     }
   }
 
-  if (status === 'created') {
-    if (store.user?.hasPass) {
-      navigate('/account', { replace: true })
-    }
-
-    return (
-      <>
-        <Header />
-        <main className={styles.created}>
-          <section className={styles.created__inner}>
-            <div className={styles.created__icon}>
-              <svg
-                width='800px'
-                height='800px'
-                viewBox='0 0 24 24'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M12 7V12L14.5 13.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z'
-                  stroke='#000000'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
-            </div>
-            <div className={styles.created__body}>
-              <h1 className='h2'>Успешно</h1>
-              <p className={styles.created__description}>
-                Заказ создан и будет выполнен в ближайшее время
-              </p>
-            </div>
-            <Button
-              color='accent'
-              className={styles.created__button}
-              onClick={() => window.location.replace('/account')}
-            >
-              Перейти в аккаунт
-            </Button>
-          </section>
-        </main>
-      </>
-    )
-  }
-
   return (
     <>
       <Header />
       <main>
-        <section className={`${styles.payment} container`}>
+        <section className={cx(styles.payment, 'container')}>
           <div className={styles.payment__inner}>
-            <h1 className={`${styles.payment__title} h3`}>Оформление заказа</h1>
-            <ul className={styles.productList}>
+            <h1 className={cx(styles.payment__title, 'h3')}>
+              Оформление заказа
+            </h1>
+            <ul className={cx(styles.payment__list, styles.list)}>
               {products.map((element, index) => {
                 return (
                   <li
                     key={index}
-                    className={styles.productList__item}
+                    className={styles.list__item}
                   >
-                    <div className={styles.productList__imageWrapper}>
+                    <div className={styles.list__imageWrapper}>
                       <img
-                        className={styles.productList__image}
+                        className={styles.image}
                         src={element.icon}
                         alt=''
                         loading='lazy'
                         draggable='false'
                       />
                     </div>
-                    <div className={styles.productList__body}>
+                    <div className={styles.list__body}>
                       <h2 className='h5'>{element.title}</h2>
-                      <p
-                        className={`${styles.productList__subtitle} gray-text`}
-                      >
+                      <p className={cx(styles.list__subtitle, 'gray')}>
                         {element.subtitle}
                       </p>
                       <h3 className='h4'>{element.price}&nbsp;₽</h3>
@@ -153,9 +107,9 @@ const Payment = () => {
             </ul>
             <form
               onSubmit={handleSubmit}
-              className={styles.form}
+              className={cx(styles.payment__form, styles.form)}
             >
-              <h3 className={`${styles.form__result} h4`}>
+              <h3 className={cx(styles.form__result, 'h4')}>
                 Итого к оплате:{' '}
                 {products.reduce((acc, current) => acc + current.price, 0)}
                 &nbsp;₽
@@ -165,29 +119,35 @@ const Payment = () => {
                 htmlFor='agree'
               >
                 <input
-                  className={styles.form__checkboxInput}
+                  className={styles.form__input}
                   type='checkbox'
                   id='agree'
                   name='agree'
                   title=''
                   onInvalid={handleCheckboxInvalid}
                   onChange={(e) => {
-                    setCheckboxStyle(styles.form__checkboxIcon)
+                    setCheckboxStyle(styles.form__icon)
                     setCheckboxValue(e.target.checked)
                     setError('')
                   }}
                   required
                 />
                 <span className={checkboxStyle}></span>
-                <span className={styles.form__checkboxLabel}>
+                <span className={styles.form__label}>
                   Я согласен с{' '}
                   <Link
                     to='/legal/privacy-policy'
-                    className={styles.link}
+                    className='link'
                   >
                     Политикой конфиденциальности
                   </Link>{' '}
-                  и <Link className={styles.link}>Публичной офертой</Link>
+                  и{' '}
+                  <Link
+                    to='/legal/public-offer'
+                    className='link'
+                  >
+                    Публичной офертой
+                  </Link>
                 </span>
               </label>
               {error && <p className={styles.error}>{error}</p>}
@@ -206,6 +166,6 @@ const Payment = () => {
       </main>
     </>
   )
-}
+})
 
-export default observer(Payment)
+export default Payment

@@ -1,16 +1,49 @@
 @use '@/styles/helpers' as *;
 
-.main {
+.notFound {
   position: relative;
   overflow: hidden;
-}
 
-.logo {
-  position: absolute;
-  width: fluid(250, 150);
-  -webkit-user-select: none;
-  user-select: none;
-  animation: rotate 1s cubic-bezier(0.14, 0.78, 0.49, 0.99) 3s;
+  &__container {
+    display: flex;
+    flex-direction: row;
+    gap: fluid(60, 30);
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--section-padding);
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    row-gap: fluid(30, 20);
+  }
+
+  &__logo {
+    position: absolute;
+    width: fluid(250, 150);
+    -webkit-user-select: none;
+    user-select: none;
+    animation: rotate 1s cubic-bezier(0.14, 0.78, 0.49, 0.99) 3s;
+  }
+
+  &__image {
+    width: fluid(250, 150);
+    height: fluid(153, 92);
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    caret-color: transparent;
+
+    @include mobile {
+      align-items: start;
+      justify-content: center;
+    }
+  }
 }
 
 @keyframes rotate {
@@ -20,41 +53,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.section {
-  display: flex;
-  flex-direction: row;
-  gap: fluid(60, 30);
-  align-items: center;
-  justify-content: center;
-  padding-block: var(--section-padding);
-
-  @include mobile {
-    flex-direction: column;
-  }
-}
-
-.body {
-  display: flex;
-  flex-direction: column;
-  row-gap: fluid(30, 20);
-}
-
-.image {
-  width: fluid(250, 150);
-  height: fluid(153, 92);
-  display: flex;
-  align-items: start;
-  justify-content: start;
-  caret-color: transparent;
-
-  @include mobile {
-    align-items: start;
-    justify-content: center;
-  }
-}
-
-.description {
-  margin: 0;
 }

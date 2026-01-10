@@ -76,6 +76,21 @@
   overflow-y: scroll;
 }
 
-.gray-text {
+.gray {
   color: var(--color-gray);
+}
+
+.accent {
+  color: var(--color-accent);
+}
+
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: rem(1);
+  text-underline-offset: rem(3);
+  text-decoration-skip-ink: none;
+
+  @include hover {
+    text-decoration-thickness: rem(1.5);
+  }
 }

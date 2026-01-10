@@ -1,5 +1,7 @@
 import styles from './About.module.scss'
 
+import cx from 'clsx'
+
 import Paragraph from './Paragraph/Paragraph'
 import bee from '@/assets/images/bee.png'
 import sniffer from '@/assets/images/sniffer.png'
@@ -7,7 +9,7 @@ import sniffer from '@/assets/images/sniffer.png'
 const About = () => {
   return (
     <section className={styles.about}>
-      <div className={`${styles.about__inner} container`}>
+      <div className={cx(styles.about__inner, 'container')}>
         <Paragraph
           image={bee}
           title='В чём прикол?'

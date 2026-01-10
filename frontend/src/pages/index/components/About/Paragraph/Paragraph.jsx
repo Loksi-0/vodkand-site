@@ -1,13 +1,15 @@
 import styles from './Paragraph.module.scss'
 
+import cx from 'clsx'
+
 const Paragraph = (props) => {
   const { image, title, description, reversed = false } = props
 
   return (
-    <div className={`${styles.paragraph} ${reversed ? styles.reversed : ''}`}>
+    <div className={cx(styles.paragraph, { [styles.reversed]: reversed })}>
       {image && (
         <img
-          className={styles.image}
+          className={styles.paragraph__image}
           src={image}
           alt=''
           draggable='false'
@@ -15,9 +17,9 @@ const Paragraph = (props) => {
         />
       )}
 
-      <div className={styles.text}>
-        <h2 className={`${styles.title}`}>{title}</h2>
-        <p className={styles.description}>{description}</p>
+      <div className={styles.paragraph__body}>
+        <h2 className={styles.paragraph__title}>{title}</h2>
+        <p>{description}</p>
       </div>
     </div>
   )

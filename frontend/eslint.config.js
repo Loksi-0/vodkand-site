@@ -57,15 +57,6 @@ export default defineConfig([
           arrowParens: 'always'
         }
       ],
-      'object-curly-newline': [
-        'warn',
-        {
-          ObjectPattern: {
-            multiline: true,
-            minProperties: 2
-          }
-        }
-      ],
 
       'no-console': 'warn',
       eqeqeq: 'warn',

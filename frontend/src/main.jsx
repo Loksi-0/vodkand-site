@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 
 import { Toaster } from 'sonner'
-import Store from './api/store'
+import Store from './api/store/store'
 
 import '@/styles/normalise.scss'
 import '@/styles/fonts.scss'

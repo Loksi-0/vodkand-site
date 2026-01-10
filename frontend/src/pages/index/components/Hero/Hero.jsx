@@ -1,5 +1,7 @@
 import styles from './Hero.module.scss'
 
+import cx from 'clsx'
+
 import Button from '@/global-components/Button/Button'
 import Title from '../Title/Title'
 import CopyField from '@/global-components/CopyField/CopyField'
@@ -9,7 +11,7 @@ import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { useNavigate } from 'react-router'
 
-const Hero = () => {
+const Hero = observer(() => {
   const { store } = useContext(Context)
 
   const navigate = useNavigate()
@@ -43,21 +45,21 @@ const Hero = () => {
   }
 
   return (
-    <section className={`${styles.hero} container-big`}>
+    <section className={cx(styles.hero, 'container-big')}>
       {isMobile && (
-        <div className={styles.alertWrapper}>
+        <div className={styles.hero__alertWrapper}>
           <PunishmentAlert />
         </div>
       )}
-      <div className={styles.text}>
+      <header className={styles.hero__header}>
         <Title />
-        <p className={styles.description}>
+        <p className={styles.hero__description}>
           Forever world с неограниченными возможностями для творчества
         </p>
-      </div>
-      <div className={styles.rightSide}>
+      </header>
+      <div className={styles.hero__body}>
         {!isMobile && <PunishmentAlert />}
-        <div className={styles.buttons}>
+        <div className={styles.hero__content}>
           <Button
             color='accent'
             isBig
@@ -76,6 +78,6 @@ const Hero = () => {
       </div>
     </section>
   )
-}
+})
 
-export default observer(Hero)
+export default Hero

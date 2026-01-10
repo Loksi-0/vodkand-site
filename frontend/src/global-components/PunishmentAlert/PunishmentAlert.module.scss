@@ -1,11 +1,5 @@
 @use '@/styles/helpers' as *;
 
-.alerts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .alert {
   position: relative;
   max-width: rem(500);
@@ -20,23 +14,22 @@
   background-color: var(--color-gray-25);
   border: border(var(--color-gray-20));
 
-  &__body {
+  &__iconWrapper {
+    @include square(fluid(100, 60));
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: rem(20);
+    border-radius: rem(70);
   }
 
   &__icon {
     caret-color: transparent;
+  }
 
-    &Wrapper {
-      @include square(fluid(100, 60));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--color-yellow-10);
-      padding: rem(20);
-      border-radius: rem(70);
-    }
+  &__body {
+    display: flex;
+    flex-direction: column;
   }
 
   &__title {

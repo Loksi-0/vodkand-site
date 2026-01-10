@@ -1,9 +1,11 @@
 import styles from './Wiki.module.scss'
 
+import cx from 'clsx'
+
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import ReactMarkdown from 'react-markdown'
-import usePageMetadata from '@/usePageMetadata'
+import usePageMetadata from '@/hooks/usePageMetadata'
 import rehypeRaw from 'rehype-raw'
 import './markdown.scss'
 import LoadingLink from '../TopLoader/hooks/LoadingLink'
@@ -138,7 +140,14 @@ const Wiki = (props) => {
       return children
     }
 
-    return <Link to={href}>{children}</Link>
+    return (
+      <Link
+        className='link'
+        to={href}
+      >
+        {children}
+      </Link>
+    )
   }
 
   const modifiedContent = useMemo(() => {
@@ -159,12 +168,12 @@ const Wiki = (props) => {
   })
 
   return (
-    <section className={`${styles.wiki} container-big`}>
+    <section className={cx(styles.wiki, 'container-big')}>
       <h1 className='visually-hidden'>{definePageName(chapter)}</h1>
       <nav className={styles.navigation}>
         <ul
           ref={listRef}
-          className={styles.navigationList}
+          className={styles.list}
         >
           {navigation.map((element, index) => {
             const isCurrent = element.page === page
@@ -173,7 +182,9 @@ const Wiki = (props) => {
               <li
                 ref={isCurrent ? currentRef : null}
                 key={index}
-                className={`${styles.navigationList__item} ${isLoading && styles.isLoading}`}
+                className={cx(styles.item, {
+                  [styles.isLoading]: isLoading
+                })}
                 style={isLoading ? { width: navWidths[index] } : undefined}
               >
                 <LoadingLink
@@ -182,11 +193,13 @@ const Wiki = (props) => {
                       ? `/${chapter}/${element.page}`
                       : `/${chapter}`
                   }
-                  className={`${styles.navigationList__link} ${isCurrent && styles.isCurrent}`}
+                  className={cx(styles.link, {
+                    [styles.isCurrent]: isCurrent
+                  })}
                 >
                   {element?.icon && (
                     <img
-                      className={styles.navigationList__icon}
+                      className={styles.icon}
                       src={element.icon}
                       alt=''
                       loading='lazy'
@@ -194,7 +207,7 @@ const Wiki = (props) => {
                     />
                   )}
                   <div
-                    className={styles.navigationList__title}
+                    className={styles.title}
                     lang='ru'
                   >
                     {element?.title}
@@ -205,15 +218,17 @@ const Wiki = (props) => {
           })}
         </ul>
       </nav>
-      <article className={`${styles.article} ${isLoading && styles.isLoading}`}>
-        <header className={styles.articleHeader}>
-          <div className={styles.articleHeader__inner}>
+      <article
+        className={cx(styles.article, { [styles.isLoading]: isLoading })}
+      >
+        <header className={styles.header}>
+          <div className={styles.inner}>
             {article.icon === 'loading' ? (
-              <div className={`${styles.articleHeader__iconSkeleton}`}></div>
+              <div className={styles.iconSkeleton}></div>
             ) : (
               article.icon && (
                 <img
-                  className={styles.articleHeader__icon}
+                  className={styles.icon}
                   src={article.icon}
                   alt=''
                   loading='lazy'
@@ -223,7 +238,7 @@ const Wiki = (props) => {
             )}
             {article.link ? (
               <a
-                className={styles.articleHeader__titleLink}
+                className={styles.link}
                 href={article.link}
                 target='_blank'
                 title={article.link}
@@ -231,25 +246,23 @@ const Wiki = (props) => {
               >
                 <h2
                   lang='ru'
-                  className={`${styles.articleHeader__title} ${isLoading && styles.isLoading}`}
+                  className={`${styles.title} ${isLoading && styles.isLoading}`}
                 >
                   {article.title}
                 </h2>
               </a>
             ) : (
               <h2
-                className={`${styles.articleHeader__title} ${isLoading && styles.isLoading}`}
+                className={`${styles.title} ${isLoading && styles.isLoading}`}
               >
                 {article.title}
               </h2>
             )}
           </div>
           {isLoading ? (
-            <div className={styles.articleHeader__descriptionSkeleton}></div>
+            <div className={styles.descriptionSkeleton}></div>
           ) : (
-            <p className={styles.articleHeader__description}>
-              {article.description}
-            </p>
+            <p className={styles.description}>{article.description}</p>
           )}
         </header>
         <div className='markdown'>

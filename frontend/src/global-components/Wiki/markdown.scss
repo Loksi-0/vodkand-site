@@ -27,12 +27,6 @@
     margin-bottom: rem(10);
   }
 
-  & a {
-    text-decoration: underline;
-    text-decoration-thickness: rem(1);
-    text-underline-offset: rem(2);
-  }
-
   & div {
     width: 100%;
     display: flex;
@@ -95,6 +89,13 @@
 
   & ul {
     margin: 0;
+    padding-left: rem(20);
+    list-style: disc;
+  }
+
+  & ol {
+    margin: 0;
+    list-style: decimal;
     padding-left: rem(20);
   }
 }

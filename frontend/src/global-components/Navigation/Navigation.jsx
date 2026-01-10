@@ -1,5 +1,7 @@
 import styles from './Navigation.module.scss'
 
+import cx from 'clsx'
+
 import { Link } from 'react-router'
 
 const Navigation = (props) => {
@@ -21,7 +23,9 @@ const Navigation = (props) => {
               key={index}
             >
               <Link
-                className={`${styles.link} ${usedInTile && styles.inTile}`}
+                className={cx(styles.list__link, {
+                  [styles.inTile]: usedInTile
+                })}
                 to={element.href}
                 tabIndex={tabFocus ? 0 : -1}
               >

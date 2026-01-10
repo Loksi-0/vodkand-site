@@ -1,15 +1,6 @@
 @use '@/styles/helpers' as *;
 
 .googleButton {
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  row-gap: fluid(20, 10);
-  align-items: center;
-  justify-content: center;
-}
-
-.button {
   display: flex;
   flex-direction: row;
   column-gap: fluid(15, 10);
@@ -30,14 +21,8 @@
   &:active {
     scale: 0.95;
   }
-}
 
-.icon {
-  @include square(rem(30));
-}
-
-.agreement {
-  @include fluid-text(18, 14);
-
-  text-align: center;
+  &__icon {
+    @include square(rem(30));
+  }
 }

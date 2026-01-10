@@ -1,5 +1,7 @@
 import styles from './BuyPassBanner.module.scss'
 
+import cx from 'clsx'
+
 import Button from '@/global-components/Button/Button'
 
 import pass from '@/assets/images/frog.png'
@@ -8,7 +10,7 @@ import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { useNavigate } from 'react-router'
 
-const BuyPassBanner = () => {
+const BuyPassBanner = observer(() => {
   const { store } = useContext(Context)
   const navigate = useNavigate()
 
@@ -35,13 +37,13 @@ const BuyPassBanner = () => {
   }
 
   return (
-    <section className={styles.section}>
-      <div className={`${styles.section__inner} container`}>
+    <section className={styles.banner}>
+      <div className={cx(styles.banner__inner, 'container')}>
         <div className={styles.left}>
-          <h3 className={styles.title}>Присоединяйтесь сейчас</h3>
-          <ul className={styles.description}>
-            <li className={styles.description__item}>
-              <div className={styles.description__icon}>
+          <h3 className={styles.left__title}>Присоединяйтесь сейчас</h3>
+          <ul className={styles.left__list}>
+            <li className={styles.left__listItem}>
+              <div className={styles.left__listIcon}>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   width='24'
@@ -56,12 +58,10 @@ const BuyPassBanner = () => {
                   <path d='M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z' />
                 </svg>
               </div>
-              <p className={styles.description__content}>
-                Доступ выдается навсегда
-              </p>
+              <p>Доступ выдается навсегда</p>
             </li>
-            <li className={styles.description__item}>
-              <div className={styles.description__icon}>
+            <li className={styles.left__listItem}>
+              <div className={styles.left__listIcon}>
                 <svg
                   width='800px'
                   height='800px'
@@ -96,15 +96,15 @@ const BuyPassBanner = () => {
                   />
                 </svg>
               </div>
-              <p className={styles.description__content}>
+              <p>
                 Покупка осуществляется 1 раз, без повторных платежей и подписок
               </p>
             </li>
           </ul>
         </div>
         <div className={styles.right}>
-          <div className={styles.productTitle}>
-            <div className={styles.imageWrapper}>
+          <div className={styles.right__title}>
+            <div className={styles.right__imageWrapper}>
               <img
                 className={styles.image}
                 src={pass}
@@ -115,7 +115,7 @@ const BuyPassBanner = () => {
             </div>
             <h4 className='h4'>Доступ на сервер</h4>
           </div>
-          <h4 className={`${styles.price} h1`}>{sale ? sale : price}&nbsp;₽</h4>
+          <h4 className='h1'>{sale ? sale : price}&nbsp;₽</h4>
           <Button
             color='accent'
             disabled={store.isLoading}
@@ -129,6 +129,6 @@ const BuyPassBanner = () => {
       </div>
     </section>
   )
-}
+})
 
-export default observer(BuyPassBanner)
+export default BuyPassBanner

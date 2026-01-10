@@ -17,6 +17,45 @@
   &.isClosing {
     animation: fadeOut var(--transition-duration);
   }
+
+  &__container {
+    width: 100%;
+  }
+
+  &__content {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    row-gap: fluid(30, 20);
+    background-color: var(--color-gray-25);
+    border-radius: fluid(50, 30);
+    padding: fluid(30, 20);
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: fluid(20, 10);
+    border-bottom: var(--border-split);
+  }
+
+  &__closeButton {
+    @include square(fluid(50, 35));
+
+    svg {
+      width: 100%;
+      height: 100%;
+
+      path {
+        color: var(--color-dark);
+        fill: var(--color-dark);
+      }
+    }
+  }
 }
 
 @keyframes fadeIn {
@@ -34,44 +73,5 @@
   }
   to {
     opacity: 0;
-  }
-}
-
-.container {
-  width: 100%;
-}
-
-.content {
-  width: 100%;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  row-gap: fluid(30, 20);
-  background-color: var(--color-gray-25);
-  border-radius: fluid(50, 30);
-  padding: fluid(30, 20);
-}
-
-.header {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: fluid(20, 10);
-  border-bottom: var(--border-split);
-}
-
-.closeButton {
-  @include square(fluid(50, 35));
-
-  svg {
-    width: 100%;
-    height: 100%;
-
-    path {
-      color: var(--color-dark);
-      fill: var(--color-dark);
-    }
   }
 }

@@ -1,5 +1,7 @@
 import styles from './PunishmentAlert.module.scss'
 
+import cx from 'clsx'
+
 import mute from '@/assets/icons/mute.png'
 import warn from '@/assets/icons/warn.png'
 import ban from '@/assets/icons/ban.png'
@@ -8,7 +10,7 @@ import { useState, useContext, useEffect } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 
-const PunishmentAlert = () => {
+const PunishmentAlert = observer(() => {
   const { store } = useContext(Context)
   const [punishment, setPunishment] = useState(null)
 
@@ -21,7 +23,29 @@ const PunishmentAlert = () => {
       try {
         const response = await store.getPunishments(store.user?.nickname)
 
-        setPunishment(response.data[0])
+        const punishmentType = response.data[0].type
+
+        if (punishmentType === 'WARN') {
+          return setPunishment({
+            icon: warn,
+            title: 'Предупреждение',
+            ...response.data[0]
+          })
+        }
+        if (punishmentType === 'BAN') {
+          return setPunishment({
+            icon: ban,
+            title: 'Бан',
+            ...response.data[0]
+          })
+        }
+        if (punishmentType === 'MUTE') {
+          return setPunishment({
+            icon: mute,
+            title: 'Мут',
+            ...response.data[0]
+          })
+        }
       } catch (e) {
         console.error(e.response?.data?.message)
       }
@@ -38,49 +62,37 @@ const PunishmentAlert = () => {
     return d
   }
 
-  if (punishment) {
-    return (
-      <div className={styles.alerts}>
-        <div className={styles.alert}>
-          <div
-            className={`${styles.alert__iconWrapper} 
-                        ${
-                          (punishment.type === 'WARN' && styles.warn) ||
-                          (punishment.type === 'BAN' && styles.ban) ||
-                          (punishment.type === 'MUTE' && styles.mute)
-                        }`}
-          >
-            <img
-              className={styles.alert__icon}
-              src={
-                (punishment.type === 'WARN' && warn) ||
-                (punishment.type === 'BAN' && ban) ||
-                (punishment.type === 'MUTE' && mute)
-              }
-              alt=''
-              draggable='false'
-              loading='lazy'
-            />
-          </div>
-          <div className={styles.alert__body}>
-            <h4 className={styles.alert__title}>
-              {(punishment.type === 'WARN' && 'Предупреждение') ||
-                (punishment.type === 'BAN' && 'Бан') ||
-                (punishment.type === 'MUTE' && 'Мут')}
-            </h4>
-            <p className={styles.alert__reason}>{punishment.reason}</p>
-            <p className={`${styles.alert__duration} gray-text`}>
-              {punishment.endDate !== 0
-                ? `до ${date(punishment.endDate)}`
-                : 'Навсегда'}
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  } else {
-    return
+  if (!punishment) {
+    return null
   }
-}
 
-export default observer(PunishmentAlert)
+  return (
+    <div className={styles.alert}>
+      <div
+        className={cx(
+          styles.alert__iconWrapper,
+          styles[punishment.type.toLowerCase()]
+        )}
+      >
+        <img
+          className={styles.alert__icon}
+          src={punishment.icon}
+          alt=''
+          draggable='false'
+          loading='lazy'
+        />
+      </div>
+      <div className={styles.alert__body}>
+        <h4 className={styles.alert__title}>{punishment.title}</h4>
+        <p className={styles.alert__reason}>{punishment.reason}</p>
+        <p className={cx(styles.alert__duration, 'gray')}>
+          {punishment.endDate !== 0
+            ? `до ${date(punishment.endDate)}`
+            : 'Навсегда'}
+        </p>
+      </div>
+    </div>
+  )
+})
+
+export default PunishmentAlert

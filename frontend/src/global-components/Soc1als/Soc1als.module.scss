@@ -15,9 +15,9 @@
       background-color: var(--color-gray-20);
     }
   }
-}
 
-.link {
-  aspect-ratio: 1;
-  height: fluid(40, 30);
+  &__link {
+    aspect-ratio: 1;
+    height: fluid(40, 30);
+  }
 }

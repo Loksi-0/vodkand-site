@@ -11,52 +11,33 @@
   @include mobile {
     flex-direction: row-reverse;
   }
-}
 
-.subtitle {
-  color: var(--color-gray);
-}
-
-.field {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: fluid(10, 5);
-  background-color: var(--color-gray-25);
-  border: border(var(--color-gray-20));
-  border-radius: fluid(30, 15);
-  padding: fluid(30, 15);
-}
-
-.text {
-  color: var(--color-dark);
-}
-
-.copy {
-  aspect-ratio: 1;
-  height: fluid(35, 25);
-  padding: rem(5);
-  border-radius: rem(5);
-  transition-duration: var(--transition-duration);
-  -webkit-user-select: none;
-  user-select: none;
-
-  @include hover {
-    background-color: var(--color-gray-20);
+  &__subtitle {
+    color: var(--color-gray);
   }
 
-  &:active {
-    background-color: var(--color-gray-10);
-    scale: 0.9;
+  &__body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: fluid(10, 5);
+    background-color: var(--color-gray-25);
+    border: border(var(--color-gray-20));
+    border-radius: fluid(30, 15);
+    padding: fluid(30, 15);
   }
-}
 
-.icon {
-  @include square(fluid(35, 20));
-
-  svg {
-    width: 100%;
-    height: 100%;
+  &__text {
     color: var(--color-dark);
+  }
+
+  &__icon {
+    @include square(fluid(35, 20));
+
+    svg {
+      width: 100%;
+      height: 100%;
+      color: var(--color-dark);
+    }
   }
 }

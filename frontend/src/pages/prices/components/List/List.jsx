@@ -1,5 +1,7 @@
 import styles from './List.module.scss'
 
+import cx from 'clsx'
+
 import Button from '@/global-components/Button/Button'
 import pass from '@/assets/images/frog.png'
 import { useNavigate } from 'react-router'
@@ -7,7 +9,7 @@ import { useContext } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 
-const List = () => {
+const List = observer(() => {
   const { store } = useContext(Context)
 
   const navigate = useNavigate()
@@ -36,7 +38,7 @@ const List = () => {
 
   return (
     <section className={styles.list}>
-      <ul className={`${styles.list__inner} container`}>
+      <ul className={cx(styles.list__inner, 'container')}>
         <li className={styles.list__item}>
           <div className={styles.list__imageWrapper}>
             <img
@@ -47,14 +49,12 @@ const List = () => {
               draggable='false'
             />
           </div>
-          <div className={styles.list__content}>
-            <div className={styles.list__body}>
-              <h2 className={`${styles.list__title} h3`}>Доступ на сервер</h2>
+          <div className={styles.list__body}>
+            <div className={styles.list__content}>
+              <h2 className={cx(styles.list__title, 'h3')}>Доступ на сервер</h2>
               <div className={styles.list__price}>
                 <h3 className='h2'>{sale ? sale : price}&nbsp;₽</h3>
-                {sale && (
-                  <p className={styles.list__priceOld}>{price}&nbsp;₽</p>
-                )}
+                {sale && <p className={styles.list__sale}>{price}&nbsp;₽</p>}
               </div>
             </div>
             <Button
@@ -69,6 +69,6 @@ const List = () => {
       </ul>
     </section>
   )
-}
+})
 
-export default observer(List)
+export default List

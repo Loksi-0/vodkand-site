@@ -1,13 +1,15 @@
 import styles from './Whitelist.module.scss'
 
+import cx from 'clsx'
+
 import { useContext, useState } from 'react'
 import Button from '@/global-components/Button/Button'
 import { Context } from '@/main'
-import usePageMetadata from '@/usePageMetadata'
+import usePageMetadata from '@/hooks/usePageMetadata'
 import { observer } from 'mobx-react-lite'
 import { toast } from 'sonner'
 
-const Whitelist = () => {
+const Whitelist = observer(() => {
   const { store } = useContext(Context)
 
   const [loading, setLoading] = useState(false)
@@ -43,16 +45,18 @@ const Whitelist = () => {
 
   return (
     <main>
-      <section className={`${styles.whitelist} container`}>
+      <section className={cx(styles.whitelist, 'container')}>
         <form
           className={styles.form}
           onSubmit={handleSubmit}
         >
-          <h1 className={`${styles.title} h3`}>Добавьте свой ник в вайтлист</h1>
+          <h1 className={cx(styles.form__title, 'h3')}>
+            Добавьте свой ник в вайтлист
+          </h1>
           <div className={styles.form__body}>
-            <div className={styles.input}>
+            <div className={styles.form__field}>
               <img
-                className={styles.input__icon}
+                className={styles.form__fieldIcon}
                 src={
                   nick
                     ? `https://mineskin.eu/helm/${nick}`
@@ -65,7 +69,9 @@ const Whitelist = () => {
                 draggable='false'
               />
               <input
-                className={`${styles.input__field} ${error && styles.input__error}`}
+                className={cx(styles.form__fieldInput, {
+                  [styles.form__fieldInputError]: error
+                })}
                 type='text'
                 placeholder='nagibator777'
                 value={nick}
@@ -88,7 +94,7 @@ const Whitelist = () => {
               />
               {error && <p className={styles.error}>{error}</p>}
             </div>
-            <p className={`${styles.disclaimer} gray-text`}>
+            <p className={cx(styles.form__disclaimer, 'gray')}>
               Потом поменять ник будет нельзя. Если вы неправильно вписали ник,
               обратитесь к администратору
             </p>
@@ -105,6 +111,6 @@ const Whitelist = () => {
       </section>
     </main>
   )
-}
+})
 
-export default observer(Whitelist)
+export default Whitelist

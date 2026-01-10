@@ -1,10 +1,12 @@
 import styles from './Title.module.scss'
 
+import cx from 'clsx'
+
 const Title = () => {
   return (
     <h1
       draggable='false'
-      className={`${styles.title} h0`}
+      className={cx(styles.title, 'h0')}
     >
       Vodkand
     </h1>

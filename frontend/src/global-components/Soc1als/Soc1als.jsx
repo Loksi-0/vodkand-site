@@ -20,13 +20,13 @@ const Soc1als = () => {
             className={styles.list__item}
           >
             <a
-              className={styles.link}
+              className={styles.list__link}
               href={link.link}
               target='_blank'
+              rel='noreferrer'
             >
               <span className='visually-hidden'>{link.title}</span>
               <img
-                className={styles.icon}
                 src={link.icon}
                 alt=''
                 loading='lazy'

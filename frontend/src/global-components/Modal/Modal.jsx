@@ -1,5 +1,7 @@
 import styles from './Modal.module.scss'
 
+import cx from 'clsx'
+
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import Button from '../Button/Button'
@@ -39,7 +41,9 @@ const Modal = (props) => {
 
   useEffect(() => {
     const validateKeydown = (event) => {
-      if (event.code !== 'Escape') return
+      if (event.code !== 'Escape') {
+        return
+      }
 
       closeModal()
     }
@@ -63,23 +67,25 @@ const Modal = (props) => {
     }
   }, [isOpen])
 
-  if (!isOpen) return null
+  if (!isOpen) {
+    return null
+  }
 
   return ReactDOM.createPortal(
     <div
-      className={`${styles.modal} ${isClosing && styles.isClosing}`}
+      className={cx(styles.modal, { [styles.isClosing]: isClosing })}
       onClick={closeModal}
     >
-      <div className={`${styles.container} container`}>
+      <div className={cx(styles.modal__container, 'container')}>
         <div
-          className={styles.content}
+          className={styles.modal__content}
           onClick={(e) => e.stopPropagation()}
         >
-          <header className={styles.header}>
+          <header className={styles.modal__header}>
             <h3 className='h3'>{title}</h3>
             <Button
               color='icon'
-              className={styles.closeButton}
+              className={styles.modal__closeButton}
               onClick={closeModal}
             >
               <svg

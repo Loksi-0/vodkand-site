@@ -19,14 +19,14 @@ const CopyField = (props) => {
 
   return (
     <div className={styles.copyField}>
-      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-      <div className={styles.field}>
-        <p className={styles.text}>{text}</p>
+      {subtitle && <p className={styles.copyField__subtitle}>{subtitle}</p>}
+      <div className={styles.copyField__body}>
+        <p className={styles.copyField__text}>{text}</p>
         <Button
           color='icon'
           onClick={handleCopy}
         >
-          <div className={styles.icon}>
+          <div className={styles.copyField__icon}>
             <svg
               width='800px'
               height='800px'

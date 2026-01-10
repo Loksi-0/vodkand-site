@@ -1,4 +1,4 @@
-import api from './axiosConfig.js'
+import api from '../axiosConfig.js'
 
 class AuthService {
   static registration = async (email, password) => {

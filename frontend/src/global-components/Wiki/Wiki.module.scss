@@ -13,16 +13,6 @@
   @include mobile {
     flex-direction: column;
     row-gap: rem(30);
-
-    .navigation {
-      width: 100%;
-      &List {
-        width: 100%;
-        flex-direction: row;
-        overflow-x: scroll;
-        overflow-y: hidden;
-      }
-    }
   }
 }
 
@@ -42,6 +32,7 @@
   }
 
   @include mobile {
+    width: 100%;
     background-color: var(--color-light);
     border-right: none;
     padding-right: 0;
@@ -50,7 +41,7 @@
     border-bottom: var(--border-split);
   }
 
-  &List {
+  .list {
     width: max-content;
     display: flex;
     flex-direction: column;
@@ -61,55 +52,62 @@
       width: fluid(220, 150);
     }
 
+    @include mobile {
+      width: 100%;
+      flex-direction: row;
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }
+  }
 
-    &__item {
-      display: flex;
-      flex-shrink: 0;
-      transition-duration: var(--transition-duration);
+  .item {
+    display: flex;
+    flex-shrink: 0;
+    transition-duration: var(--transition-duration);
 
-      &:active {
-        scale: 0.95;
-      }
-
-      &.isLoading {
-        height: rem(30);
-        border-radius: rem(10);
-        background-color: var(--color-gray-20);
-      }
+    &:active {
+      scale: 0.95;
     }
 
-    &__link {
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      column-gap: rem(10);
-      background-color: transparent;
+    &.isLoading {
+      height: rem(30);
       border-radius: rem(10);
-      padding: rem(5);
-      overflow: hidden;
-      hyphens: auto;
+      background-color: var(--color-gray-20);
+    }
+  }
 
-      @include hover {
-        background-color: var(--color-gray-25);
-      }
+  .link {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: rem(10);
+    background-color: transparent;
+    border-radius: rem(10);
+    padding: rem(5);
+    overflow: hidden;
+    hyphens: auto;
 
-      &.isCurrent {
-        background-color: var(--color-gray-20);
-        cursor: default;
-      }
+    @include hover {
+      background-color: var(--color-gray-25);
     }
 
-    &__icon {
-      @include square(rem(25));
+    &.isCurrent {
+      background-color: var(--color-gray-20);
+      cursor: default;
     }
+  }
 
-    &__title {
-      overflow-wrap: break-word;
-    }
+  .icon {
+    @include square(rem(25));
+  }
+
+  .title {
+    overflow-wrap: break-word;
   }
 }
 
@@ -131,7 +129,7 @@
     min-height: 100vh;
   }
 
-  &Header {
+  .header {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -140,7 +138,7 @@
     align-self: center;
     row-gap: rem(10);
 
-    &__inner {
+    .inner {
       width: 100%;
       display: flex;
       flex-direction: row;
@@ -151,7 +149,7 @@
       overflow: hidden;
     }
 
-    &__title {
+    .title {
       text-align: center;
       caret-color: var(--color-dark);
       hyphens: auto;
@@ -162,40 +160,40 @@
         background-color: var(--color-gray-20);
         border-radius: rem(10);
       }
+    }
 
-      &Link {
-        position: relative;
+    .link {
+      position: relative;
 
-        @include hover {
-          text-decoration: underline;
-          text-decoration-thickness: rem(2);
-          text-underline-offset: rem(5);
-        }
+      @include hover {
+        text-decoration: underline;
+        text-decoration-thickness: rem(2);
+        text-underline-offset: rem(5);
       }
     }
 
-    &__icon {
+    .icon {
+      @include square(fluid(50, 30));
+    }
+
+    .iconSkeleton {
       @include square(fluid(50, 30));
 
-      &Skeleton {
-        @include square(fluid(50, 30));
-
-        border-radius: rem(10);
-        border: none;
-        background-color: var(--color-gray-20);
-      }
+      border-radius: rem(10);
+      border: none;
+      background-color: var(--color-gray-20);
     }
 
-    &__description {
+    .description {
       text-align: center;
       line-height: 125%;
+    }
 
-      &Skeleton {
-        width: rem(300);
-        height: rem(30);
-        background-color: var(--color-gray-20);
-        border-radius: rem(10);
-      }
+    .descriptionSkeleton {
+      width: rem(300);
+      height: rem(30);
+      background-color: var(--color-gray-20);
+      border-radius: rem(10);
     }
   }
 }

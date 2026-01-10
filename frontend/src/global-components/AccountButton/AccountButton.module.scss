@@ -21,24 +21,24 @@
   &:active {
     scale: 0.9;
   }
-}
 
-.svgWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: rem(50);
-  padding: fluid(7, 5);
-  transition-duration: var(--transition-duration);
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: rem(50);
+    padding: fluid(7, 5);
+    transition-duration: var(--transition-duration);
 
-  @include hover {
-    background-color: var(--color-gray-20);
+    @include hover {
+      background-color: var(--color-gray-20);
+    }
   }
-}
 
-.icon {
-  @include square(fluid(40, 25));
+  &__skinIcon {
+    @include square(fluid(40, 25));
 
-  border-radius: fluid(10, 5);
-  padding: 0;
+    border-radius: fluid(10, 5);
+    padding: 0;
+  }
 }

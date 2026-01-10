@@ -16,6 +16,7 @@ import NotFound from './pages/notFound/NotFound'
 import GoogleAuth from './pages/googleAuth/GoogleAuth'
 import ScrollToTop from './global-components/ScrollToTop/ScrollToTop'
 import Payment from './pages/payment/Payment'
+import Pending from '@/pages/payment/pending/Pending'
 
 // prettier-ignore
 
@@ -94,7 +95,7 @@ const App = observer(() => {
         />
         <Route path='/payment/:status' element={
             <ProtectedRoute redirect='/account' access='activated'>
-              <Payment />
+              <Pending />
             </ProtectedRoute>
           }
         />

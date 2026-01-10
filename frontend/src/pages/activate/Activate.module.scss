@@ -8,6 +8,25 @@
   row-gap: fluid(30, 15);
   flex-grow: 1;
   background-color: var(--color-light);
+
+  &__title {
+    text-align: center;
+  }
+
+  &__preButton {
+    height: fluid(70, 60);
+    opacity: 0;
+  }
+}
+
+.preloaderWrapper {
+  @include square(fluid(200, 100));
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .preloader {
@@ -63,26 +82,7 @@
     animation: error 0.5s forwards;
   }
 
-  &__wrapper {
-    @include square(fluid(200, 100));
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    -webkit-user-select: none;
-    user-select: none;
+  &__icon {
+    width: 100%;
   }
-}
-
-.icon {
-  width: 100%;
-}
-
-.title {
-  text-align: center;
-}
-
-.preButton {
-  height: fluid(70, 60);
-  opacity: 0;
 }

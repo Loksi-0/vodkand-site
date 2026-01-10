@@ -1,5 +1,7 @@
 import styles from './AccountButton.module.scss'
 
+import cx from 'clsx'
+
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
@@ -10,12 +12,12 @@ const AccountButton = observer(() => {
 
   return (
     <Link
-      className={`${styles.link}  ${store.isLoading && styles.loading}`}
+      className={cx(styles.link, { [styles.loading]: store.isLoading })}
       to={store.isAuth && !store.isLoading ? '/account' : '/auth'}
       draggable='false'
     >
       {!store.isLoading && !store.user?.nickname && (
-        <div className={styles.svgWrapper}>
+        <div className={styles.link__icon}>
           <svg
             width='800px'
             height='800px'
@@ -42,7 +44,7 @@ const AccountButton = observer(() => {
       )}
       {!store.isLoading && store.user?.nickname && (
         <img
-          className={styles.icon}
+          className={styles.link__skinIcon}
           src={`https://mineskin.eu/helm/${store.user?.nickname}`}
           alt=''
           loading='lazy'

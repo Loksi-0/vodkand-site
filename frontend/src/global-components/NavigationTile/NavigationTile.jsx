@@ -1,5 +1,7 @@
 import styles from './NavigationTile.module.scss'
 
+import cx from 'clsx'
+
 import Navigation from '../Navigation/Navigation'
 import { useEffect, useState } from 'react'
 
@@ -16,7 +18,7 @@ const NavigationTile = () => {
   }, [])
 
   return (
-    <div className={`${styles.wrapper} ${isAppeared && styles.appeared}`}>
+    <div className={cx(styles.wrapper, { [styles.appeared]: isAppeared })}>
       <div className={styles.tile}>
         <Navigation
           tabFocus={false}

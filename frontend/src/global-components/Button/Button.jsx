@@ -1,9 +1,11 @@
 import styles from './Button.module.scss'
 
+import cx from 'clsx'
+
 import Preloader from '../Preloader/Preloader'
 import { forwardRef } from 'react'
 
-const Button = forwardRef((props, ref) => {
+const Button = (props, ref) => {
   const {
     color,
     children,
@@ -22,21 +24,19 @@ const Button = forwardRef((props, ref) => {
     <button
       ref={ref}
       type={type}
-      className={`
-          ${styles.button}
-          ${styles[color]} 
-          ${isBig ? styles.isBig : ''}
-          ${disabled && styles.disabled}
-          ${className}
-      `}
+      className={cx(styles.button, styles[color], className, {
+        [styles.isBig]: isBig,
+        [styles.disabled]: disabled
+      })}
       style={style}
       title={title}
-      onClick={!disabled ? onClick : undefined}
+      disabled={disabled}
+      onClick={onClick}
       tabIndex={tabindex}
     >
       {loading ? <Preloader size={30} /> : children}
     </button>
   )
-})
+}
 
-export default Button
+export default forwardRef(Button)

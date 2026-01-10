@@ -1,9 +1,11 @@
 import styles from './History.module.scss'
 
+import cx from 'clsx'
+
 import Button from '@/global-components/Button/Button'
 import Modal from '@/global-components/Modal/Modal'
 import { useRef, useState } from 'react'
-import ModalWindow from './ModalWindow/ModalWindow'
+import ModalContent from './ModalContent/ModalContent'
 
 const History = () => {
   const pages = [
@@ -129,8 +131,8 @@ const History = () => {
 
   return (
     <section className={styles.history}>
-      <div className={`${styles.history__inner} container`}>
-        <h2 className={styles.history__title}>История проекта</h2>
+      <div className={cx(styles.history__inner, 'container')}>
+        <h2>История проекта</h2>
         <article className={styles.article}>
           <div className={styles.article__body}>
             <div
@@ -138,16 +140,11 @@ const History = () => {
               style={{ opacity: opacity }}
               ref={contentRef}
             >
-              <div className={styles.article__titleWrapper}>
-                <h3 className={styles.article__title}>{currentPage.title}</h3>
-                <p className={styles.article__titleYear}>{currentPage.year}</p>
+              <div className={styles.article__title}>
+                <h3>{currentPage.title}</h3>
+                <p className='gray'>{currentPage.year}</p>
               </div>
-              <p
-                className={styles.article__description}
-                ref={paragraphRef}
-              >
-                {currentPage.description}
-              </p>
+              <p ref={paragraphRef}>{currentPage.description}</p>
             </div>
             <Button
               className={styles.article__button}
@@ -166,7 +163,7 @@ const History = () => {
                 openGalleryButtonRef.current.focus()
               }}
             >
-              <ModalWindow
+              <ModalContent
                 page={currentPage.imageFolder}
                 version={currentPage.version}
                 color={currentPage.color}
@@ -174,7 +171,7 @@ const History = () => {
               />
             </Modal>
           </div>
-          <div className={styles.history__rightSide}>
+          <div className={styles.article__right}>
             <div
               className={styles.article__imageWrapper}
               style={{
@@ -199,9 +196,9 @@ const History = () => {
               />
             </div>
             {!isMobile && (
-              <div className={styles.history__buttons}>
+              <div className={styles.navigation}>
                 <Button
-                  className={styles.history__buttonsButton}
+                  className={styles.navigation__button}
                   color='gray'
                   disabled={pages.indexOf(currentPage) === 0}
                   onClick={back}
@@ -221,7 +218,7 @@ const History = () => {
                   </svg>
                 </Button>
                 <Button
-                  className={styles.history__buttonsButton}
+                  className={styles.navigation__button}
                   color='gray'
                   disabled={pages.indexOf(currentPage) === pages.length - 1}
                   onClick={forward}
@@ -245,9 +242,9 @@ const History = () => {
           </div>
         </article>
         {isMobile && (
-          <div className={styles.history__buttons}>
+          <div className={styles.navigation}>
             <Button
-              className={styles.history__buttonsButton}
+              className={styles.navigation__button}
               color='gray'
               disabled={pages.indexOf(currentPage) === 0}
               onClick={back}
@@ -266,7 +263,7 @@ const History = () => {
               </svg>
             </Button>
             <Button
-              className={styles.history__buttonsButton}
+              className={styles.navigation__button}
               color='gray'
               disabled={pages.indexOf(currentPage) === pages.length - 1}
               onClick={forward}

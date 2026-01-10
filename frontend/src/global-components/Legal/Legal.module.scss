@@ -11,22 +11,22 @@
   @include mobile {
     flex-direction: column;
   }
-}
 
-.link {
-  @include hover {
-    color: var(--color-gray);
+  &__link {
+    @include hover {
+      color: var(--color-gray);
 
-    &::after {
-      color: var(--color-dark);
-    }
-  }
-
-  @include mobile-above {
-    &:not(:last-child) {
       &::after {
-        content: '·';
-        margin-left: var(--gap);
+        color: var(--color-dark);
+      }
+    }
+
+    @include mobile-above {
+      &:not(:last-child) {
+        &::after {
+          content: '·';
+          margin-left: var(--gap);
+        }
       }
     }
   }

@@ -1,5 +1,7 @@
 import styles from './GoogleAuth.module.scss'
 
+import cx from 'clsx'
+
 import Button from '@/global-components/Button/Button'
 import Preloader from '@/global-components/Preloader/Preloader'
 import { useContext, useEffect, useState } from 'react'
@@ -43,9 +45,9 @@ const GoogleAuth = () => {
   }, [])
 
   return (
-    <main className={`${styles.main} container`}>
+    <main className={cx(styles.googleAuth, 'container')}>
       {error ? (
-        <div className={styles.error}>
+        <div className={styles.googleAuth__error}>
           <h1 className='h4'>{error}</h1>
           <Button
             color='accent'

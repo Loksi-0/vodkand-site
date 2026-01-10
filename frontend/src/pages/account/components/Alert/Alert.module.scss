@@ -21,43 +21,32 @@
       row-gap: fluid(40, 25);
     }
   }
-}
 
-.content {
-  display: flex;
-  flex-direction: row;
-  column-gap: fluid(20, 10);
-  align-items: center;
-}
+  &__content {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid(20, 10);
+    align-items: center;
 
-.icon {
-  caret-color: transparent;
+    &IconWrapper {
+      @include square(fluid(100, 70));
 
-  &Wrapper {
-    @include square(fluid(100, 70));
+      caret-color: transparent;
+      flex-shrink: 0;
+      border-radius: rem(100);
+      padding: fluid(20, 15);
+    }
 
-    flex-shrink: 0;
-    border-radius: rem(100);
-    padding: fluid(20, 15);
+    &Body {
+      display: flex;
+      flex-direction: column;
+      row-gap: fluid(10, 5);
+    }
   }
-}
 
-.body {
-  display: flex;
-  flex-direction: column;
-  row-gap: fluid(10, 5);
-}
-
-.title {
-  margin: 0;
-}
-
-.description {
-  margin: 0;
-}
-
-.button {
-  flex-shrink: 0;
+  &__button {
+    flex-shrink: 0;
+  }
 }
 
 .yellow {

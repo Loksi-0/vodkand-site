@@ -1,11 +1,13 @@
-import styles from './notFound.module.scss'
+import styles from './NotFound.module.scss'
+
+import cx from 'clsx'
 
 import Header from '@/global-components/Header/Header'
 import frog from '@/assets/images/frog.png'
 
 import React, { useEffect, useRef } from 'react'
 import Button from '@/global-components/Button/Button'
-import usePageMetadata from '@/usePageMetadata'
+import usePageMetadata from '@/hooks/usePageMetadata'
 import { useNavigate } from 'react-router'
 
 const NotFound = () => {
@@ -78,13 +80,13 @@ const NotFound = () => {
       <Header ref={headerRef} />
       <main
         ref={mainRef}
-        className={styles.main}
+        className={styles.notFound}
       >
-        <section className={`${styles.section} container`}>
-          <div className={styles.body}>
-            <div className={styles.content}>
+        <section className={cx(styles.notFound__container, 'container')}>
+          <div className={styles.notFound__body}>
+            <div className={styles.notFound__content}>
               <h1 className='h0'>404</h1>
-              <p className={styles.description}>Страница не найдена</p>
+              <p>Страница не найдена</p>
             </div>
             <Button
               color='accent'
@@ -93,9 +95,9 @@ const NotFound = () => {
               Назад
             </Button>
           </div>
-          <div className={styles.image}>
+          <div className={styles.notFound__image}>
             <img
-              className={styles.logo}
+              className={styles.notFound__logo}
               ref={logoRef}
               src={frog}
               alt=''

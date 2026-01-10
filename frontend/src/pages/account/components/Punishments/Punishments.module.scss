@@ -5,68 +5,68 @@
   flex-direction: column;
   row-gap: fluid(20, 10);
   max-height: 45vh;
+}
 
-  &List {
-    --padding: #{rem(10)};
-    --borderRadius: #{fluid(30, 20)};
+.list {
+  --padding: #{rem(10)};
+  --borderRadius: #{fluid(30, 20)};
 
-    height: rem(400);
+  height: rem(400);
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(10, 5);
+  padding: var(--padding);
+  background-color: var(--color-gray-25);
+  border: border(var(--color-gray-20));
+  border-radius: var(--borderRadius);
+  -webkit-user-select: none;
+  user-select: none;
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: fluid(20, 15);
+    border-radius: calc(var(--borderRadius) - var(--padding));
+    padding: fluid(20, 10);
+    background-color: var(--color-gray-20);
+    border: border(var(--color-gray-10));
+  }
+
+  &__iconWrapper {
+    @include square(fluid(100, 70));
+
+    background-color: var(--color-red-10);
+    border-radius: rem(60);
+    padding: fluid(20, 15);
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__body {
     display: flex;
     flex-direction: column;
-    row-gap: fluid(10, 5);
-    padding: var(--padding);
-    background-color: var(--color-gray-25);
-    border: border(var(--color-gray-20));
-    border-radius: var(--borderRadius);
+    row-gap: fluid(5, 0);
     -webkit-user-select: none;
-    user-select: none;
-    overflow-y: scroll;
-    scrollbar-width: none;
+    user-select: text;
+  }
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  &__reason {
+    margin-bottom: fluid(10, 5);
+  }
 
-    &__item {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      column-gap: fluid(20, 15);
-      border-radius: calc(var(--borderRadius) - var(--padding));
-      padding: fluid(20, 10);
-      background-color: var(--color-gray-20);
-      border: border(var(--color-gray-10));
-    }
-
-    &__icon {
-      width: 100%;
-      height: 100%;
-
-      &Wrapper {
-        @include square(fluid(100, 70));
-
-        background-color: var(--color-red-10);
-        border-radius: rem(60);
-        padding: fluid(20, 15);
-      }
-    }
-
-    &__body {
-      display: flex;
-      flex-direction: column;
-      row-gap: fluid(5, 0);
-      -webkit-user-select: none;
-      user-select: text;
-    }
-
-    &__reason {
-      margin-bottom: fluid(10, 5);
-    }
-
-    &__expires {
-      @include fluid-text(18, 14);
-      color: var(--color-gray);
-    }
+  &__date {
+    @include fluid-text(18, 14);
+    color: var(--color-gray);
   }
 }
 

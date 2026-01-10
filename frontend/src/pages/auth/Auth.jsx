@@ -1,12 +1,14 @@
 import styles from './Auth.module.scss'
 
+import cx from 'clsx'
+
 import { useContext, useEffect, useState } from 'react'
 import Button from '@/global-components/Button/Button'
 import mail from '@/assets/icons/mail.svg'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { Link, useNavigate } from 'react-router'
-import usePageMetadata from '@/usePageMetadata'
+import usePageMetadata from '@/hooks/usePageMetadata'
 import Header from '@/global-components/Header/Header'
 import GoogleButton from '@/global-components/GoogleButton/GoogleButton'
 
@@ -17,9 +19,9 @@ const Auth = observer(() => {
 
   const [page, setPage] = useState(1)
   const [email, setEmail] = useState('')
-  const [emailInput, setEmailInput] = useState(styles.input)
+  const [emailInput, setEmailInput] = useState(styles.form__input)
   const [password, setPassword] = useState('')
-  const [passwordInput, setPasswordInput] = useState(styles.input)
+  const [passwordInput, setPasswordInput] = useState(styles.form__input)
   const [error, setError] = useState('')
   const [isActivated, setIsActivated] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -167,18 +169,18 @@ const Auth = observer(() => {
     <>
       {page !== 2 && <Header />}
       <main>
-        <section className={`${styles.auth} container`}>
+        <section className={cx(styles.auth, 'container')}>
           <h1 className='visually-hidden'>Зарегистрироваться или войти</h1>
           {page === 1 && (
             <div className={styles.registration}>
-              <h2 className={`${styles.title} h3`}>
+              <h2 className={cx(styles.registration__title, 'h3')}>
                 Войти или зарегистрироваться
               </h2>
               <div className={styles.registration__body}>
                 <GoogleButton />
-                <p className={styles.registration__bodyOr}>или</p>
+                <p className={styles.registration__or}>или</p>
                 <form
-                  className={styles.form}
+                  className={cx(styles.registration__form, styles.form)}
                   onSubmit={handleSubmit}
                 >
                   <input
@@ -192,12 +194,12 @@ const Auth = observer(() => {
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value)
-                      setEmailInput(styles.input)
+                      setEmailInput(styles.form__input)
                       setError('')
                     }}
                     required
                   />
-                  <div className={styles.passwordInputWrapper}>
+                  <div className={styles.form__passwordInput}>
                     <input
                       className={passwordInput}
                       type={showPassword ? 'text' : 'password'}
@@ -210,16 +212,16 @@ const Auth = observer(() => {
                       onInvalid={handlePasswordInvalid}
                       onChange={(e) => {
                         setPassword(e.target.value)
-                        setPasswordInput(styles.input)
+                        setPasswordInput(styles.form__input)
                         setError('')
                       }}
                       required
                     />
                     <Button
                       color='icon'
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() => setShowPassword((prev) => !prev)}
                     >
-                      <div className={styles.showPasswordIcon}>
+                      <div className={styles.form__showPassword}>
                         {showPassword ? (
                           <svg
                             width='800px'
@@ -263,11 +265,7 @@ const Auth = observer(() => {
                       </div>
                     </Button>
                   </div>
-                  <p
-                    className={`${styles.error} ${error === '' && styles.empty}`}
-                  >
-                    {error}
-                  </p>
+                  {error && <p className={styles.form__error}>{error}</p>}
                   <Button
                     type='submit'
                     color='accent'
@@ -275,17 +273,17 @@ const Auth = observer(() => {
                   >
                     Продолжить
                   </Button>
-                  <p className={styles.disclaimer}>
+                  <p className={styles.form__disclaimer}>
                     Нажимая &quot;Продолжить&quot;, вы принимаете{' '}
                     <Link
-                      className={styles.disclaimer__link}
+                      className='link'
                       to='/legal/privacy-policy'
                     >
                       Пользовательское соглашение
                     </Link>{' '}
                     и{' '}
                     <Link
-                      className={styles.disclaimer__link}
+                      className='link'
                       to='/legal/privacy-policy'
                     >
                       Политику конфиденциальности
@@ -309,7 +307,7 @@ const Auth = observer(() => {
                 <h2 className={styles.mail__title}>Проверьте почту</h2>
                 <p className={styles.mail__description}>
                   Мы отправили письмо для подтверждения на почту{' '}
-                  <span className={styles.mailAccent}>{email}</span>
+                  <span className='accent'>{email}</span>
                 </p>
                 <div className={styles.mail__button}>
                   <Button
