@@ -9,32 +9,13 @@ import { useContext } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { useNavigate } from 'react-router'
+import usePaymentButton from '@/hooks/usePaymentButton'
 
 const BuyPassBanner = observer(() => {
-  const { store } = useContext(Context)
+  const { userStore } = useContext(Context)
+
   const navigate = useNavigate()
-
-  const price = Number(import.meta.env.VITE_PASS_PRICE)
-  const sale = Number(import.meta.env.VITE_PASS_SALE)
-
-  const buttonHref = () => {
-    if (!store.isAuth) {
-      return '/auth'
-    }
-    if (!store.user?.isActivated) {
-      return '/account'
-    }
-    if (!store.user?.hasPass) {
-      return '/payment'
-    }
-    if (!store.user?.nickname) {
-      return '/whitelist'
-    }
-    if (store.user?.nickname) {
-      return '/account'
-    }
-    return
-  }
+  const buttonHref = usePaymentButton()
 
   return (
     <section className={styles.banner}>
@@ -115,12 +96,12 @@ const BuyPassBanner = observer(() => {
             </div>
             <h4 className='h4'>Доступ на сервер</h4>
           </div>
-          <h4 className='h1'>{sale ? sale : price}&nbsp;₽</h4>
+          <h4 className='h1'>50&nbsp;₽</h4>
           <Button
             color='accent'
-            disabled={store.isLoading}
+            disabled={userStore.isLoading}
             onClick={() => {
-              navigate(buttonHref())
+              navigate(buttonHref)
             }}
           >
             Купить проходку

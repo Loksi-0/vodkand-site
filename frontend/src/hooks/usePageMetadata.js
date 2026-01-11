@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 
-function usePageMetadata(props) {
+const usePageMetadata = (props) => {
   const location = useLocation()
 
   const {
@@ -54,7 +54,7 @@ function usePageMetadata(props) {
   ])
 }
 
-function setMetaTag(attr, name, content) {
+const setMetaTag = (attr, name, content) => {
   if (!content) {
     return
   }
@@ -71,7 +71,7 @@ function setMetaTag(attr, name, content) {
   element.content = content
 }
 
-function setLinkTag(rel, href) {
+const setLinkTag = (rel, href) => {
   if (!href) {
     return
   }

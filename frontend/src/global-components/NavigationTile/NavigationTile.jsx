@@ -3,19 +3,10 @@ import styles from './NavigationTile.module.scss'
 import cx from 'clsx'
 
 import Navigation from '../Navigation/Navigation'
-import { useEffect, useState } from 'react'
+import useAppear from '@/global-components/NavigationTile/useAppear'
 
 const NavigationTile = () => {
-  const [isAppeared, setIsAppeared] = useState(false)
-
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      const bottomBorder =
-        document.documentElement.scrollHeight - window.innerHeight - 250
-
-      setIsAppeared(window.scrollY > 50 && window.scrollY < bottomBorder)
-    })
-  }, [])
+  const { isAppeared } = useAppear()
 
   return (
     <div className={cx(styles.wrapper, { [styles.appeared]: isAppeared })}>

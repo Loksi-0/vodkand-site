@@ -7,9 +7,9 @@ import Header from '@/global-components/Header/Header'
 const ProtectedRoute = observer((props) => {
   const { children, redirect, access = 'auth' } = props
 
-  const { store } = useContext(Context)
+  const { userStore } = useContext(Context)
 
-  if (store.isLoading) {
+  if (userStore.isLoading) {
     return (
       <>
         <Header />
@@ -20,7 +20,7 @@ const ProtectedRoute = observer((props) => {
 
   if (
     access === 'not-auth' &&
-    store.isAuth &&
+    userStore.isAuth &&
     localStorage.getItem('isActivated') === 'pending'
   ) {
     return (
@@ -31,7 +31,10 @@ const ProtectedRoute = observer((props) => {
     )
   }
 
-  if (access === 'has-not-nick' && (store.user?.nickname || !store.isAuth)) {
+  if (
+    access === 'has-not-nick' &&
+    (userStore.user?.nickname || !userStore.isAuth)
+  ) {
     return (
       <Navigate
         to={redirect}
@@ -40,7 +43,7 @@ const ProtectedRoute = observer((props) => {
     )
   }
 
-  if (access === 'auth' && !store.isAuth) {
+  if (access === 'auth' && !userStore.isAuth) {
     return (
       <Navigate
         to={redirect}
@@ -49,7 +52,7 @@ const ProtectedRoute = observer((props) => {
     )
   }
 
-  if (access === 'activated' && !store.user?.isActivated) {
+  if (access === 'activated' && !userStore.user?.isActivated) {
     return (
       <Navigate
         to={redirect}

@@ -2,45 +2,14 @@ import styles from './Punishments.module.scss'
 
 import cx from 'clsx'
 
-import { useContext, useEffect, useState } from 'react'
-
 import mute from '@/assets/icons/mute.png'
 import warn from '@/assets/icons/warn.png'
 import ban from '@/assets/icons/ban.png'
-import { Context } from '@/main'
 import Preloader from '@/global-components/Preloader/Preloader'
+import usePunishments from '@/pages/account/components/Punishments/usePunishments'
 
 const Punishments = () => {
-  const { store } = useContext(Context)
-
-  const [loading, setLoading] = useState(false)
-  const [punishments, setPunishments] = useState([])
-  const [isPoshalko] = useState(Math.random(Date.now()) < 0.01)
-
-  useEffect(() => {
-    setLoading(true)
-
-    const getPunishments = async () => {
-      try {
-        const response = await store.getPunishments(store.user?.nickname)
-
-        setLoading(false)
-        setPunishments(response.data)
-      } catch (e) {
-        console.error(e.response?.data?.message)
-      }
-    }
-
-    getPunishments()
-  }, [])
-
-  const date = (seconds) => {
-    let d = new Date(1970, 0, 1)
-    d.setUTCSeconds(seconds)
-    d = d.toLocaleDateString('ru-RU')
-
-    return d
-  }
+  const { loading, punishments, isPoshalko, date } = usePunishments()
 
   return (
     <section className={styles.punishments}>

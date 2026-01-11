@@ -1,8 +1,7 @@
-import Header from '@/global-components/Header/Header'
-import Footer from '@/global-components/Footer/Footer'
 import Title from './components/Title/Title'
 import List from './components/List/List'
-import usePageMetadata from '@/hooks/usePageMetadata'
+import usePageMetadata from '@/hooks/usePageMetadata.js'
+import PageLayout from '@/layouts/PageLayout/PageLayout'
 
 const Prices = () => {
   usePageMetadata({
@@ -10,14 +9,10 @@ const Prices = () => {
   })
 
   return (
-    <>
-      <Header />
-      <main>
-        <Title title='Цены' />
-        <List />
-      </main>
-      <Footer />
-    </>
+    <PageLayout>
+      <Title title='Цены' />
+      <List />
+    </PageLayout>
   )
 }
 

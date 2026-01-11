@@ -1,16 +1,8 @@
 import styles from './Soc1als.module.scss'
 
-import discord from '@/assets/icons/soc1als/discord.svg'
+import { links } from '@/global-components/Soc1als/soc1als.data'
 
 const Soc1als = () => {
-  const links = [
-    {
-      title: 'Discord',
-      link: 'https://discord.gg/wQPsxX79',
-      icon: discord
-    }
-  ]
-
   return (
     <ul className={styles.list}>
       {links.map((link, index) => {

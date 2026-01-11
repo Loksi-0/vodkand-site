@@ -60,7 +60,11 @@ class paymentController {
             const status = req.body.object.status
             const paid = req.body.object.paid
 
-            if (status !== 'succeeded' || !paid) {
+            if (process.env.ENABLE_ERRORS_LOG === 'true') {
+                console.log('got notification:', status)
+            }
+
+            if (status === 'canceled' || !paid) {
                 await OrderService.setStatus(orderId, 'canceled')
                 return res.status(200).end()
             }

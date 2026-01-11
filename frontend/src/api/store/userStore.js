@@ -1,12 +1,11 @@
 import { makeAutoObservable } from 'mobx'
 import AuthService from '../service/AuthService.js'
-import UserService from '../service/UserService.js'
 import { setAccessToken, clearAccessToken } from '../TokenManager.js'
 import { refreshToken } from '../refreshToken.js'
 import MinecraftAPIService from '../service/MinecraftAPIService.js'
-import PaymentService from '../service/PaymentService.js'
+import UserService from '@/api/service/UserService.js'
 
-class Store {
+class UserStore {
   user = null
   isAuth = false
   isLoading = true
@@ -110,6 +109,12 @@ class Store {
     await AuthService.sendMail(email)
   }
 
+  async hasUser(email) {
+    const response = await UserService.hasUser(email)
+
+    return response
+  }
+
   async changeNickname(nickname) {
     const response = await MinecraftAPIService.changeNickname(nickname)
 
@@ -122,23 +127,11 @@ class Store {
     return response
   }
 
-  async createOrder(product) {
-    const response = await PaymentService.createOrder(product)
-
-    return response
-  }
-
   async getPunishments(nickname) {
     const response = await MinecraftAPIService.getPunishments(nickname)
 
     return response
   }
-
-  async getGallery(page) {
-    const response = await UserService.getGallery(page)
-
-    return response
-  }
 }
 
-export default Store
+export default UserStore

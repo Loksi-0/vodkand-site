@@ -10,39 +10,28 @@ import { useContext, useEffect, useState } from 'react'
 import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { useNavigate } from 'react-router'
+import usePaymentButton from '@/hooks/usePaymentButton'
 
 const Hero = observer(() => {
-  const { store } = useContext(Context)
+  const { userStore } = useContext(Context)
 
   const navigate = useNavigate()
+  const buttonHref = usePaymentButton()
 
   const [width, setWidth] = useState(window.innerWidth)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 767)
 
-  window.addEventListener('resize', () => setWidth(window.innerWidth))
+  useEffect(() => {
+    const onResize = () => setWidth(window.innerWidth)
+
+    window.addEventListener('resize', onResize)
+
+    return () => window.removeEventListener('resize', onResize)
+  })
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 767)
   }, [width])
-
-  const buttonHref = () => {
-    if (!store.isAuth) {
-      return '/auth'
-    }
-    if (!store.user?.isActivated) {
-      return '/account'
-    }
-    if (!store.user?.hasPass) {
-      return '/payment'
-    }
-    if (!store.user?.nickname) {
-      return '/whitelist'
-    }
-    if (store.user?.nickname) {
-      return '/account'
-    }
-    return
-  }
 
   return (
     <section className={cx(styles.hero, 'container-big')}>
@@ -63,9 +52,9 @@ const Hero = observer(() => {
           <Button
             color='accent'
             isBig
-            disabled={store.isLoading}
+            disabled={userStore.isLoading}
             onClick={() => {
-              navigate(buttonHref())
+              navigate(buttonHref)
             }}
           >
             Купить проходку

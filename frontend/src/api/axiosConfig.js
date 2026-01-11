@@ -26,7 +26,7 @@ api.interceptors.response.use(
     }
 
     if (
-      error.response.status === 401 &&
+      error.response?.status === 401 &&
       originalRequest &&
       !originalRequest._isRetry
     ) {
@@ -39,7 +39,6 @@ api.interceptors.response.use(
 
         return api.request(originalRequest)
       } catch {
-        console.error('Не авторизован')
         throw error
       }
     }

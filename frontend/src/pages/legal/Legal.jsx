@@ -1,21 +1,19 @@
-import Header from '@/global-components/Header/Header'
-import Footer from '@/global-components/Footer/Footer'
 import Wiki from '@/global-components/Wiki/Wiki'
 import NavigationTile from '@/global-components/NavigationTile/NavigationTile'
+import { WikiProvider } from '@/context/WikiContext/wikiContext'
+import PageLayout from '@/layouts/PageLayout/PageLayout'
 
 const Legal = () => {
   return (
-    <>
-      <Header />
-      <main>
-        <Wiki
-          chapter='legal'
-          firstPage='privacy-policy'
-        />
-        <NavigationTile />
-      </main>
-      <Footer />
-    </>
+    <PageLayout>
+      <WikiProvider
+        chapter='legal'
+        firstPage='privacy-policy'
+      >
+        <Wiki />
+      </WikiProvider>
+      <NavigationTile />
+    </PageLayout>
   )
 }
 

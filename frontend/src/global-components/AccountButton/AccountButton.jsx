@@ -8,15 +8,15 @@ import { useContext } from 'react'
 import { Link } from 'react-router'
 
 const AccountButton = observer(() => {
-  const { store } = useContext(Context)
+  const { userStore } = useContext(Context)
 
   return (
     <Link
-      className={cx(styles.link, { [styles.loading]: store.isLoading })}
-      to={store.isAuth && !store.isLoading ? '/account' : '/auth'}
+      className={cx(styles.link, { [styles.loading]: userStore.isLoading })}
+      to={userStore.isAuth && !userStore.isLoading ? '/account' : '/auth'}
       draggable='false'
     >
-      {!store.isLoading && !store.user?.nickname && (
+      {!userStore.isLoading && !userStore.user?.nickname && (
         <div className={styles.link__icon}>
           <svg
             width='800px'
@@ -42,10 +42,10 @@ const AccountButton = observer(() => {
           </svg>
         </div>
       )}
-      {!store.isLoading && store.user?.nickname && (
+      {!userStore.isLoading && userStore.user?.nickname && (
         <img
           className={styles.link__skinIcon}
-          src={`https://mineskin.eu/helm/${store.user?.nickname}`}
+          src={`https://mineskin.eu/helm/${userStore.user?.nickname}`}
           alt=''
           loading='lazy'
           draggable='false'

@@ -3,46 +3,15 @@ import styles from './Activate.module.scss'
 import cx from 'clsx'
 
 import Button from '@/global-components/Button/Button'
-import { useContext, useEffect, useState } from 'react'
+import usePageMetadata from '@/hooks/usePageMetadata.js'
+import { observer } from 'mobx-react-lite'
+
 import ok from '@/assets/icons/ok.svg'
 import error from '@/assets/icons/error.svg'
-import usePageMetadata from '@/hooks/usePageMetadata'
-import { useLocation } from 'react-router'
-import { observer } from 'mobx-react-lite'
-import { Context } from '@/main'
+import useActivate from '@/pages/activate/useActivate'
 
 const Activate = observer(() => {
-  const location = useLocation()
-
-  const { store } = useContext(Context)
-
-  const [title, setTitle] = useState('Выполняется активация...')
-  const [status, setStatus] = useState('waiting')
-  const [preloaderIcon, setPreloaderIcon] = useState(null)
-  const [preloaderCn, setPreloaderCn] = useState(styles.preloader)
-
-  useEffect(() => {
-    const activate = async () => {
-      try {
-        const activationLink = new URLSearchParams(location.search).get('link')
-
-        await store.activate(activationLink)
-
-        localStorage.setItem('isActivated', true)
-        setTitle('Активация прошла успешно')
-        setPreloaderCn((prev) => cx(prev, styles.ok))
-        setPreloaderIcon(ok)
-        setStatus('ok')
-      } catch (e) {
-        setTitle(e.message)
-        setPreloaderCn((prev) => cx(prev, styles.error))
-        setPreloaderIcon(error)
-        setStatus('error')
-      }
-    }
-
-    activate()
-  }, [])
+  const { title, status } = useActivate()
 
   usePageMetadata({
     title: 'Активация',
@@ -54,17 +23,22 @@ const Activate = observer(() => {
     <main>
       <section className={cx(styles.activate, 'container')}>
         <div className={styles.preloaderWrapper}>
-          <div className={preloaderCn}>
+          <div
+            className={cx(styles.preloader, {
+              [styles.ok]: status === 'ok',
+              [styles.error]: status === 'error'
+            })}
+          >
             <img
               className={styles.preloader__icon}
-              src={preloaderIcon}
+              src={status === 'pending' ? null : status === 'ok' ? ok : error}
               alt=''
               draggable='false'
             />
           </div>
         </div>
         <h1 className={cx(styles.activate__title, 'h3')}>{title}</h1>
-        {status === 'waiting' && (
+        {status === 'pending' && (
           <div className={styles.activate__preButton}></div>
         )}
         {status === 'ok' && (

@@ -2,23 +2,10 @@ import styles from './SwitchTheme.module.scss'
 import '@/styles/variables.scss'
 
 import Button from '../Button/Button'
-import { useState, useEffect } from 'react'
+import useSwitch from '@/global-components/SwitchTheme/useSwitch'
 
 const SwitchTheme = () => {
-  const [theme, setTheme] = useState('light')
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light'
-    setTheme(savedTheme)
-    document.documentElement.setAttribute('theme', savedTheme)
-  }, [])
-
-  const handleClick = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    document.documentElement.setAttribute('theme', newTheme)
-    localStorage.setItem('theme', newTheme)
-    setTheme(newTheme)
-  }
+  const { handleClick, theme } = useSwitch()
 
   return (
     <Button

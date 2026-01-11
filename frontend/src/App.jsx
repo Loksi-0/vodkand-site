@@ -17,14 +17,15 @@ import GoogleAuth from './pages/googleAuth/GoogleAuth'
 import ScrollToTop from './global-components/ScrollToTop/ScrollToTop'
 import Payment from './pages/payment/Payment'
 import Pending from '@/pages/payment/pending/Pending'
+import { AuthProvider } from '@/context/AuthContext/authContext'
 
 // prettier-ignore
 
 const App = observer(() => {
-  const { store } = useContext(Context)
+  const { userStore } = useContext(Context)
 
   useEffect(() => {
-    store.initAuth()
+    userStore.initAuth()
   }, [])
 
   let savedTheme = localStorage.getItem('theme')
@@ -77,7 +78,9 @@ const App = observer(() => {
         <Route path='/activate' element={<Activate />} />
         <Route path='/auth' element={
             <ProtectedRoute redirect='/account' access='not-auth'>
-              <Auth />
+              <AuthProvider>
+                <Auth />
+              </AuthProvider>
             </ProtectedRoute>
           }
         />

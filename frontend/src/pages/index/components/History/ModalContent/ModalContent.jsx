@@ -6,92 +6,25 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
-import {
-  memo,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react'
+import { memo } from 'react'
 import Button from '@/global-components/Button/Button'
-import { Context } from '@/main'
 import Preloader from '@/global-components/Preloader/Preloader'
+import useModalContent from '@/pages/index/components/History/ModalContent/useModalContent'
 
 const ModalContent = (props) => {
   const { page, version, color, color10 } = props
 
-  const { store } = useContext(Context)
-
-  const listRef = useRef(null)
-  const activeIndexRef = useRef(0)
-
-  const [isLoading, setIsLoading] = useState(true)
-  const [images, setImages] = useState([])
-  const [isExpanded, setIsExpanded] = useState(false)
-  const [isSliderClosing, setIsSliderClosing] = useState(false)
-  const [shadowPosition, setShadowPosition] = useState('top')
-
-  const openSlider = (index) => {
-    activeIndexRef.current = index
-    setIsExpanded(true)
-  }
-
-  const closeSlider = () => {
-    setIsSliderClosing(true)
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        setIsSliderClosing(false)
-        setIsExpanded(false)
-      }, 190)
-    })
-  }
-
-  useEffect(() => {
-    const getImages = async () => {
-      try {
-        const response = await store.getGallery(page)
-
-        setIsLoading(false)
-        setImages(response.data)
-      } catch (e) {
-        setIsLoading(false)
-        console.error(e.response?.data?.message)
-      }
-    }
-
-    getImages()
-  }, [])
-
-  useLayoutEffect(() => {
-    const onScroll = () => {
-      const element = listRef.current
-
-      if (element.scrollTop < 10) {
-        setShadowPosition('top')
-        return
-      }
-
-      if (
-        element.scrollTop >
-        element.scrollHeight - element.clientHeight - 10
-      ) {
-        setShadowPosition('bottom')
-        return
-      }
-
-      setShadowPosition('center')
-    }
-
-    listRef.current.addEventListener('scroll', onScroll)
-  }, [])
-
-  useLayoutEffect(() => {
-    const isShadow = listRef.current.scrollHeight > listRef.current.clientHeight
-
-    setShadowPosition(isShadow ? 'top' : 'none')
-  }, [images])
+  const {
+    isLoading,
+    isExpanded,
+    isSliderClosing,
+    shadowPosition,
+    openSlider,
+    closeSlider,
+    activeIndexRef,
+    images,
+    listRef
+  } = useModalContent({ page })
 
   return (
     <div className={styles.modal}>

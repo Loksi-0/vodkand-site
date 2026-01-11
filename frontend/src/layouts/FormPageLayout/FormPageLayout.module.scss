@@ -1,0 +1,11 @@
+@use '@/styles/helpers' as *;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  -webkit-user-select: none;
+  user-select: none;
+}

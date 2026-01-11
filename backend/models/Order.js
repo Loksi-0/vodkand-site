@@ -7,8 +7,8 @@ const Order = new Schema({
     status: { type: String, default: 'pending', enum: ['pending', 'canceled', 'succeeded'], required: true },
     value: { type: String, required: true },
     description: { type: String, required: true },
-    creationDate: { type: Date, unique: true, required: true },
-    fullfillmentDate: { type: Date, unique: true, default: null }
+    creationDate: { type: Date, required: true },
+    fullfillmentDate: { type: Date, default: null }
 })
 
 export default model('Order', Order)

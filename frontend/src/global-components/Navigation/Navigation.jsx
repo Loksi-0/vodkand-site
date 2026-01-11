@@ -3,15 +3,10 @@ import styles from './Navigation.module.scss'
 import cx from 'clsx'
 
 import { Link } from 'react-router'
+import { links } from '@/global-components/Navigation/navigation.data'
 
 const Navigation = (props) => {
   const { tabFocus = true, usedInTile = false } = props
-
-  const links = [
-    { title: 'Правила', href: '/rules' },
-    { title: 'Плагины', href: '/plugins' },
-    { title: 'Цены', href: '/prices' }
-  ]
 
   return (
     <nav className={styles.navigation}>

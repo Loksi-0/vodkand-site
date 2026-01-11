@@ -7,10 +7,10 @@ import { Context } from '@/main'
 import { useNavigate } from 'react-router'
 
 const Pending = () => {
-  const { store } = useContext(Context)
+  const { userStore } = useContext(Context)
   const navigate = useNavigate()
 
-  if (store.user?.hasPass) {
+  if (userStore.user?.hasPass) {
     navigate('/account', { replace: true })
   }
 
