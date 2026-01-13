@@ -85,8 +85,17 @@
   row-gap: fluid(25, 15);
 
   &__result {
+    display: flex;
+    gap: fluid(15, 10);
     -webkit-user-select: text;
     user-select: text;
+
+    &Skeleton {
+      display: inline-flex;
+      align-self: end;
+      width: fluid(80, 50);
+      height: fluid(40, 30);
+    }
   }
 
   &__checkbox {

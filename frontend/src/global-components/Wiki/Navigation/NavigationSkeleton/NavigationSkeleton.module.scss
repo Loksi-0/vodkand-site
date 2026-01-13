@@ -1,0 +1,34 @@
+@use '@/styles/helpers' as *;
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: rem(10);
+  user-select: none;
+  position: sticky;
+  top: fluid(90, 50);
+
+  @include mobile-above {
+    padding-block: rem(50);
+    padding-right: var(--gap);
+  }
+
+  @include mobile {
+    flex-direction: row;
+    overflow: scroll;
+    width: 100%;
+    background-color: var(--color-light);
+    padding-top: rem(30);
+    padding-bottom: rem(15);
+    border-bottom: var(--border-split);
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__item {
+    height: fluid(40, 30);
+    border-radius: rem(10);
+  }
+}

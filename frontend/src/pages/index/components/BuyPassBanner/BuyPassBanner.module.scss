@@ -97,4 +97,16 @@
     -webkit-user-select: none;
     user-select: none;
   }
+
+  &__price {
+    display: flex;
+    gap: fluid(15, 10);
+
+    &Skeleton {
+      display: inline-flex;
+      align-self: end;
+      width: fluid(120, 80);
+      height: fluid(70, 50);
+    }
+  }
 }

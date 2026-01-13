@@ -21,6 +21,10 @@ const useAlert = () => {
           userStore.user?.nickname
         )
 
+        if (!response.data[0]) {
+          return
+        }
+
         const punishmentType = response.data[0].type
 
         if (punishmentType === 'WARN') {

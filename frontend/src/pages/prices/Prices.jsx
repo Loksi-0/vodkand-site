@@ -1,5 +1,5 @@
 import Title from './components/Title/Title'
-import List from './components/List/List'
+import Products from './components/Products/Products'
 import usePageMetadata from '@/hooks/usePageMetadata.js'
 import PageLayout from '@/layouts/PageLayout/PageLayout'
 
@@ -11,7 +11,7 @@ const Prices = () => {
   return (
     <PageLayout>
       <Title title='Цены' />
-      <List />
+      <Products />
     </PageLayout>
   )
 }

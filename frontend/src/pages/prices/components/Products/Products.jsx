@@ -1,36 +1,32 @@
-import styles from './List.module.scss'
+import styles from './Products.module.scss'
 
 import cx from 'clsx'
 
 import Button from '@/global-components/Button/Button'
-import pass from '@/assets/images/frog.png'
-import { useNavigate } from 'react-router'
-import { useContext } from 'react'
-import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import usePaymentButton from '@/hooks/usePaymentButton'
 
-import { products } from '@/pages/prices/components/List/list.data'
+import useProducts from '@/pages/prices/components/Products/useProducts'
+import ProductsSkeleton from '@/pages/prices/components/Products/ProductsSkeleton/ProductsSkeleton'
 
-const List = observer(() => {
-  const { userStore } = useContext(Context)
-
-  const navigate = useNavigate()
-  const buttonHref = usePaymentButton()
+const Products = observer(() => {
+  const { products, loading, onClick } = useProducts()
 
   return (
     <section className={styles.list}>
       <ul className={cx(styles.list__inner, 'container')}>
         {products.map((product, index) => {
+          if (loading) {
+            return <ProductsSkeleton key={index} />
+          }
+
           return (
             <li
               className={styles.list__item}
               key={index}
             >
-              <div className={styles.list__imageWrapper}>
+              <div className={cx(styles.list__imageWrapper)}>
                 <img
-                  className={styles.list__image}
-                  src={pass}
+                  src={product.image}
                   alt=''
                   loading='lazy'
                   draggable='false'
@@ -41,23 +37,23 @@ const List = observer(() => {
                   <h2 className={cx(styles.list__title, 'h3')}>
                     {product.title}
                   </h2>
-                  <div className={styles.list__price}>
+                  <div className={cx(styles.list__price)}>
                     <h3 className='h2'>
-                      {product.sale ? product.sale : product.price}&nbsp;₽
+                      {product.value?.split('.')[0]}&nbsp;₽
                     </h3>
-                    {product.sale && (
+                    {product.valueOld && (
                       <p className={styles.list__sale}>
-                        {product.price}&nbsp;₽
+                        {product.valueOld?.split('.')[0]}&nbsp;₽
                       </p>
                     )}
                   </div>
                 </div>
                 <Button
                   color='accent'
-                  disabled={userStore.isLoading}
-                  onClick={() => navigate(buttonHref)}
+                  disabled={loading}
+                  onClick={() => onClick(products[index])}
                 >
-                  Купить проходку
+                  {product.buttonText}
                 </Button>
               </div>
             </li>
@@ -68,4 +64,4 @@ const List = observer(() => {
   )
 })
 
-export default List
+export default Products

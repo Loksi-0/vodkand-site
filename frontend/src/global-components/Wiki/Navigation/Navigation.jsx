@@ -5,17 +5,21 @@ import cx from 'clsx'
 
 import { WikiContext } from '@/context/WikiContext/wikiContext'
 import LoadingLink from '@/global-components/TopLoader/hooks/LoadingLink'
+import NavigationSkeleton from '@/global-components/Wiki/Navigation/NavigationSkeleton/NavigationSkeleton'
 
 const Navigation = () => {
   const {
     listRef,
     currentRef,
-    isLoading,
-    navWidths,
+    isNavigationLoading,
     page,
     chapter,
     navigation
   } = useContext(WikiContext)
+
+  if (isNavigationLoading) {
+    return <NavigationSkeleton />
+  }
 
   return (
     <nav className={styles.navigation}>
@@ -30,22 +34,19 @@ const Navigation = () => {
             <li
               ref={isCurrent ? currentRef : null}
               key={index}
-              className={cx(styles.item, {
-                [styles.isLoading]: isLoading
-              })}
-              style={isLoading ? { width: navWidths[index] } : undefined}
+              className={styles.list__item}
             >
               <LoadingLink
                 to={
                   element?.page ? `/${chapter}/${element.page}` : `/${chapter}`
                 }
-                className={cx(styles.link, {
+                className={cx(styles.list__link, {
                   [styles.isCurrent]: isCurrent
                 })}
               >
                 {element?.icon && (
                   <img
-                    className={styles.icon}
+                    className={styles.list__icon}
                     src={element.icon}
                     alt=''
                     loading='lazy'
@@ -53,7 +54,7 @@ const Navigation = () => {
                   />
                 )}
                 <div
-                  className={styles.title}
+                  className={styles.list__title}
                   lang='ru'
                 >
                   {element?.title}

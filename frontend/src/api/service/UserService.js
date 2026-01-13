@@ -8,10 +8,6 @@ class UserService {
   static hasUser = async (email) => {
     return api.get(`/user?email=${email}`)
   }
-
-  static getGallery = async (page) => {
-    return api.get(`/gallery/${page}`)
-  }
 }
 
 export default UserService

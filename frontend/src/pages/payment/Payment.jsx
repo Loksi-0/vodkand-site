@@ -3,47 +3,53 @@ import styles from './Payment.module.scss'
 import cx from 'clsx'
 
 import Button from '@/global-components/Button/Button'
-import { products } from '@/pages/payment/payment.data'
 
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router'
 import usePayment from '@/pages/payment/usePayment'
 import FormPageLayout from '@/layouts/FormPageLayout/FormPageLayout'
+import ListSkeleton from '@/pages/payment/ListSkeleton/ListSkeleton'
+import Skeleton from '@/global-components/Skeleton/Skeleton'
 
 const Payment = observer(() => {
-  const { setCheckboxValue, error, setError, loading, disabled, handleSubmit } =
-    usePayment()
+  const {
+    setCheckboxValue,
+    error,
+    setError,
+    loading,
+    productLoading,
+    disabled,
+    handleSubmit,
+    product
+  } = usePayment()
 
   return (
     <FormPageLayout>
       <div className={styles.payment__inner}>
         <h1 className={cx(styles.payment__title, 'h3')}>Оформление заказа</h1>
         <ul className={cx(styles.payment__list, styles.list)}>
-          {products.map((element, index) => {
-            return (
-              <li
-                key={index}
-                className={styles.list__item}
-              >
-                <div className={styles.list__imageWrapper}>
-                  <img
-                    className={styles.image}
-                    src={element.icon}
-                    alt=''
-                    loading='lazy'
-                    draggable='false'
-                  />
-                </div>
-                <div className={styles.list__body}>
-                  <h2 className='h5'>{element.title}</h2>
-                  <p className={cx(styles.list__subtitle, 'gray')}>
-                    {element.subtitle}
-                  </p>
-                  <h3 className='h4'>{element.price}&nbsp;₽</h3>
-                </div>
-              </li>
-            )
-          })}
+          {productLoading ? (
+            <ListSkeleton />
+          ) : (
+            <li className={styles.list__item}>
+              <div className={styles.list__imageWrapper}>
+                <img
+                  className={styles.image}
+                  src={product?.image}
+                  alt=''
+                  loading='lazy'
+                  draggable='false'
+                />
+              </div>
+              <div className={styles.list__body}>
+                <h2 className='h5'>{product?.description}</h2>
+                <p className={cx(styles.list__subtitle, 'gray')}>
+                  {product?.disclaimer}
+                </p>
+                <h3 className='h4'>{product?.value.split('.')[0]}&nbsp;₽</h3>
+              </div>
+            </li>
+          )}
         </ul>
         <form
           noValidate
@@ -52,8 +58,11 @@ const Payment = observer(() => {
         >
           <h3 className={cx(styles.form__result, 'h4')}>
             Итого к оплате:{' '}
-            {products.reduce((acc, current) => acc + current.price, 0)}
-            &nbsp;₽
+            {productLoading ? (
+              <Skeleton className={styles.form__resultSkeleton} />
+            ) : (
+              <span>{product?.value.split('.')[0]}&nbsp;₽</span>
+            )}
           </h3>
           <label
             className={styles.form__checkbox}

@@ -6,32 +6,11 @@ import Button from '@/global-components/Button/Button'
 import Title from '../Title/Title'
 import CopyField from '@/global-components/CopyField/CopyField'
 import PunishmentAlert from '@/global-components/PunishmentAlert/PunishmentAlert'
-import { useContext, useEffect, useState } from 'react'
-import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { useNavigate } from 'react-router'
-import usePaymentButton from '@/hooks/usePaymentButton'
+import useHero from '@/pages/index/components/Hero/useHero'
 
 const Hero = observer(() => {
-  const { userStore } = useContext(Context)
-
-  const navigate = useNavigate()
-  const buttonHref = usePaymentButton()
-
-  const [width, setWidth] = useState(window.innerWidth)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 767)
-
-  useEffect(() => {
-    const onResize = () => setWidth(window.innerWidth)
-
-    window.addEventListener('resize', onResize)
-
-    return () => window.removeEventListener('resize', onResize)
-  })
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 767)
-  }, [width])
+  const { isMobile, onClick, loading } = useHero()
 
   return (
     <section className={cx(styles.hero, 'container-big')}>
@@ -52,10 +31,8 @@ const Hero = observer(() => {
           <Button
             color='accent'
             isBig
-            disabled={userStore.isLoading}
-            onClick={() => {
-              navigate(buttonHref)
-            }}
+            disabled={loading}
+            onClick={onClick}
           >
             Купить проходку
           </Button>

@@ -11,13 +11,6 @@
     color: var(--color-dark);
   }
 
-  &.loading {
-    @include square(fluid(40, 25));
-
-    background-color: var(--color-gray-20);
-    border-radius: fluid(10, 5);
-  }
-
   &:active {
     scale: 0.9;
   }
@@ -41,4 +34,10 @@
     border-radius: fluid(10, 5);
     padding: 0;
   }
+}
+
+.skeleton {
+  @include square(fluid(40, 25));
+
+  border-radius: fluid(10, 5);
 }

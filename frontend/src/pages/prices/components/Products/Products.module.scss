@@ -18,7 +18,8 @@
   }
 
   &__imageWrapper {
-    aspect-ratio: 1;
+    @include square(fluid(200, 120));
+
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -29,11 +30,6 @@
     border-radius: fluid(30, 15);
     -webkit-user-select: none;
     user-select: none;
-  }
-
-  &__image {
-    min-width: rem(70);
-    height: fluid(100, 50);
   }
 
   &__body {

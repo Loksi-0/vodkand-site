@@ -1,36 +1,36 @@
 import { WikiContext } from '@/context/WikiContext/wikiContext'
 import styles from './Article.module.scss'
 
-import cx from 'clsx'
 import { useContext } from 'react'
 
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import ArticleSkeleton from '@/global-components/Wiki/Article/ArticleSkeleton/ArticleSkeleton'
 
 const Article = () => {
-  const { article, isLoading, modifyLink, modifiedContent } =
+  const { article, isArticleLoading, modifyLink, modifiedContent } =
     useContext(WikiContext)
 
+  if (isArticleLoading) {
+    return <ArticleSkeleton />
+  }
+
   return (
-    <article className={cx(styles.article, { [styles.isLoading]: isLoading })}>
+    <article className={styles.article}>
       <header className={styles.header}>
-        <div className={styles.inner}>
-          {article.icon === 'loading' ? (
-            <div className={styles.iconSkeleton}></div>
-          ) : (
-            article.icon && (
-              <img
-                className={styles.icon}
-                src={article.icon}
-                alt=''
-                loading='lazy'
-                draggable='false'
-              />
-            )
+        <div className={styles.header__inner}>
+          {article.icon && (
+            <img
+              className={styles.header__icon}
+              src={article.icon}
+              alt=''
+              loading='lazy'
+              draggable='false'
+            />
           )}
           {article.link ? (
             <a
-              className={styles.link}
+              className={styles.header__link}
               href={article.link}
               target='_blank'
               title={article.link}
@@ -38,22 +38,16 @@ const Article = () => {
             >
               <h2
                 lang='ru'
-                className={`${styles.title} ${isLoading && styles.isLoading}`}
+                className={styles.header__title}
               >
                 {article.title}
               </h2>
             </a>
           ) : (
-            <h2 className={`${styles.title} ${isLoading && styles.isLoading}`}>
-              {article.title}
-            </h2>
+            <h2 className={styles.header__title}>{article.title}</h2>
           )}
         </div>
-        {isLoading ? (
-          <div className={styles.descriptionSkeleton}></div>
-        ) : (
-          <p className={styles.description}>{article.description}</p>
-        )}
+        <p className={styles.header__description}>{article.description}</p>
       </header>
       <div className='markdown'>
         <ReactMarkdown

@@ -6,17 +6,30 @@ import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 import { Link } from 'react-router'
+import Skeleton from '@/global-components/Skeleton/Skeleton'
 
 const AccountButton = observer(() => {
   const { userStore } = useContext(Context)
 
+  if (userStore.isLoading) {
+    return <Skeleton className={styles.skeleton} />
+  }
+
   return (
     <Link
-      className={cx(styles.link, { [styles.loading]: userStore.isLoading })}
-      to={userStore.isAuth && !userStore.isLoading ? '/account' : '/auth'}
+      className={cx(styles.link)}
+      to={userStore.isAuth ? '/account' : '/auth'}
       draggable='false'
     >
-      {!userStore.isLoading && !userStore.user?.nickname && (
+      {userStore.user?.nickname ? (
+        <img
+          className={styles.link__skinIcon}
+          src={`https://mineskin.eu/helm/${userStore.user?.nickname}`}
+          alt=''
+          loading='lazy'
+          draggable='false'
+        />
+      ) : (
         <div className={styles.link__icon}>
           <svg
             width='800px'
@@ -41,15 +54,6 @@ const AccountButton = observer(() => {
             />
           </svg>
         </div>
-      )}
-      {!userStore.isLoading && userStore.user?.nickname && (
-        <img
-          className={styles.link__skinIcon}
-          src={`https://mineskin.eu/helm/${userStore.user?.nickname}`}
-          alt=''
-          loading='lazy'
-          draggable='false'
-        />
       )}
       <span className='visually-hidden'>Аккаунт</span>
     </Link>

@@ -9,9 +9,16 @@ class UserStore {
   user = null
   isAuth = false
   isLoading = true
+  cart = ''
 
   constructor() {
     makeAutoObservable(this)
+
+    if (localStorage.getItem('cart')) {
+      this.setCart(localStorage.getItem('cart'))
+    } else {
+      this.setCart('')
+    }
   }
 
   setAuth(bool) {
@@ -24,6 +31,11 @@ class UserStore {
 
   setLoading(bool) {
     this.isLoading = bool
+  }
+
+  setCart(string) {
+    this.cart = string
+    localStorage.setItem('cart', string)
   }
 
   async registration(email, password) {

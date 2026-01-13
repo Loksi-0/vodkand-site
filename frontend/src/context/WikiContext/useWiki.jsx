@@ -43,7 +43,8 @@ const useWiki = (props) => {
       return {}
     })
   )
-  const [isLoading, setIsLoading] = useState(true)
+  const [isArticleLoading, setIsArticleLoading] = useState(true)
+  const [isNavigationLoading, setIsNavigationLoading] = useState(true)
 
   const controller = new AbortController()
 
@@ -59,7 +60,7 @@ const useWiki = (props) => {
       current.offsetLeft - list.clientWidth / 2 + current.clientWidth / 2
 
     list.scrollTo({ left: offset })
-  }, [isLoading])
+  }, [isNavigationLoading])
 
   useEffect(() => {
     const getArticle = async () => {
@@ -71,8 +72,6 @@ const useWiki = (props) => {
         )
 
         setArticle(response.data)
-        setIsLoading(false)
-        stopLoading()
       } catch (e) {
         if (
           e.status === 404 &&
@@ -87,7 +86,8 @@ const useWiki = (props) => {
         }
 
         setArticle({ title: e.message })
-        setIsLoading(false)
+      } finally {
+        setIsArticleLoading(false)
         stopLoading()
       }
     }
@@ -97,10 +97,10 @@ const useWiki = (props) => {
         const response = await wikiStore.getNavigation(chapter)
 
         setNavigation(response.data)
-        setIsLoading(false)
       } catch (e) {
         setNavigation([{ title: e.message }])
-        setIsLoading(false)
+      } finally {
+        setIsNavigationLoading(false)
       }
     }
 
@@ -155,7 +155,8 @@ const useWiki = (props) => {
     navWidths,
     navigation,
     currentRef,
-    isLoading
+    isArticleLoading,
+    isNavigationLoading
   }
 }
 

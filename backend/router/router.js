@@ -7,6 +7,7 @@ import { body } from 'express-validator'
 import minecraftAPIController from '../controllers/minecraftAPIController.js'
 import paymentController from '../controllers/paymentController.js'
 import uploadsController from '../controllers/uploadsController.js'
+import productsController from '../controllers/productsController.js'
 
 const router = new Router()
 
@@ -38,5 +39,8 @@ router.post('/minecraftapi/whitelist', AuthMiddleware, minecraftAPIController.po
 
 router.post('/payment/create', AuthMiddleware, paymentController.createOrder)
 router.post('/payment/notification', paymentController.handleNotification)
+
+router.get('/products', productsController.getAll)
+router.get('/products/:slug', productsController.getOne)
 
 export default router

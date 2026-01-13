@@ -5,17 +5,12 @@ import cx from 'clsx'
 import Button from '@/global-components/Button/Button'
 
 import pass from '@/assets/images/frog.png'
-import { useContext } from 'react'
-import { Context } from '@/main'
 import { observer } from 'mobx-react-lite'
-import { useNavigate } from 'react-router'
-import usePaymentButton from '@/hooks/usePaymentButton'
+import useBanner from '@/pages/index/components/BuyPassBanner/useBanner'
+import Skeleton from '@/global-components/Skeleton/Skeleton'
 
 const BuyPassBanner = observer(() => {
-  const { userStore } = useContext(Context)
-
-  const navigate = useNavigate()
-  const buttonHref = usePaymentButton()
+  const { loading, price, onClick } = useBanner()
 
   return (
     <section className={styles.banner}>
@@ -96,13 +91,18 @@ const BuyPassBanner = observer(() => {
             </div>
             <h4 className='h4'>Доступ на сервер</h4>
           </div>
-          <h4 className='h1'>50&nbsp;₽</h4>
+          <h4 className={cx(styles.right__price, 'h1')}>
+            {loading ? (
+              <Skeleton className={styles.right__priceSkeleton} />
+            ) : (
+              <span>{price}</span>
+            )}
+            &nbsp;₽
+          </h4>
           <Button
             color='accent'
-            disabled={userStore.isLoading}
-            onClick={() => {
-              navigate(buttonHref)
-            }}
+            disabled={loading}
+            onClick={onClick}
           >
             Купить проходку
           </Button>
