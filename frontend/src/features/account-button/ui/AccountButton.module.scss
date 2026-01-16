@@ -1,0 +1,43 @@
+@use '@/app/styles/helpers' as *;
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    @include square(fluid(35, 20));
+
+    color: var(--color-dark);
+  }
+
+  &:active {
+    scale: 0.9;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: rem(50);
+    padding: fluid(7, 5);
+    transition-duration: var(--transition-duration);
+
+    @include hover {
+      background-color: var(--color-gray-20);
+    }
+  }
+
+  &__skinIcon {
+    @include square(fluid(40, 25));
+
+    border-radius: fluid(10, 5);
+    padding: 0;
+  }
+}
+
+.skeleton {
+  @include square(fluid(40, 25));
+
+  border-radius: fluid(10, 5);
+}

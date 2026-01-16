@@ -42,6 +42,7 @@
     "globals": "^16.5.0",
     "prettier": "^3.7.4",
     "sass-embedded": "^1.93.3",
+    "steiger": "^0.5.11",
     "vite": "^7.2.4"
   }
 }

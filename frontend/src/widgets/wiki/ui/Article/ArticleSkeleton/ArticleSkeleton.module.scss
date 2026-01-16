@@ -1,0 +1,41 @@
+@use '@/app/styles/helpers' as *;
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(15, 10);
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: var(--section-padding);
+  flex-grow: 1;
+
+  @include mobile-above {
+    border-left: var(--border-split);
+    padding-left: var(--gap);
+    padding-block: var(--section-padding);
+  }
+
+  &__titleWrapper {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid(10, 5);
+    align-items: center;
+  }
+
+  &__title {
+    width: rem(200);
+    height: rem(40);
+  }
+
+  &__icon {
+    @include square(fluid(50, 30));
+
+    border-radius: rem(10);
+  }
+
+  &__description {
+    width: rem(400);
+    height: rem(30);
+  }
+}

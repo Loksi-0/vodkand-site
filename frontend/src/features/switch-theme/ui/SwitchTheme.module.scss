@@ -1,0 +1,13 @@
+@use '@/app/styles/helpers' as *;
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    @include square(fluid(35, 20));
+
+    color: var(--color-dark);
+  }
+}

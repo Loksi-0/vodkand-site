@@ -1,0 +1,63 @@
+@use '@/app/styles/helpers' as *;
+
+.article {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: var(--section-padding);
+  flex-grow: 1;
+
+  @include mobile-above {
+    border-left: var(--border-split);
+    padding-left: var(--gap);
+    padding-block: var(--section-padding);
+  }
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  row-gap: rem(10);
+
+  &__inner {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: rem(10);
+    caret-color: transparent;
+    overflow: hidden;
+  }
+
+  &__title {
+    text-align: center;
+    caret-color: var(--color-dark);
+    hyphens: auto;
+  }
+
+  &__link {
+    position: relative;
+
+    @include hover {
+      text-decoration: underline;
+      text-decoration-thickness: rem(2);
+      text-underline-offset: rem(5);
+    }
+  }
+
+  &__icon {
+    @include square(fluid(50, 30));
+  }
+
+  &__description {
+    max-width: rem(650);
+    text-align: center;
+    line-height: 125%;
+  }
+}
