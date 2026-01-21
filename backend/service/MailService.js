@@ -2,26 +2,25 @@ import nodemailer from 'nodemailer'
 import 'dotenv/config'
 
 class MailService {
-    constructor() {
-        this.transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT,
-            secure: false,
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASSWORD
-            }
-        })
-    }
+  constructor() {
+    this.transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD
+      }
+    })
+  }
 
-    async sendActivationMail(to, link) {
-        await this.transporter.sendMail({
-            from: process.env.SMTP_USER,
-            to,
-            subject: 'Активация | Vodkand',
-            text: '',
-            html: 
-                `
+  async sendActivationMail(to, link) {
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to,
+      subject: 'Активация | Vodkand',
+      text: '',
+      html: `
                     <div style="width: 100%; 
                         text-align: center;
                         margin-top: 50px;
@@ -51,16 +50,16 @@ class MailService {
                         </a>
                     </div>
                 `
-        })
-    }
+    })
+  }
 
-    async sendSuccessNotification(order) {
-        await this.transporter.sendMail({
-            from: process.env.SMTP_USER,
-            to: process.env.MY_EMAIL,
-            subject: 'Новая продажа!',
-            text: '',
-            html: `
+  async sendSuccessNotification(order) {
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: process.env.MY_EMAIL,
+      subject: 'Новая продажа!',
+      text: '',
+      html: `
                 <h1>Приобретён товар: ${order.description}</h1>
                 <ul>
                     <li>Сумма заказа: ${order.value}</li>
@@ -73,8 +72,8 @@ class MailService {
                     </li>
                 </ul>
             `
-        })
-    }
+    })
+  }
 }
 
 export default new MailService()

@@ -9,217 +9,239 @@ import ApiError from '../exceptions/ApiError.js'
 import 'dotenv/config'
 
 class UserService {
-    async registration(email, password) {
-        const candidate = await User.findOne({ email })
+  async registration(email, password) {
+    const candidate = await User.findOne({ email })
 
-        if(candidate) {
-            throw ApiError.BadRequest(`Пользователь с почтой ${email} уже существует`, ['alreadyExists'])
-        }
-
-        const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS) || 12
-
-        const hashPassword = await bcrypt.hash(password, SALT_ROUNDS)
-        const activationLink = uuidv4()
-        const creationDate = Date.now()
-        const user = await User.create({ email, password: hashPassword, activationLink, creationDate })
-        
-        await this.sendMail(email, activationLink)
-        
-        const userDto = new UserDto(user)
-        const tokens = TokenService.generateTokens({ ...userDto })
-        await TokenService.saveToken(userDto.id, tokens.refreshToken)
-
-        return { ...tokens, user: userDto }
+    if (candidate) {
+      throw ApiError.BadRequest(
+        `Пользователь с почтой ${email} уже существует`,
+        ['alreadyExists']
+      )
     }
 
-    async googleAuth(email, sub) {
-        let user = await User.findOne({ email })
+    const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS) || 12
 
-        if (user) {
-            const isSubEquals = sub === user.sub
+    const hashPassword = await bcrypt.hash(password, SALT_ROUNDS)
+    const activationLink = uuidv4()
+    const creationDate = Date.now()
+    const user = await User.create({
+      email,
+      password: hashPassword,
+      activationLink,
+      creationDate
+    })
 
-            if (user.password) {
-                throw ApiError.BadRequest('На этом аккаунте уже используется способ входа по паролю. Вход несколькими способами пока что недоступен')
-            }
+    await this.sendMail(email, activationLink)
 
-            if (!isSubEquals) {
-                throw ApiError.BadRequest('Уникальный айди (sub) не совпадает с зарегистрированным ранее')
-            }
-        } else {
-            const candidate = await User.findOne({ sub })
+    const userDto = new UserDto(user)
+    const tokens = TokenService.generateTokens({ ...userDto })
+    await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-            if (candidate) {
-                throw ApiError.Conflict('Аккаунт уже зарегистрирован')
-            }
+    return { ...tokens, user: userDto }
+  }
 
-            const creationDate = Date.now()
-            user = await User.create({ email, sub, isActivated: true, creationDate })
-        }
-        
-        const userDto = new UserDto(user)
-        const tokens = TokenService.generateTokens({ ...userDto })
-        await TokenService.saveToken(userDto.id, tokens.refreshToken)
+  async googleAuth(email, sub) {
+    let user = await User.findOne({ email })
 
-        return { ...tokens, user: userDto }
+    if (user) {
+      const isSubEquals = sub === user.sub
+
+      if (user.password) {
+        throw ApiError.BadRequest(
+          'На этом аккаунте уже используется способ входа по паролю. Вход несколькими способами пока что недоступен'
+        )
+      }
+
+      if (!isSubEquals) {
+        throw ApiError.BadRequest(
+          'Уникальный айди (sub) не совпадает с зарегистрированным ранее'
+        )
+      }
+    } else {
+      const candidate = await User.findOne({ sub })
+
+      if (candidate) {
+        throw ApiError.Conflict('Аккаунт уже зарегистрирован')
+      }
+
+      const creationDate = Date.now()
+      user = await User.create({ email, sub, isActivated: true, creationDate })
     }
 
-    async activate(activationLink) {
-        const user = await User.findOne({ activationLink })
+    const userDto = new UserDto(user)
+    const tokens = TokenService.generateTokens({ ...userDto })
+    await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-        if (!user) {
-            throw ApiError.BadRequest('Некорректная ссылка активации')
-        }
+    return { ...tokens, user: userDto }
+  }
 
-        user.isActivated = true
-        await user.save()
+  async activate(activationLink) {
+    const user = await User.findOne({ activationLink })
+
+    if (!user) {
+      throw ApiError.BadRequest('Некорректная ссылка активации')
     }
 
-    async login(email, password) {
-        const user = await User.findOne({ email })
+    user.isActivated = true
+    await user.save()
+  }
 
-        if (!user) {
-            throw ApiError.BadRequest('Пользователь с таким email не найден')
-        }
+  async login(email, password) {
+    const user = await User.findOne({ email })
 
-        if (user.sub) {
-            throw ApiError.BadRequest('К этому аккаунту уже привязан вход с Google. Пожалуйста, войдите через Google')
-        }
-
-        const isPassEquals = await bcrypt.compare(password, user.password)
-
-        if (!isPassEquals) {
-            throw ApiError.BadRequest('Неверный пароль', ['wrongPassword'])
-        }
-
-        const userDto = new UserDto(user)
-        const tokens = TokenService.generateTokens({ ...userDto })
-        await TokenService.saveToken(userDto.id, tokens.refreshToken)
-
-        return { ...tokens, user: userDto }
+    if (!user) {
+      throw ApiError.BadRequest('Пользователь с таким email не найден')
     }
 
-    async logout(refreshToken) {
-        const token = await TokenService.removeToken(refreshToken)
-        return token
+    if (user.sub) {
+      throw ApiError.BadRequest(
+        'К этому аккаунту уже привязан вход с Google. Пожалуйста, войдите через Google'
+      )
     }
 
-    async refresh(refreshToken) {
-        if (!refreshToken) {
-            throw ApiError.UnauthorizedError()
-        }
-        
-        const userData = TokenService.validateRefreshToken(refreshToken)
-        const tokenFromDb = await TokenService.findToken(refreshToken)
+    const isPassEquals = await bcrypt.compare(password, user.password)
 
-        if (!userData || !tokenFromDb) {
-            throw ApiError.UnauthorizedError()
-        }
-        
-        const user = await User.findById(userData.id)
-
-        if (!user) {
-            await TokenService.removeToken(refreshToken)
-            throw ApiError.UnauthorizedError()
-        }
-
-        const userDto = new UserDto(user)
-        const tokens = TokenService.generateTokens({ ...userDto })
-        await TokenService.saveToken(userDto.id, tokens.refreshToken)
-
-        return { ...tokens }
+    if (!isPassEquals) {
+      throw ApiError.BadRequest('Неверный пароль', ['wrongPassword'])
     }
 
-    async sendMail(email, activationLink) {
-        const user = await User.findOne({ email })
+    const userDto = new UserDto(user)
+    const tokens = TokenService.generateTokens({ ...userDto })
+    await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-        if (!user || user.isActivated) {
-            throw ApiError.BadRequest(`Пользователя с почтой ${email} не существует или аккаунт уже активирован`, ['doesNotExist', 'alreadyActivated'])
-        }
+    return { ...tokens, user: userDto }
+  }
 
-        const link = activationLink ? activationLink : user.activationLink
+  async logout(refreshToken) {
+    const token = await TokenService.removeToken(refreshToken)
+    return token
+  }
 
-        await MailService.sendActivationMail(email, `${process.env.CLIENT_DOMAIN}/activate?link=${link}`)
+  async refresh(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError()
     }
 
-    async changeNickname(nickname, userId) {
-        try {
-            if (!nickname || !userId) {
-                throw ApiError.BadRequest('Необходимо указать никнейм и userId')
-            }
+    const userData = TokenService.validateRefreshToken(refreshToken)
+    const tokenFromDb = await TokenService.findToken(refreshToken)
 
-            const user = await User.findById(userId)
-
-            if (!user) {
-                throw ApiError.NotFound('Не удалось найти пользователя')
-            } 
-            if (user.nickname) {
-                throw ApiError.BadRequest(`Пользователь ${user.email} уже установил себе ник`)
-            }
-
-            const candidate = await User.findOne({ nickname })
-
-            if (candidate) {
-                throw ApiError.Conflict(`Ник уже в вайтлисте`, ['alreadyExists'])
-            }
-
-            await MinecraftAPIService.postWhitelist(nickname)
-
-            user.nickname = nickname
-            await user.save()
-        } catch(e) {
-            throw e
-        }
+    if (!userData || !tokenFromDb) {
+      throw ApiError.UnauthorizedError()
     }
 
-    async me(refreshToken) {
-        const userData = TokenService.validateRefreshToken(refreshToken)
-        const tokenFromDb = await TokenService.findToken(refreshToken)
+    const user = await User.findById(userData.id)
 
-        if (!userData || !tokenFromDb) {
-            throw ApiError.UnauthorizedError()
-        }
-
-        const user = await User.findById(userData.id)
-
-        if (!user) {
-            await TokenService.removeToken(refreshToken)
-            throw ApiError.UnauthorizedError()
-        }
-
-        const userDto = new UserDto(user)
-
-        return { user: userDto }
+    if (!user) {
+      await TokenService.removeToken(refreshToken)
+      throw ApiError.UnauthorizedError()
     }
 
-    async agree({ id }, formData) {
-        const user = await User.findById(id)
+    const userDto = new UserDto(user)
+    const tokens = TokenService.generateTokens({ ...userDto })
+    await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-        if (!user) {
-            throw ApiError.BadRequest('Пользователь не найден')
-        }
+    return { ...tokens }
+  }
 
-        if (!formData.agreed) {
-            throw ApiError.BadRequest('Согласие не дано')
-        }
+  async sendMail(email, activationLink) {
+    const user = await User.findOne({ email })
 
-        user.agreedTerms = true
-        user.agreedTermsAt = Date.now()
-        user.agreedTermsSource = formData.source
-
-        const userData = await user.save()
-
-        return userData
+    if (!user || user.isActivated) {
+      throw ApiError.BadRequest(
+        `Пользователя с почтой ${email} не существует или аккаунт уже активирован`,
+        ['doesNotExist', 'alreadyActivated']
+      )
     }
 
-    async hasUser(email) {
-        const user = await User.findOne({ email })
+    const link = activationLink ? activationLink : user.activationLink
 
-        if (user) {
-            return true
-        } else {
-            return false
-        }
+    await MailService.sendActivationMail(
+      email,
+      `${process.env.CLIENT_DOMAIN}/activate?link=${link}`
+    )
+  }
+
+  async changeNickname(nickname, userId) {
+    try {
+      if (!nickname || !userId) {
+        throw ApiError.BadRequest('Необходимо указать никнейм и userId')
+      }
+
+      const user = await User.findById(userId)
+
+      if (!user) {
+        throw ApiError.NotFound('Не удалось найти пользователя')
+      }
+      if (user.nickname) {
+        throw ApiError.BadRequest(
+          `Пользователь ${user.email} уже установил себе ник`
+        )
+      }
+
+      const candidate = await User.findOne({ nickname })
+
+      if (candidate) {
+        throw ApiError.Conflict(`Ник уже в вайтлисте`, ['alreadyExists'])
+      }
+
+      await MinecraftAPIService.postWhitelist(nickname)
+
+      user.nickname = nickname
+      await user.save()
+    } catch (e) {
+      throw e
     }
+  }
+
+  async me(refreshToken) {
+    const userData = TokenService.validateRefreshToken(refreshToken)
+    const tokenFromDb = await TokenService.findToken(refreshToken)
+
+    if (!userData || !tokenFromDb) {
+      throw ApiError.UnauthorizedError()
+    }
+
+    const user = await User.findById(userData.id)
+
+    if (!user) {
+      await TokenService.removeToken(refreshToken)
+      throw ApiError.UnauthorizedError()
+    }
+
+    const userDto = new UserDto(user)
+
+    return { user: userDto }
+  }
+
+  async agree({ id }, formData) {
+    const user = await User.findById(id)
+
+    if (!user) {
+      throw ApiError.BadRequest('Пользователь не найден')
+    }
+
+    if (!formData.agreed) {
+      throw ApiError.BadRequest('Согласие не дано')
+    }
+
+    user.agreedTerms = true
+    user.agreedTermsAt = Date.now()
+    user.agreedTermsSource = formData.source
+
+    const userData = await user.save()
+
+    return userData
+  }
+
+  async hasUser(email) {
+    const user = await User.findOne({ email })
+
+    if (user) {
+      return true
+    } else {
+      return false
+    }
+  }
 }
 
 export default new UserService()

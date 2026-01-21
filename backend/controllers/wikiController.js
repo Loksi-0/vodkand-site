@@ -1,29 +1,29 @@
-import WikiService from "../database/wiki/WikiService.js"
+import WikiService from '../database/wiki/WikiService.js'
 
 class pluginsController {
-    async get(req, res, next) {
-        try {
-            const { chapter, page } = req.params
+  async get(req, res, next) {
+    try {
+      const { chapter, page } = req.params
 
-            const fullPage = await WikiService.getPage(chapter, page)
-            
-            return res.json(fullPage)
-        } catch (e) {
-            next(e)
-        }
+      const fullPage = await WikiService.getPage(chapter, page)
+
+      return res.json(fullPage)
+    } catch (e) {
+      next(e)
     }
+  }
 
-    async navigation(req, res, next) {
-        try {
-            const { chapter } = req.params
+  async navigation(req, res, next) {
+    try {
+      const { chapter } = req.params
 
-            const nav = await WikiService.getNavigation(chapter)
-            
-            return res.json(nav)
-        } catch (e) {
-            next(e)
-        }
+      const nav = await WikiService.getNavigation(chapter)
+
+      return res.json(nav)
+    } catch (e) {
+      next(e)
     }
+  }
 }
 
 export default new pluginsController()

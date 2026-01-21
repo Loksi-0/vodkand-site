@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -10,21 +10,25 @@ import session from 'express-session'
 import rateLimit from 'express-rate-limit'
 import MongoStore from 'connect-mongo'
 
+dotenv.config({
+  path: [`.env.${process.env.NODE_ENV || 'dev'}`, '.env']
+})
+
 const app = express()
 
 const PORT = process.env.PORT || 5000
 const isProd = process.env.NODE_ENV === 'production'
 
 const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 50,
-    standardHeaders: true,
-    legacyHeaders: false
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false
 })
 const mailLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 5,
-    message: 'Слишком много запросов на активацию, попробуйте чуть позже'
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Слишком много запросов на активацию, попробуйте чуть позже'
 })
 const refreshLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -34,45 +38,49 @@ const refreshLimiter = rateLimit({
 })
 
 const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:4173',
-    'https://vodkand.ru'
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'https://vodkand.ru'
 ]
 
 app.set('trust proxy', 1)
 
-app.use(cors({
+app.use(
+  cors({
     credentials: true,
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
     }
-}))
+  })
+)
 app.use(express.json())
 app.use(cookieParser())
-app.use(session({
+app.use(
+  session({
     name: 'sid',
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
 
     store: MongoStore.create({
-        mongoUrl: process.env.DB_URL,
-        collectionName: 'sessions',
-        ttl: 60 * 60 * 24 * 3
+      mongoUrl: process.env.DB_URL,
+      collectionName: 'sessions',
+      ttl: 60 * 60 * 24 * 3
     }),
 
     cookie: {
-        httpOnly: true,
-        secure: isProd,
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60 * 1000,
-        path: '/'
+      httpOnly: true,
+      secure: isProd,
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+      path: '/'
     }
-}))
+  })
+)
 
 app.use('/api/auth', authLimiter)
 app.use('/api/sendmail', mailLimiter)
@@ -83,16 +91,16 @@ app.use('/api', router)
 app.use(ErrorMiddleware)
 
 const start = async () => {
-    try {
-        await mongoose.connect(process.env.DB_URL)
-        
-        app.listen(PORT, () => {
-            console.log('сервер запустился на порте ', PORT)
-            new DeleteAccountManager()
-        })
-    } catch(e) {
-        console.log(e.message)
-    }
+  try {
+    await mongoose.connect(process.env.DB_URL)
+
+    app.listen(PORT, () => {
+      console.log('сервер запустился на порте ', PORT)
+      new DeleteAccountManager()
+    })
+  } catch (e) {
+    console.log(e.message)
+  }
 }
 
 start()

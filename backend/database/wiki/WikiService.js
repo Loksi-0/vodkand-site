@@ -4,55 +4,51 @@ import matter from 'gray-matter'
 import ApiError from '../../exceptions/ApiError.js'
 
 class WikiService {
-    basePath = path.resolve('database/wiki')
+  basePath = path.resolve('database/wiki')
 
-    async getPage(chapter, page) {
-        try {
-            const filePath = path.join(
-                this.basePath, 
-                chapter,
-                `${page}.md`
-            )
+  async getPage(chapter, page) {
+    try {
+      const filePath = path.join(this.basePath, chapter, `${page}.md`)
 
-            const raw = await fs.readFile(filePath, 'utf-8')
-            const { data, content } = matter(raw)
+      const raw = await fs.readFile(filePath, 'utf-8')
+      const { data, content } = matter(raw)
 
-            return { ...data, page, content }
-        } catch(e) {
-            if (e.code === 'ENOENT') {
-                throw ApiError.NotFound('Страница не найдена')
-            }
+      return { ...data, page, content }
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        throw ApiError.NotFound('Страница не найдена')
+      }
 
-            throw ApiError.InternalError('Ошибка на сервере')
+      throw ApiError.InternalError('Ошибка на сервере')
+    }
+  }
+
+  async getNavigation(chapter) {
+    const dirPath = path.join(this.basePath, chapter)
+    const files = await fs.readdir(dirPath)
+
+    const pages = await Promise.all(
+      files.map(async (file) => {
+        const raw = await fs.readFile(path.join(dirPath, file), 'utf-8')
+        const { data } = matter(raw)
+
+        return {
+          page: file.replace('.md', ''),
+          order: data.order,
+          title: data.title,
+          icon: data.icon
         }
+      })
+    )
+
+    if (!pages[0]) {
+      throw ApiError.NotFound('Нет страниц для навигации')
     }
 
-    async getNavigation(chapter) {
-        const dirPath = path.join(this.basePath, chapter)
-        const files = await fs.readdir(dirPath)
+    pages.sort((a, b) => a.order - b.order)
 
-        const pages = await Promise.all(
-            files.map(async file => {
-                const raw = await fs.readFile(path.join(dirPath, file), 'utf-8')
-                const { data } = matter(raw)
-
-                return {
-                    page: file.replace('.md', ''),
-                    order: data.order,
-                    title: data.title,
-                    icon: data.icon
-                }
-            })
-        )
-
-        if (!pages[0]) {
-            throw ApiError.NotFound('Нет страниц для навигации')
-        }
-
-        pages.sort((a, b) => a.order - b.order)
-
-        return pages
-    }
+    return pages
+  }
 }
 
 export default new WikiService()

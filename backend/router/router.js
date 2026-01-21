@@ -14,10 +14,12 @@ const router = new Router()
 router.get('/wiki/:chapter', wikiController.navigation)
 router.get('/wiki/:chapter/:page', wikiController.get)
 
-router.post('/auth/registration', 
-    body('email').trim().isEmail(), 
-    body('password').trim().notEmpty().isLength({ min: 6, max: 32 }),
-    authController.registration)
+router.post(
+  '/auth/registration',
+  body('email').trim().isEmail(),
+  body('password').trim().notEmpty().isLength({ min: 6, max: 32 }),
+  authController.registration
+)
 router.post('/auth/login', authController.login)
 router.post('/auth/logout', AuthMiddleware, authController.logout)
 router.post('/auth/googleauth', authController.googleAuth)
@@ -33,9 +35,21 @@ router.get('/gallery/:page', uploadsController.getGallery)
 router.get('/google/url', openIDController.redirect)
 router.get('/auth/google/callback', openIDController.handleCode)
 
-router.get('/minecraftapi/punishments', AuthMiddleware, minecraftAPIController.getPlayerPunishments)
-router.get('/minecraftapi/whitelist', AuthMiddleware, minecraftAPIController.getWhitelist)
-router.post('/minecraftapi/whitelist', AuthMiddleware, minecraftAPIController.postWhitelist)
+router.get(
+  '/minecraftapi/punishments',
+  AuthMiddleware,
+  minecraftAPIController.getPlayerPunishments
+)
+router.get(
+  '/minecraftapi/whitelist',
+  AuthMiddleware,
+  minecraftAPIController.getWhitelist
+)
+router.post(
+  '/minecraftapi/whitelist',
+  AuthMiddleware,
+  minecraftAPIController.postWhitelist
+)
 
 router.post('/payment/create', AuthMiddleware, paymentController.createOrder)
 router.post('/payment/notification', paymentController.handleNotification)

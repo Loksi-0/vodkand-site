@@ -6,29 +6,68 @@ const useModalContent = ({ page }) => {
   const { uiStore } = useContext(MainContext)
 
   const listRef = useRef(null)
+  const expandedRef = useRef(null)
   const activeIndexRef = useRef(0)
 
   const [isLoading, setIsLoading] = useState(true)
   const [images, setImages] = useState([])
   const [isExpanded, setIsExpanded] = useState(false)
-  const [isSliderClosing, setIsSliderClosing] = useState(false)
+  const [isZoomed, setIsZoomed] = useState(false)
+  const [isImageClosing, setIsImageClosing] = useState(false)
   const [shadowPosition, setShadowPosition] = useState('top')
 
-  const openSlider = (index) => {
+  const openImage = (index) => {
     activeIndexRef.current = index
     setIsExpanded(true)
   }
 
-  const closeSlider = () => {
-    setIsSliderClosing(true)
+  const closeImage = () => {
+    setIsImageClosing(true)
 
     requestAnimationFrame(() => {
       setTimeout(() => {
-        setIsSliderClosing(false)
+        setIsImageClosing(false)
         setIsExpanded(false)
+        setIsZoomed(false)
       }, 190)
     })
   }
+
+  const zoomImage = (event) => {
+    if (isZoomed) {
+      return setIsZoomed((prev) => !prev)
+    }
+
+    const expanded = expandedRef.current
+
+    const cursorX = event.clientX
+    const cursorY = event.clientY
+
+    expanded.style.transformOrigin = `${cursorX}px ${cursorY}px`
+
+    setIsZoomed((prev) => !prev)
+  }
+
+  useEffect(() => {
+    const onMove = (event) => {
+      const expanded = expandedRef.current
+
+      const cursorX = event.clientX
+      const cursorY = event.clientY
+
+      expanded.style.transformOrigin = `${cursorX}px ${cursorY}px`
+    }
+
+    const isTouchDevice = !!(
+      'ontouchstart' in window || navigator.maxTouchPoints
+    )
+
+    if (isZoomed && !isTouchDevice) {
+      window.addEventListener('mousemove', onMove)
+    }
+
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [isZoomed])
 
   useEffect(() => {
     const getImages = async () => {
@@ -50,20 +89,20 @@ const useModalContent = ({ page }) => {
     const onScroll = () => {
       const element = listRef.current
 
-      if (element.scrollTop < 10) {
+      if (element.scrollTop < 20) {
         setShadowPosition('top')
         return
       }
 
       if (
         element.scrollTop >
-        element.scrollHeight - element.clientHeight - 10
+        element.scrollHeight - element.clientHeight - 20
       ) {
         setShadowPosition('bottom')
         return
       }
 
-      setShadowPosition('center')
+      setShadowPosition('both')
     }
 
     listRef.current.addEventListener('scroll', onScroll)
@@ -78,13 +117,16 @@ const useModalContent = ({ page }) => {
   return {
     isLoading,
     isExpanded,
-    isSliderClosing,
+    isImageClosing,
     shadowPosition,
-    openSlider,
-    closeSlider,
+    openImage,
+    closeImage,
     activeIndexRef,
     images,
-    listRef
+    listRef,
+    zoomImage,
+    isZoomed,
+    expandedRef
   }
 }
 

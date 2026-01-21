@@ -6,7 +6,7 @@ class ProductsController {
       const response = await ProductsService.getAll()
 
       res.json(response)
-    } catch(e) {
+    } catch (e) {
       next(e)
     }
   }
@@ -18,7 +18,7 @@ class ProductsController {
       const response = await ProductsService.getOne(slug)
 
       res.json(response)
-    } catch(e) {
+    } catch (e) {
       next(e)
     }
   }

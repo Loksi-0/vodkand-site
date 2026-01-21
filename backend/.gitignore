@@ -1,4 +1,6 @@
 node_modules
 .env
+.env.*
+dump
 uploads/gallery
 uploads/worlds
