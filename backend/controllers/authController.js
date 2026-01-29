@@ -2,7 +2,6 @@ import { validationResult } from 'express-validator'
 import UserService from '../service/UserService.js'
 import ApiError from '../exceptions/ApiError.js'
 import UserDto from '../dtos/userDto.js'
-import User from '../models/User.js'
 
 class authController {
   async registration(req, res, next) {
@@ -175,7 +174,7 @@ class authController {
 
       const userData = new UserDto(user)
 
-      return res.json({ user: userData })
+      return res.json(userData)
     } catch (e) {
       next(e)
     }

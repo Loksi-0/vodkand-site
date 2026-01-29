@@ -1,4 +1,3 @@
-import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -10,9 +9,13 @@ import session from 'express-session'
 import rateLimit from 'express-rate-limit'
 import MongoStore from 'connect-mongo'
 
-dotenv.config({
-  path: [`.env.${process.env.NODE_ENV || 'dev'}`, '.env']
-})
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = await import('dotenv')
+
+  dotenv.config({
+    path: [`.env.${process.env.NODE_ENV || 'dev'}`, '.env']
+  })
+}
 
 const app = express()
 

@@ -14,7 +14,7 @@ class MinecraftAPIService {
 
     if (!response.ok) {
       const json = await response.json()
-      res.status(response.status).json(json)
+      throw ApiError.InternalError(json)
     }
 
     const data = await response.json()

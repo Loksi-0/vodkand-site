@@ -2,27 +2,32 @@ import js from '@eslint/js'
 import globals from 'globals'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
 import prettier from 'eslint-plugin-prettier'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
-    ignores: ['dist']
+    ignores: ['dist', 'eslint.config.js']
   },
   js.configs.recommended,
   react.configs.flat.recommended,
   {
-    files: ['**/*.{js,mjs,cjs,jsx}'],
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     plugins: {
       react,
       'react-hooks': reactHooks,
-      prettier
+      prettier,
+      '@typescript-eslint': tsPlugin
     },
     languageOptions: {
+      parser: tsParser,
       globals: globals.browser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
+        project: './tsconfig.json',
         ecmaFeatures: {
           jsx: true
         }
@@ -34,6 +39,9 @@ export default defineConfig([
       }
     },
     rules: {
+      ...tsPlugin.configs['recommended-type-checked'].rules,
+      ...tsPlugin.configs['strict-type-checked'].rules,
+
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'off',
 
@@ -61,6 +69,7 @@ export default defineConfig([
       'no-console': 'warn',
       eqeqeq: 'warn',
       curly: 'warn',
+      'no-undef': 'off',
       'no-else-return': 'warn',
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }]
     }

@@ -3,4 +3,14 @@
 .skeleton {
   background-color: var(--color-gray-20);
   border-radius: fluid(15, 10);
+  animation: shine 1s ease alternate infinite;
+
+  @keyframes shine {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.6;
+    }
+  }
 }
