@@ -27,7 +27,7 @@ const GoogleAuth = () => {
           </Button>
         </div>
       ) : (
-        <Preloader size='100px' />
+        <Preloader size={100} />
       )}
     </main>
   )

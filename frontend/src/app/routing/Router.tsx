@@ -15,7 +15,7 @@ import GoogleAuth from '@/pages/googleAuth'
 import ProtectedRoute from '@/features/protected-route/ProtectedRoute'
 import ScrollToTop from '@/shared/ui/ScrollToTop/ScrollToTop'
 
-import { AuthProvider } from '@/features/auth-page/model/authContext'
+import { AuthProvider } from '@/features/auth-page'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
 
 // prettier-ignore

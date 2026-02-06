@@ -31,18 +31,16 @@ const Account = observer(() => {
 
   return (
     <PageLayout className={cx(styles.account, 'container')}>
-      {!userStore.user?.isActivated &&
-        localStorage.getItem('isActivated') !== 'true' &&
-        !userStore.isLoading && (
-          <Alert
-            color='yellow'
-            title='Активируйте аккаунт'
-            description='Активируйте аккаунт по ссылке, которая пришла на почту. Без активации аккаунта вы не сможете купить проходку'
-            onClick={handleSendMail}
-            textButton='Отправить письмо еще раз'
-            disclaimer
-          />
-        )}
+      {!userStore.user?.isActivated && !userStore.isLoading && (
+        <Alert
+          color='yellow'
+          title='Активируйте аккаунт'
+          description='Активируйте аккаунт по ссылке, которая пришла на почту. Без активации аккаунта вы не сможете купить проходку'
+          onClick={handleSendMail}
+          textButton='Отправить письмо еще раз'
+          disclaimer
+        />
+      )}
       {userStore.user?.isActivated &&
         !userStore.user.hasPass &&
         !userStore.isLoading && (
@@ -74,14 +72,14 @@ const Account = observer(() => {
           <>
             <Nick />
             <Punishments />
-            <Buttons
-              onLogout={() => {
-                void handleLogout()
-              }}
-              isLoading={isLoading}
-            />
           </>
         )}
+      <Buttons
+        onLogout={() => {
+          void handleLogout()
+        }}
+        isLoading={isLoading}
+      />
     </PageLayout>
   )
 })

@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { MainContext } from '@/app/context/MainContext'
+import type { MouseEvent } from 'react'
 import { toast } from 'sonner'
 import useCustomContext from '@/shared/hooks/useCustomContext'
 import axios from 'axios'
@@ -38,7 +39,9 @@ const useModalContent = ({ page }: { page?: string }) => {
     })
   }
 
-  const zoomImage = (event: MouseEvent) => {
+  const zoomImage = (event: MouseEvent<HTMLImageElement>) => {
+    event.stopPropagation()
+
     if (isZoomed) {
       setIsZoomed((prev) => !prev)
       return
@@ -59,7 +62,7 @@ const useModalContent = ({ page }: { page?: string }) => {
   }
 
   useEffect(() => {
-    const onMove = (event: MouseEvent) => {
+    const onMove = (event: globalThis.MouseEvent) => {
       const expanded = expandedRef.current
 
       if (!expanded) {

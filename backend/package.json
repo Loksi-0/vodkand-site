@@ -7,10 +7,12 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=dev nodemon index.js",
-    "production": "cross-env NODE_ENV=production node index.js",
-    "format": "prettier --write ."
+    "dev": "cross-env NODE_ENV=dev nodemon src/index.ts",
+    "production": "cross-env NODE_ENV=production node dist/index.js",
+    "format": "prettier --write .",
+    "lint": "tsc --noEmit && eslint ."
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -18,7 +20,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",
     "express-session": "^1.18.2",
     "express-validator": "^7.3.1",
@@ -34,7 +36,22 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/express-serve-static-core": "^5.1.1",
+    "@types/express-session": "^1.18.2",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.2.0",
+    "@types/nodemailer": "^7.0.9",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
     "cross-env": "^10.1.0",
-    "nodemon": "^3.1.11"
+    "eslint": "^9.39.2",
+    "eslint-plugin-prefer-arrow-functions": "^3.9.1",
+    "eslint-plugin-prettier": "^5.5.5",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

@@ -1,13 +1,7 @@
-import {
-  PropsWithChildren,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import { LoaderContext } from '@/features/set-top-loader/context/LoaderContext'
+import type { ComponentProps } from 'react'
 import { MainContext } from '@/app/context/MainContext'
 import useCustomContext from '@/shared/hooks/useCustomContext'
 import { AxiosError } from 'axios'
@@ -134,10 +128,7 @@ const useWiki = (props: UseWikiProps) => {
     }
   }
 
-  const modifyLink = ({
-    href,
-    children
-  }: PropsWithChildren<{ href: string }>) => {
+  const modifyLink = ({ href, children }: ComponentProps<'a'>) => {
     if (!href) {
       return children
     }

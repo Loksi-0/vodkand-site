@@ -51,11 +51,7 @@ const ModalContent = (props: ModalContentProps) => {
               src={images[activeIndexRef.current]}
               alt=''
               draggable='false'
-              onClick={(e) => {
-                e.stopPropagation()
-
-                zoomImage(e)
-              }}
+              onClick={zoomImage}
             />
             <div
               className={styles.expanded__buttonWrapper}

@@ -3,7 +3,7 @@ import styles from './Navigation.module.scss'
 import Button from '@/shared/ui/Button'
 import { pages } from '../../../model/history.data'
 import { memo } from 'react'
-import { PageType } from '@/features/index-page/model/useHistory'
+import { PageType } from '@/features/index-page/model/history.data'
 
 type NavigationProps = {
   back: () => void

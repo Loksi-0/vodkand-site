@@ -3,11 +3,15 @@ import styles from './Button.module.scss'
 import cx from 'clsx'
 
 import Preloader from '@/shared/ui/Preloader/Preloader'
-import { MouseEventHandler, PropsWithChildren } from 'react'
+import {
+  ForwardedRef,
+  forwardRef,
+  MouseEventHandler,
+  PropsWithChildren
+} from 'react'
 
-type ButtonType = PropsWithChildren<{
+type ButtonProps = PropsWithChildren<{
   color: string
-  ref?: HTMLButtonElement
   type?: 'button' | 'submit' | 'reset' | undefined
   isBig?: boolean
   onClick?: MouseEventHandler<HTMLButtonElement> | undefined
@@ -19,11 +23,10 @@ type ButtonType = PropsWithChildren<{
   tabindex?: number
 }>
 
-const Button = (props: ButtonType) => {
+const Button = (props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
   const {
     color,
     children,
-    ref = null,
     type = 'button',
     isBig = false,
     onClick,
@@ -54,4 +57,4 @@ const Button = (props: ButtonType) => {
   )
 }
 
-export default Button
+export default forwardRef<HTMLButtonElement, ButtonProps>(Button)

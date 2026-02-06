@@ -31,7 +31,9 @@ const Activate = observer(() => {
           >
             <img
               className={styles.preloader__icon}
-              src={status === 'pending' ? null : status === 'ok' ? ok : error}
+              src={
+                status === 'pending' ? undefined : status === 'ok' ? ok : error
+              }
               alt=''
               draggable='false'
             />

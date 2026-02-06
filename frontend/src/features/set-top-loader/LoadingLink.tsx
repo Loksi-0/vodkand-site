@@ -5,6 +5,7 @@ import useCustomContext from '@/shared/hooks/useCustomContext'
 
 type LoadingLinkProps = PropsWithChildren<{
   to: string
+  className: string
 }>
 
 const LoadingLink = ({ to, children, ...props }: LoadingLinkProps) => {
