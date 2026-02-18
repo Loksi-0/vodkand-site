@@ -1,0 +1,38 @@
+@use '@/app/styles/helpers' as *;
+
+.card {
+  display: flex;
+  flex-direction: row;
+  column-gap: fluid(30, 20);
+  user-select: none;
+  align-items: center;
+
+  &__image {
+    @include square(fluid(200, 120));
+
+    border-radius: fluid(30, 20);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: rem(10);
+  }
+
+  &__title {
+    width: rem(250);
+    max-width: 50vw;
+    height: fluid(40, 30);
+  }
+
+  &__price {
+    width: fluid(180, 150);
+    height: fluid(60, 50);
+  }
+
+  &__button {
+    width: fluid(200, 120);
+    height: fluid(60, 40);
+  }
+}

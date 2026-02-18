@@ -1,0 +1,88 @@
+@use '@/app/styles/helpers' as *;
+
+.activate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: fluid(30, 15);
+  flex-grow: 1;
+  background-color: var(--color-light);
+
+  &__title {
+    text-align: center;
+  }
+
+  &__preButton {
+    height: fluid(70, 60);
+    opacity: 0;
+  }
+}
+
+.preloaderWrapper {
+  @include square(fluid(200, 100));
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.preloader {
+  @include square(fluid(150, 75));
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: fluid(60, 30);
+  border-radius: fluid(100, 50);
+  background-color: var(--color-gray-10);
+  animation: waiting 1.5s infinite alternate ease-in-out;
+
+  @keyframes waiting {
+    from {
+      @include square(fluid(150, 75));
+      background-color: var(--color-gray-10);
+    }
+    to {
+      @include square(fluid(200, 100));
+    }
+  }
+
+  @keyframes ok {
+    from {
+      @include square(fluid(150, 75));
+    }
+    to {
+      @include square(fluid(200, 100));
+      background-color: var(--color-accent);
+    }
+  }
+
+  @keyframes error {
+    from {
+      @include square(fluid(150, 75));
+    }
+    to {
+      @include square(fluid(200, 100));
+      background-color: var(--color-red);
+    }
+  }
+
+  &.ok {
+    animation: ok 0.5s forwards;
+
+    .icon {
+      margin-top: rem(5);
+    }
+  }
+
+  &.error {
+    animation: error 0.5s forwards;
+  }
+
+  &__icon {
+    width: 100%;
+  }
+}

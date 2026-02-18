@@ -1,0 +1,199 @@
+@use '@/app/styles/helpers' as *;
+
+.modal {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(20, 10);
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  &__link {
+    display: flex;
+  }
+
+  &__button {
+    flex-grow: 1;
+    border: rem(3) solid;
+    border-radius: rem(100);
+  }
+}
+
+.preloader {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.images {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+
+  &__list {
+    overflow-y: scroll;
+    height: 100%;
+    caret-color: transparent;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: fluid(5, 3);
+    border-radius: fluid(20, 10);
+
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mobile-s {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+
+  &__shadow {
+    position: absolute;
+    width: 100%;
+    height: rem(20);
+    opacity: 0;
+    transition-duration: calc(var(--transition-duration) * 1.5);
+
+    &Top {
+      top: 0;
+      border-top-left-radius: fluid(20, 10);
+      border-top-right-radius: fluid(20, 10);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent);
+      
+      &.appeared {
+        opacity: 1;
+      }
+    }
+
+    &Bottom {
+      bottom: 0;
+      border-bottom-left-radius: fluid(20, 10);
+      border-bottom-right-radius: fluid(20, 10);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+
+      &.appeared {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.list {
+  &__item {
+    display: flex;
+  }
+
+  &__button {
+    margin: 0;
+    border: none;
+  }
+
+  &__image {
+    flex-shrink: 0;
+    aspect-ratio: 1.77;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+}
+
+.expanded {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  animation: fadeIn var(--transition-duration);
+  caret-color: transparent;
+  z-index: 2000;
+  transition: scale var(--transition-duration);
+  cursor: pointer;
+
+  &.closing {
+    animation: fadeOut var(--transition-duration);
+  }
+
+  &.zoomed {
+    scale: 3;
+  }
+
+  &__imageWrapper {
+    position: relative;
+    max-width: 85%;
+    max-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__image {
+    max-height: 95vh;
+    border-radius: fluid(10, 5);
+    transition-duration: var(--transition-duration);
+    cursor: zoom-in;
+
+    &.zoomed {
+      cursor: zoom-out;
+    }
+  }
+
+  &__buttonWrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2005;
+    padding: fluid(20, 5);
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  &__button {
+    @include square(fluid(50, 35));
+
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+
+    @include hover {
+      background-color: rgba(120, 120, 120, 0.8);
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+
+      path {
+        color: #ffffff;
+        fill: #ffffff;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

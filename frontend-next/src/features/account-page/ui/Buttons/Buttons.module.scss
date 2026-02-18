@@ -1,0 +1,10 @@
+@use '@/app/styles/helpers' as *;
+
+.buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: fluid(20, 10);
+  padding-right: rem(20);
+}

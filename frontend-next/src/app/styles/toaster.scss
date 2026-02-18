@@ -1,0 +1,17 @@
+@use '@/app/styles/helpers' as *;
+
+.toast svg {
+  fill: currentColor;
+}
+
+.title {
+  @include fluid-text(16, 14);
+
+  font-family: var(--font-family-base);
+}
+
+.description {
+  @include fluid-text(16, 14);
+
+  font-family: var(--font-family-base);
+}

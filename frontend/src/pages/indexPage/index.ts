@@ -1,1 +1,1 @@
-export { default } from './ui/IndexPage'
+export { default } from './IndexPage'

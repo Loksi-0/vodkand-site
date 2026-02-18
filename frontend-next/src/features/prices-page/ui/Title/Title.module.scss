@@ -1,0 +1,10 @@
+@use '@/app/styles/helpers' as *;
+
+.section {
+  padding-top: fluid(100, 50);
+  padding-bottom: fluid(50, 25);
+}
+
+.title {
+  margin: 0;
+}

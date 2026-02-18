@@ -1,0 +1,35 @@
+@use '@/app/styles/helpers' as *;
+
+.glow {
+  @include square(50px);
+
+  position: absolute;
+  opacity: 0.05;
+  filter: saturate(1.75);
+}
+
+[theme='light'] .glow {
+  opacity: 0.075;
+}
+
+.small {
+  --size: 10rem;
+}
+
+.medium {
+  --size: 20rem;
+}
+
+.large {
+  --size: 30rem;
+}
+
+.accent {
+  background-color: var(--color-accent);
+  box-shadow: 0 0 var(--size) var(--size) var(--color-accent);
+}
+
+.warm {
+  background-color: #fdcd2f;
+  box-shadow: 0 0 var(--size) var(--size) #fdcd2f;
+}

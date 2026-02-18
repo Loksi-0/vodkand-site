@@ -1,0 +1,58 @@
+@use '@/app/styles/helpers' as *;
+
+.alert {
+  display: flex;
+  flex-direction: column;
+  row-gap: fluid(15, 10);
+
+  &__body {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid(20, 10);
+    justify-content: space-between;
+    align-items: center;
+    padding: fluid(30, 20);
+    border-radius: fluid(30, 20);
+    background-color: var(--color-gray-25);
+    border: border(var(--color-gray-20));
+
+    @include mobile {
+      flex-direction: column;
+      row-gap: fluid(40, 25);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    column-gap: fluid(20, 10);
+    align-items: center;
+
+    &IconWrapper {
+      @include square(fluid(100, 70));
+
+      caret-color: transparent;
+      flex-shrink: 0;
+      border-radius: rem(100);
+      padding: fluid(20, 15);
+    }
+
+    &Body {
+      display: flex;
+      flex-direction: column;
+      row-gap: fluid(10, 5);
+    }
+  }
+
+  &__button {
+    flex-shrink: 0;
+  }
+}
+
+.yellow {
+  background-color: var(--color-yellow-10);
+}
+
+.red {
+  background-color: var(--color-red-20);
+}

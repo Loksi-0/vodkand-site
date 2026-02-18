@@ -8,6 +8,7 @@ import ModalContent from './ModalContent'
 import useHistory from '../../model/useHistory'
 import { pages } from '../../model/history.data'
 import Navigation from './Navigation'
+import Glow from '@/shared/ui/Glow/Glow'
 
 const History = () => {
   const {
@@ -27,6 +28,14 @@ const History = () => {
   return (
     <section className={styles.history}>
       <div className={cx(styles.history__inner, 'container')}>
+        <Glow
+          color='custom'
+          className={styles.history__glow}
+          style={{
+            backgroundColor: currentPage.color,
+            boxShadow: `0 0 20rem 20rem ${currentPage.color}`
+          }}
+        />
         <h2>История проекта</h2>
         <article className={styles.article}>
           <div className={styles.article__body}>

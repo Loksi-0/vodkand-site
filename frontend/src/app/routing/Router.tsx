@@ -1,4 +1,4 @@
-import Index from '@/pages/indexPage'
+import Index from '@/pages/indexPage/index'
 import Plugins from '@/pages/plugins'
 import Account from '@/pages/account'
 import Legal from '@/pages/legal'

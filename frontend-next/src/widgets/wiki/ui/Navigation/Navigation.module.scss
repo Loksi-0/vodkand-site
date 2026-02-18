@@ -1,0 +1,92 @@
+@use '@/app/styles/helpers' as *;
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start;
+  caret-color: transparent;
+  position: sticky;
+  top: fluid(90, 50);
+  z-index: 10;
+
+  @include mobile-above {
+    padding-block: rem(50);
+    padding-right: var(--gap);
+  }
+
+  @include mobile {
+    width: 100%;
+    background-color: var(--color-light);
+    border-right: none;
+    padding-right: 0;
+    padding-top: rem(30);
+    padding-bottom: rem(15);
+    border-bottom: var(--border-split);
+  }
+}
+
+.list {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: rem(10);
+  scrollbar-width: none;
+
+  @include mobile-above {
+    width: fluid(220, 150);
+  }
+
+  @include mobile {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__item {
+    display: flex;
+    flex-shrink: 0;
+    transition-duration: var(--transition-duration);
+
+    &:active {
+      scale: 0.95;
+    }
+  }
+
+  &__link {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: rem(10);
+    background-color: transparent;
+    border-radius: rem(10);
+    padding: rem(5);
+    overflow: hidden;
+    hyphens: auto;
+
+    @include hover {
+      background-color: var(--color-gray-25);
+    }
+
+    &.isCurrent {
+      background-color: var(--color-gray-20);
+      cursor: default;
+    }
+  }
+
+  &__icon {
+    @include square(rem(25));
+
+    flex-shrink: 0;
+  }
+
+  &__title {
+    overflow-wrap: break-word;
+  }
+}

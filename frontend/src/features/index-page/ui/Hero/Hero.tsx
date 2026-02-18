@@ -8,12 +8,18 @@ import CopyField from '@/shared/ui/CopyField'
 import PunishmentAlert from '@/features/punishment-alert'
 import { observer } from 'mobx-react-lite'
 import useHero from '../../model/useHero'
+import Glow from '@/shared/ui/Glow/Glow'
 
 const Hero = observer(() => {
   const { isMobile, onClick, loading } = useHero()
 
   return (
     <section className={cx(styles.hero, 'container-big')}>
+      <Glow
+        size='medium'
+        color='accent'
+        className={styles.hero__glow}
+      />
       {isMobile && (
         <div className={styles.hero__alertWrapper}>
           <PunishmentAlert />
