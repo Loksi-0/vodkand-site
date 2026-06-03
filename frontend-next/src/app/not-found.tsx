@@ -10,6 +10,7 @@ import frog from '@/shared/assets/images/frog.png'
 import Button from '@/shared/ui/Button'
 import useNotFound from './not-found/useNotFound'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const NotFound = () => {
   const router = useRouter()
@@ -45,7 +46,7 @@ const NotFound = () => {
             </Button>
           </div>
           <div className={styles.notFound__image}>
-            <img
+            <Image
               className={styles.notFound__logo}
               ref={logoRef}
               src={frog}

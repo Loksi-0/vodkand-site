@@ -1,7 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import { LoaderContext } from './context/LoaderContext'
 import { PropsWithChildren } from 'react'
 import useCustomContext from '@/shared/hooks/useCustomContext'
+import { usePathname } from 'next/navigation'
 
 type LoadingLinkProps = PropsWithChildren<{
   to: string
@@ -10,10 +13,10 @@ type LoadingLinkProps = PropsWithChildren<{
 
 const LoadingLink = ({ to, children, ...props }: LoadingLinkProps) => {
   const { startLoading } = useCustomContext(LoaderContext)
-  const loading = useLocation()
+  const pathname = usePathname()
 
   const handleClick = () => {
-    if (loading.pathname !== to) {
+    if (pathname !== to) {
       startLoading()
     }
   }

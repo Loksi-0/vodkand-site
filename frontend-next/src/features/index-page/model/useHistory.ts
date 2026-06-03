@@ -1,7 +1,7 @@
 'use client'
 
 import { PageType } from './history.data'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 type UseHistoryProps = {
   pages: PageType[]
@@ -18,10 +18,8 @@ const useHistory = ({ pages }: UseHistoryProps) => {
   const [nextImage, setNextImage] = useState(pages[1].image)
   const [opacity, setOpacity] = useState(1)
 
-  const isMobile = useMemo(
-    () => (typeof window !== 'undefined' ? window.innerWidth < 767 : false),
-    []
-  )
+  const isMobile =
+    typeof window !== 'undefined' ? window.innerWidth < 767 : false
 
   const animateContent = (updateContent: () => void) => {
     const content = contentRef.current
@@ -65,7 +63,7 @@ const useHistory = ({ pages }: UseHistoryProps) => {
       })
       setOpacity(1)
     }, 200)
-  }, [currentPage])
+  }, [pages, currentPage])
 
   const forward = useCallback(() => {
     setNextImage(pages[pages.indexOf(currentPage) + 1].image)
@@ -77,7 +75,7 @@ const useHistory = ({ pages }: UseHistoryProps) => {
       })
       setOpacity(1)
     }, 200)
-  }, [currentPage])
+  }, [pages, currentPage])
 
   return {
     isModalOpen,

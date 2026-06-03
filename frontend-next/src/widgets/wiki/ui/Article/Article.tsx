@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Article.module.scss'
 
 import { WikiContext } from '@/widgets/wiki/model/wikiContext'
@@ -6,6 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import ArticleSkeleton from './ArticleSkeleton'
 import useCustomContext from '@/shared/hooks/useCustomContext'
+import Image from 'next/image'
 
 const Article = () => {
   const { article, isArticleLoading, modifyLink, modifiedContent } =
@@ -20,12 +23,14 @@ const Article = () => {
       <header className={styles.header}>
         <div className={styles.header__inner}>
           {article.icon && (
-            <img
+            <Image
               className={styles.header__icon}
               src={article.icon}
               alt=''
               loading='lazy'
               draggable='false'
+              width={75}
+              height={75}
             />
           )}
           {article.link ? (

@@ -7,6 +7,7 @@ import cx from 'clsx'
 import { observer } from 'mobx-react-lite'
 import useDate from '@/shared/hooks/useDate'
 import useAlert from '../api/useAlert'
+import Image from 'next/image'
 
 const PunishmentAlert = observer(() => {
   const { punishment } = useAlert()
@@ -23,12 +24,14 @@ const PunishmentAlert = observer(() => {
           styles[punishment.type.toLowerCase()]
         )}
       >
-        <img
+        <Image
           className={styles.alert__icon}
           src={punishment.icon}
           alt=''
           draggable='false'
           loading='lazy'
+          width={150}
+          height={150}
         />
       </div>
       <div className={styles.alert__body}>

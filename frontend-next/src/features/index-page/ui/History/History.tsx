@@ -11,6 +11,7 @@ import useHistory from '../../model/useHistory'
 import { pages } from '../../model/history.data'
 import Navigation from './Navigation'
 import Glow from '@/shared/ui/Glow/Glow'
+import Image from 'next/image'
 
 const History = () => {
   const {
@@ -92,20 +93,24 @@ const History = () => {
                 backgroundColor: currentPage.color10
               }}
             >
-              <img
+              <Image
                 className={styles.article__image}
                 src={currentPage.image}
                 alt=''
                 loading='lazy'
                 draggable='false'
                 style={{ opacity: opacity }}
+                width={500}
+                height={500}
               />
-              <img
+              <Image
                 className={styles.article__imageNext}
                 src={nextImage}
                 alt=''
                 loading='lazy'
                 draggable='false'
+                width={500}
+                height={500}
               />
             </div>
             {!isMobile && (

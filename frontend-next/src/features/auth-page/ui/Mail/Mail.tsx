@@ -10,6 +10,7 @@ import Button from '@/shared/ui/Button'
 import { MainContext } from '@/app/context/MainContext'
 import { AuthContext } from '@/features/auth-page'
 import useCustomContext from '@/shared/hooks/useCustomContext'
+import Image from 'next/image'
 
 const Mail = () => {
   const { userStore } = useCustomContext(MainContext)
@@ -18,7 +19,7 @@ const Mail = () => {
   return (
     <div className={styles.mail}>
       <div className={styles.mail__iconWrapper}>
-        <img
+        <Image
           className={styles.mail__icon}
           src={mail}
           alt=''

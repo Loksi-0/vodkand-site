@@ -1,37 +1,42 @@
-'use client'
-
 import styles from './Products.module.scss'
 
 import cx from 'clsx'
 
-import Button from '@/shared/ui/Button'
-import { observer } from 'mobx-react-lite'
+import getProducts from '../../model/getProducts'
+import OrderButton from '@/shared/ui/OrderButton'
+import ProductsSkeleton from '@/features/prices-page/ui/Products/ProductsSkeleton'
+import Image from 'next/image'
 
-import useProducts from '../../model/useProducts'
-import ProductsSkeleton from './ProductsSkeleton'
+const Products = async () => {
+  const products = await getProducts()
 
-const Products = observer(() => {
-  const { products, isLoading, onClick } = useProducts()
+  if (products === 'error') {
+    return (
+      <section className={styles.list}>
+        <ul className={cx(styles.list__inner, 'container')}>
+          <ProductsSkeleton />
+        </ul>
+      </section>
+    )
+  }
 
   return (
     <section className={styles.list}>
       <ul className={cx(styles.list__inner, 'container')}>
         {products.map((product, index) => {
-          if (isLoading) {
-            return <ProductsSkeleton key={index} />
-          }
-
           return (
             <li
               className={styles.list__item}
               key={index}
             >
               <div className={cx(styles.list__imageWrapper)}>
-                <img
+                <Image
                   src={product.image}
                   alt=''
                   loading='lazy'
                   draggable='false'
+                  width={200}
+                  height={200}
                 />
               </div>
               <div className={styles.list__body}>
@@ -48,15 +53,9 @@ const Products = observer(() => {
                     )}
                   </div>
                 </div>
-                <Button
-                  color='accent'
-                  disabled={isLoading}
-                  onClick={() => {
-                    onClick(products[index])
-                  }}
-                >
+                <OrderButton product={products[index].name}>
                   {product.buttonText}
-                </Button>
+                </OrderButton>
               </div>
             </li>
           )
@@ -64,6 +63,6 @@ const Products = observer(() => {
       </ul>
     </section>
   )
-})
+}
 
 export default Products

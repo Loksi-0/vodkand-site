@@ -1,19 +1,19 @@
-'use client'
-
 import styles from './Hero.module.scss'
 
 import cx from 'clsx'
 
-import Button from '@/shared/ui/Button'
 import Title from '@/shared/ui/Title'
 import CopyField from '@/shared/ui/CopyField'
 import PunishmentAlert from '@/features/punishment-alert'
-import { observer } from 'mobx-react-lite'
-import useHero from '../../model/useHero'
 import Glow from '@/shared/ui/Glow/Glow'
+import OrderButton from '@/shared/ui/OrderButton'
 
-const Hero = observer(() => {
-  const { isMobile, onClick, loading } = useHero()
+const Hero = () => {
+  let isMobile = false
+
+  if (typeof window !== 'undefined') {
+    isMobile = window.innerWidth < 767
+  }
 
   return (
     <section className={cx(styles.hero, 'container-big')}>
@@ -36,14 +36,12 @@ const Hero = observer(() => {
       <div className={styles.hero__body}>
         {!isMobile && <PunishmentAlert />}
         <div className={styles.hero__content}>
-          <Button
-            color='accent'
+          <OrderButton
+            product='pass'
             isBig
-            disabled={loading}
-            onClick={onClick}
           >
             Купить проходку
-          </Button>
+          </OrderButton>
           <CopyField
             text='play.vodkand.online'
             subtitle='1.21.11'
@@ -52,6 +50,6 @@ const Hero = observer(() => {
       </div>
     </section>
   )
-})
+}
 
 export default Hero

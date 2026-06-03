@@ -1,11 +1,19 @@
 import PageLayout from '@/app/layouts/PageLayout'
 import { Title, Products } from '@/features/prices-page'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Цены',
+  description: 'Стоимость продуктов на Vodkand',
+  keywords:
+    'Vodkand, Водканд, майнкрафт сервер, Forever world, ванильный сервер',
+  openGraph: {
+    title: 'Цены',
+    description: 'Стоимость продуктов на Vodkand'
+  }
+}
 
 const Prices = () => {
-  // usePageMetadata({
-  //   title: 'Цены'
-  // })
-
   return (
     <PageLayout>
       <Title title='Цены' />

@@ -1,3 +1,6 @@
+'use client'
+
+import Image from 'next/image'
 import styles from './GoogleButton.module.scss'
 
 import googleLogo from '@/shared/assets/icons/google-logo.png'
@@ -13,7 +16,7 @@ const GoogleButton = () => {
       className={styles.googleButton}
       onClick={handleClick}
     >
-      <img
+      <Image
         className={styles.googleButton__icon}
         src={googleLogo}
         alt=''

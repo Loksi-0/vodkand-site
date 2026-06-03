@@ -1,3 +1,5 @@
+'use client'
+
 import { MainContext } from '@/app/context/MainContext'
 import useCustomContext from '@/shared/hooks/useCustomContext'
 

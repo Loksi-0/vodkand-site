@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './AccountButton.module.scss'
 
 import cx from 'clsx'
@@ -7,6 +9,7 @@ import { observer } from 'mobx-react-lite'
 import Link from 'next/link'
 import Skeleton from '@/shared/ui/Skeleton'
 import useCustomContext from '@/shared/hooks/useCustomContext'
+import Image from 'next/image'
 
 const AccountButton = observer(() => {
   const { userStore } = useCustomContext(MainContext)
@@ -22,12 +25,14 @@ const AccountButton = observer(() => {
       draggable='false'
     >
       {userStore.user?.nickname ? (
-        <img
+        <Image
           className={styles.link__skinIcon}
           src={`https://mineskin.eu/helm/${userStore.user.nickname}`}
           alt=''
           loading='lazy'
           draggable='false'
+          width={40}
+          height={40}
         />
       ) : (
         <div className={styles.link__icon}>

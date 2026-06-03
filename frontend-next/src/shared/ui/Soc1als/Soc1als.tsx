@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import styles from './Soc1als.module.scss'
 
 import { links } from '@/shared/ui/Soc1als/soc1als.data'
@@ -18,11 +19,13 @@ const Soc1als = () => {
               rel='noreferrer'
             >
               <span className='visually-hidden'>{link.title}</span>
-              <img
+              <Image
                 src={link.icon}
                 alt=''
                 loading='lazy'
                 draggable='false'
+                width={50}
+                height={50}
               />
             </a>
           </li>

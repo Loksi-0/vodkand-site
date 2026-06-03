@@ -4,7 +4,7 @@ import { refreshToken } from '@/shared/api/refreshToken'
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
   timeout: 10000
 })
 

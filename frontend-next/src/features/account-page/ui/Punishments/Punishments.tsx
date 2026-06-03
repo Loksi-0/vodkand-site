@@ -1,13 +1,16 @@
+'use client'
+
 import styles from './Punishments.module.scss'
 
 import cx from 'clsx'
 
 import Preloader from '@/shared/ui/Preloader'
 import usePunishments from '../../model/usePunishments'
+import date from '@/shared/hooks/useDate'
+import Image from 'next/image'
 
 const Punishments = () => {
-  const { isLoading, punishments, isPoshalko, date, icons, titles } =
-    usePunishments()
+  const { isLoading, punishments, isPoshalko, icons, titles } = usePunishments()
 
   return (
     <section className={styles.punishments}>
@@ -35,7 +38,7 @@ const Punishments = () => {
                       (element.type === 'MUTE' && styles.mute)
                   )}
                 >
-                  <img
+                  <Image
                     className={styles.list__icon}
                     src={icons[element.type]}
                     alt=''

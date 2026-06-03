@@ -7,7 +7,7 @@ import type { ComponentProps } from 'react'
 import { MainContext } from '@/app/context/MainContext'
 import useCustomContext from '@/shared/hooks/useCustomContext'
 import { AxiosError } from 'axios'
-import { useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 
 export type UseWikiProps = {
   chapter: string
@@ -15,7 +15,7 @@ export type UseWikiProps = {
 }
 
 const useWiki = (props: UseWikiProps) => {
-  type ArticleType = {
+  type Article = {
     icon?: string
     title: string
     description?: string
@@ -23,30 +23,32 @@ const useWiki = (props: UseWikiProps) => {
     link?: string
   }
 
-  type NavigationType = {
+  type Navigation = {
     icon?: string
     title: string
     page?: string
   }
 
   const { chapter, firstPage } = props
-  const { page } = useParams()
+  const { page } = useParams<{ page: string }>()
   const { stopLoading } = useCustomContext(LoaderContext)
   const router = useRouter()
 
   const { wikiStore } = useCustomContext(MainContext)
 
-  const location = useLocation()
+  const pathname = usePathname()
 
   const listRef = useRef<HTMLUListElement | null>(null)
   const currentRef = useRef<HTMLLIElement | null>(null)
 
-  const [article, setArticle] = useState<ArticleType | null>(null)
-  const [navigation, setNavigation] = useState<NavigationType[]>([])
+  const [article, setArticle] = useState<Article | null>(null)
+  const [navigation, setNavigation] = useState<Navigation[]>([])
   const [isArticleLoading, setIsArticleLoading] = useState(true)
   const [isNavigationLoading, setIsNavigationLoading] = useState(true)
 
   const controller = new AbortController()
+
+  console.log(page, pathname)
 
   useLayoutEffect(() => {
     const current = currentRef.current
@@ -78,10 +80,7 @@ const useWiki = (props: UseWikiProps) => {
         setArticle(response.data)
       } catch (e) {
         if (e instanceof AxiosError) {
-          if (
-            e.status === 404 &&
-            location.pathname !== `/${chapter}/${firstPage}`
-          ) {
+          if (e.status === 404 && pathname !== `/${chapter}/${firstPage}`) {
             router.push(`/${chapter}/${firstPage}`)
             return
           }

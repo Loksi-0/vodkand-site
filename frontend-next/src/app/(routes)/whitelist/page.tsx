@@ -1,21 +1,23 @@
+'use client'
+
 import styles from './Whitelist.module.scss'
 
 import cx from 'clsx'
 
 import Button from '@/shared/ui/Button'
-import usePageMetadata from '@/shared/hooks/usePageMetadata'
 import { observer } from 'mobx-react-lite'
 import useWhitelist from './useWhitelist'
 import FormPageLayout from '@/app/layouts/FormPageLayout'
+import Image from 'next/image'
 
 const Whitelist = observer(() => {
   const { isLoading, nick, error, handleSubmit, onChange } = useWhitelist()
 
-  usePageMetadata({
-    title: 'Whitelist',
-    index: false,
-    follow: false
-  })
+  // usePageMetadata({
+  //   title: 'Whitelist',
+  //   index: false,
+  //   follow: false
+  // })
 
   return (
     <FormPageLayout>
@@ -31,7 +33,7 @@ const Whitelist = observer(() => {
         </h1>
         <div className={styles.form__body}>
           <div className={styles.form__field}>
-            <img
+            <Image
               className={styles.form__fieldIcon}
               src={
                 nick

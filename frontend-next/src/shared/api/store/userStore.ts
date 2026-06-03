@@ -105,7 +105,7 @@ class UserStore {
   }
 
   async initAuth() {
-    if (!localStorage.getItem('wasAuth')) {
+    if (typeof window !== 'undefined' && !localStorage.getItem('wasAuth')) {
       this.setAuth(false)
       this.setUser(null)
       this.setLoading(false)

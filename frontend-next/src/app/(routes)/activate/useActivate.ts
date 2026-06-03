@@ -1,13 +1,15 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { MainContext } from '@/app/context/MainContext'
-import { useLocation } from 'react-router'
 import useCustomContext from '@/shared/hooks/useCustomContext'
 import axios from 'axios'
+import { useSearchParams } from 'next/navigation'
 
 const useActivate = () => {
   type StatusType = 'pending' | 'ok' | 'error'
 
-  const location = useLocation()
+  const searchParams = useSearchParams()
 
   const { userStore } = useCustomContext(MainContext)
 
@@ -17,7 +19,7 @@ const useActivate = () => {
   useEffect(() => {
     const activate = async () => {
       try {
-        const activationLink = new URLSearchParams(location.search).get('link')
+        const activationLink = searchParams.get('link')
 
         if (!activationLink) {
           throw new Error('Ссылка активации отсутствует')

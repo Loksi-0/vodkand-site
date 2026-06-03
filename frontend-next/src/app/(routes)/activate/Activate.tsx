@@ -1,23 +1,25 @@
+'use client'
+
 import styles from './Activate.module.scss'
 
 import cx from 'clsx'
 
 import Button from '@/shared/ui/Button'
-import usePageMetadata from '@/shared/hooks/usePageMetadata'
 import { observer } from 'mobx-react-lite'
 
 import ok from '@/shared/assets/icons/ok.svg'
 import error from '@/shared/assets/icons/error.svg'
 import useActivate from './useActivate'
+import Image from 'next/image'
 
 const Activate = observer(() => {
   const { title, status } = useActivate()
 
-  usePageMetadata({
-    title: 'Активация',
-    index: false,
-    follow: false
-  })
+  // usePageMetadata({
+  //   title: 'Активация',
+  //   index: false,
+  //   follow: false
+  // })
 
   return (
     <main>
@@ -29,14 +31,14 @@ const Activate = observer(() => {
               [styles.error]: status === 'error'
             })}
           >
-            <img
-              className={styles.preloader__icon}
-              src={
-                status === 'pending' ? undefined : status === 'ok' ? ok : error
-              }
-              alt=''
-              draggable='false'
-            />
+            {status !== 'pending' && (
+              <Image
+                className={styles.preloader__icon}
+                src={status === 'ok' ? ok : error}
+                alt=''
+                draggable='false'
+              />
+            )}
           </div>
         </div>
         <h1 className={cx(styles.activate__title, 'h3')}>{title}</h1>

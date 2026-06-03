@@ -1,18 +1,14 @@
-'use client'
-
 import styles from './BuyPassBanner.module.scss'
 
 import cx from 'clsx'
 
-import Button from '@/shared/ui/Button/Button'
-
 import pass from '@/shared/assets/images/frog.png'
-import { observer } from 'mobx-react-lite'
-import useBanner from '../../model/useBanner'
-import Skeleton from '@/shared/ui/Skeleton'
+import getPassPrice from '../../model/getPassPrice'
+import OrderButton from '@/shared/ui/OrderButton'
+import Image from 'next/image'
 
-const BuyPassBanner = observer(() => {
-  const { isLoading, price, onClick } = useBanner()
+const BuyPassBanner = async () => {
+  const { price } = await getPassPrice()
 
   return (
     <section className={styles.banner}>
@@ -83,7 +79,7 @@ const BuyPassBanner = observer(() => {
         <div className={styles.right}>
           <div className={styles.right__title}>
             <div className={styles.right__imageWrapper}>
-              <img
+              <Image
                 className={styles.image}
                 src={pass}
                 alt=''
@@ -94,24 +90,14 @@ const BuyPassBanner = observer(() => {
             <h4 className='h4'>Доступ на сервер</h4>
           </div>
           <h4 className={cx(styles.right__price, 'h1')}>
-            {isLoading ? (
-              <Skeleton className={styles.right__priceSkeleton} />
-            ) : (
-              <span>{price}</span>
-            )}
+            <span>{price}</span>
             &nbsp;₽
           </h4>
-          <Button
-            color='accent'
-            disabled={isLoading}
-            onClick={onClick}
-          >
-            Купить проходку
-          </Button>
+          <OrderButton product='pass'>Купить проходку</OrderButton>
         </div>
       </div>
     </section>
   )
-})
+}
 
 export default BuyPassBanner

@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './CopyField.module.scss'
 
 import { toast } from 'sonner'

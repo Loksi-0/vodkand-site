@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './ModalContent.module.scss'
 
 import cx from 'clsx'
@@ -6,6 +8,7 @@ import { memo } from 'react'
 import Button from '@/shared/ui/Button'
 import Preloader from '@/shared/ui/Preloader'
 import useModalContent from '@/features/index-page/model/useModalContent'
+import Image from 'next/image'
 
 type ModalContentProps = {
   page?: string
@@ -44,7 +47,7 @@ const ModalContent = (props: ModalContentProps) => {
           onClick={closeImage}
         >
           <div className={styles.expanded__imageWrapper}>
-            <img
+            <Image
               className={cx(styles.expanded__image, {
                 [styles.zoomed]: isZoomed
               })}
@@ -52,6 +55,8 @@ const ModalContent = (props: ModalContentProps) => {
               alt=''
               draggable='false'
               onClick={zoomImage}
+              width={1920}
+              height={1080}
             />
             <div
               className={styles.expanded__buttonWrapper}
@@ -120,11 +125,13 @@ const ModalContent = (props: ModalContentProps) => {
                     openImage(index)
                   }}
                 >
-                  <img
+                  <Image
                     className={styles.list__image}
                     src={element}
                     alt=''
                     draggable='false'
+                    width={400}
+                    height={225}
                   />
                 </button>
               </li>

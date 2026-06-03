@@ -11,8 +11,7 @@ import useCustomContext from '@/shared/hooks/useCustomContext'
 import axios from 'axios'
 import type { StaticImageData } from 'next/image'
 
-const useAlert = () => {
-  type PunishmentType = {
+type Punishment = {
     type: 'WARN' | 'BAN' | 'MUTE'
     icon: StaticImageData
     title: string
@@ -20,8 +19,9 @@ const useAlert = () => {
     endDate: number
   }
 
+const useAlert = () => {
   const { userStore } = useCustomContext(MainContext)
-  const [punishment, setPunishment] = useState<PunishmentType | null>(null)
+  const [punishment, setPunishment] = useState<Punishment | null>(null)
 
   useEffect(() => {
     const getPunishments = async () => {

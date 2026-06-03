@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Account.module.scss'
 
 import cx from 'clsx'
@@ -5,7 +7,6 @@ import cx from 'clsx'
 import { Nick, Punishments, Alert, Buttons } from '@/features/account-page'
 import { MainContext } from '@/app/context/MainContext'
 import { observer } from 'mobx-react-lite'
-import usePageMetadata from '@/shared/hooks/usePageMetadata.js'
 import useAccount from './useAccount'
 import PageLayout from '@/app/layouts/PageLayout'
 import useCustomContext from '@/shared/hooks/useCustomContext'
@@ -21,13 +22,13 @@ const Account = observer(() => {
     isLoading
   } = useAccount()
 
-  usePageMetadata({
-    title: userStore.user?.nickname
-      ? `Аккаунт | ${userStore.user.nickname}`
-      : 'Аккаунт',
-    index: false,
-    follow: false
-  })
+  // usePageMetadata({
+  //   title: userStore.user?.nickname
+  //     ? `Аккаунт | ${userStore.user.nickname}`
+  //     : 'Аккаунт',
+  //   index: false,
+  //   follow: false
+  // })
 
   return (
     <PageLayout className={cx(styles.account, 'container')}>

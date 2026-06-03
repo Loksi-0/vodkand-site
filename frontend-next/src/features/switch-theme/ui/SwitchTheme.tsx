@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './SwitchTheme.module.scss'
 
 import Button from '@/shared/ui/Button'

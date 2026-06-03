@@ -1,5 +1,7 @@
+'use client'
+
 import { useState, useCallback } from 'react'
-import { useNavigate } from 'react-router'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { MainContext } from '@/app/context/MainContext'
 import useCustomContext from '@/shared/hooks/useCustomContext'
@@ -8,7 +10,7 @@ import axios from 'axios'
 const useAccount = () => {
   const { userStore } = useCustomContext(MainContext)
 
-  const navigate = useNavigate()
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleLogout = async () => {
@@ -32,11 +34,11 @@ const useAccount = () => {
   }, [userStore])
 
   const handleBuyPass = useCallback(() => {
-    void navigate('/payment')
+    router.push('/payment')
   }, [userStore])
 
   const handleAddNick = useCallback(() => {
-    void navigate('/whitelist')
+    router.push('/whitelist')
   }, [userStore])
 
   return {

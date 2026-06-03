@@ -1,9 +1,10 @@
+import Image, { type StaticImageData } from 'next/image'
 import styles from './Paragraph.module.scss'
 
 import cx from 'clsx'
 
 type ParagraphType = {
-  image: string
+  image: string | StaticImageData
   title: string
   description: string
   reversed?: boolean
@@ -15,12 +16,14 @@ const Paragraph = (props: ParagraphType) => {
   return (
     <div className={cx(styles.paragraph, { [styles.reversed]: reversed })}>
       {image && (
-        <img
+        <Image
           className={styles.paragraph__image}
           src={image}
           alt=''
           draggable='false'
           loading='lazy'
+          width={500}
+          height={200}
         />
       )}
 

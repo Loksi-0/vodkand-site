@@ -6,6 +6,7 @@ import Button from '@/shared/ui/Button'
 
 import warn from '@/shared/assets/icons/warn.png'
 import ban from '@/shared/assets/icons/ban.png'
+import Image from 'next/image'
 
 type AlertType = {
   color: 'red' | 'yellow'
@@ -31,7 +32,7 @@ const Alert = (props: AlertType) => {
       <div className={styles.alert__body}>
         <div className={styles.alert__content}>
           <div className={cx(styles.alert__contentIconWrapper, styles[color])}>
-            <img
+            <Image
               className={styles.icon}
               src={color === 'red' ? ban : warn}
               alt=''

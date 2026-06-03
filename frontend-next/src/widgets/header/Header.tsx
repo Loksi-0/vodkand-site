@@ -5,7 +5,6 @@ import styles from './Header.module.scss'
 import cx from 'clsx'
 
 import Logo from '@/shared/ui/Logo'
-import { observer } from 'mobx-react-lite'
 import SwitchTheme from '@/features/switch-theme'
 import AccountButton from '@/features/account-button'
 import TopLoader from '@/features/set-top-loader/HeaderLoader/HeaderLoader'
@@ -16,7 +15,7 @@ type HeaderProps = {
   ref?: RefObject<HTMLElement | null>
 }
 
-const Header = observer((props: HeaderProps) => {
+const Header = (props: HeaderProps) => {
   const { sticky = true, ref = null } = props
 
   return (
@@ -34,6 +33,6 @@ const Header = observer((props: HeaderProps) => {
       <TopLoader />
     </header>
   )
-})
+}
 
 export default Header

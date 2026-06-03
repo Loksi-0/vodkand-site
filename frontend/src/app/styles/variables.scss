@@ -41,6 +41,7 @@
 
   --transition-duration: 0.2s;
 
+  --scrollbar-width: 14px;
   --100vw: calc(100vw - var(--scrollbar-width));
 
   @include tablet {

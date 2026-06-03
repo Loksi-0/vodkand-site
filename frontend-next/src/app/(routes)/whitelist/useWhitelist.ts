@@ -1,3 +1,5 @@
+'use client'
+
 import { ChangeEventHandler, useState } from 'react'
 import { MainContext } from '@/app/context/MainContext'
 import { toast } from 'sonner'

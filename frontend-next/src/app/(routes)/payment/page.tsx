@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Payment.module.scss'
 
 import cx from 'clsx'
@@ -10,6 +12,7 @@ import usePayment from './usePayment'
 import FormPageLayout from '@/app/layouts/FormPageLayout'
 import { ListSkeleton } from '@/features/payment-page'
 import Skeleton from '@/shared/ui/Skeleton'
+import Image from 'next/image'
 
 const Payment = observer(() => {
   const {
@@ -32,15 +35,19 @@ const Payment = observer(() => {
             <ListSkeleton />
           ) : (
             <li className={styles.list__item}>
-              <div className={styles.list__imageWrapper}>
-                <img
-                  className={styles.image}
-                  src={product?.image}
-                  alt=''
-                  loading='lazy'
-                  draggable='false'
-                />
-              </div>
+              {product?.image && (
+                <div className={styles.list__imageWrapper}>
+                  <Image
+                    className={styles.image}
+                    src={product.image}
+                    alt=''
+                    loading='lazy'
+                    draggable='false'
+                    width={100}
+                    height={100}
+                  />
+                </div>
+              )}
               <div className={styles.list__body}>
                 <h2 className='h5'>{product?.description}</h2>
                 <p className={cx(styles.list__subtitle, 'gray')}>

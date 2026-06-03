@@ -1,6 +1,7 @@
+'use client'
+
 import { MainContext } from '@/app/context/MainContext'
 import useCustomContext from '@/shared/hooks/useCustomContext'
-import useDate from '@/shared/hooks/useDate'
 import axios from 'axios'
 import mute from '@/shared/assets/icons/mute.png'
 import warn from '@/shared/assets/icons/warn.png'
@@ -20,8 +21,6 @@ const usePunishments = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [punishments, setPunishments] = useState<PunishmentsElementType[]>([])
   const isPoshalko = useMemo(() => Math.random() < 0.01, [])
-
-  const date = useDate
 
   const icons: Record<'BAN' | 'WARN' | 'MUTE', string> = {
     BAN: ban,
@@ -62,7 +61,6 @@ const usePunishments = () => {
     isLoading,
     punishments,
     isPoshalko,
-    date,
     icons,
     titles
   }

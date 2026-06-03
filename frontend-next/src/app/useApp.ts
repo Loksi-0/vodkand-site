@@ -7,9 +7,9 @@ import useCustomContext from '@/shared/hooks/useCustomContext'
 const useApp = () => {
   const { userStore } = useCustomContext(MainContext)
 
-  useEffect(() => {
-    void userStore.initAuth()
+  void userStore.initAuth()
 
+  useEffect(() => {
     let savedTheme = localStorage.getItem('theme')
 
     if (!savedTheme) {

@@ -1,14 +1,16 @@
+'use client'
+
 import NavigationTile from '@/shared/ui/NavigationTile'
 import PageLayout from '@/app/layouts/PageLayout'
 import { WikiProvider } from '@/widgets/wiki/model/wikiContext'
 import Wiki from '@/widgets/wiki'
 
-const Legal = () => {
+const Plugins = () => {
   return (
     <PageLayout>
       <WikiProvider
-        chapter='legal'
-        firstPage='privacy-policy'
+        chapter='plugins'
+        firstPage='brewery'
       >
         <Wiki />
       </WikiProvider>
@@ -17,4 +19,4 @@ const Legal = () => {
   )
 }
 
-export default Legal
+export default Plugins

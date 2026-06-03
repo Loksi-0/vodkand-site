@@ -1,3 +1,5 @@
+'use client'
+
 import UserStore from '@/shared/api/store/userStore'
 import UIStore from '@/shared/api/store/uiStore'
 import PaymentStore from '@/shared/api/store/paymentStore'

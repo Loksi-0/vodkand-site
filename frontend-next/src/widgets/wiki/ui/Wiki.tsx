@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Wiki.module.scss'
 
 import cx from 'clsx'
@@ -10,7 +12,7 @@ import './markdown.scss'
 import useCustomContext from '@/shared/hooks/useCustomContext'
 
 const Wiki = () => {
-  const { definePageName, chapter, article } = useCustomContext(WikiContext)
+  const { definePageName, chapter } = useCustomContext(WikiContext)
 
   // usePageMetadata({
   //   title: article?.title

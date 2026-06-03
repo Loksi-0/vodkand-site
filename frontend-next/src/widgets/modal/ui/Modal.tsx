@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Modal.module.scss'
 
 import cx from 'clsx'

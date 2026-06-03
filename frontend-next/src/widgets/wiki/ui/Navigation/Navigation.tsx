@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Navigation.module.scss'
 
 import cx from 'clsx'
@@ -6,6 +8,7 @@ import { WikiContext } from '@/widgets/wiki/model/wikiContext'
 import LoadingLink from '@/features/set-top-loader/LoadingLink'
 import NavigationSkeleton from './NavigationSkeleton'
 import useCustomContext from '@/shared/hooks/useCustomContext'
+import Image from 'next/image'
 
 const Navigation = () => {
   const {
@@ -45,12 +48,14 @@ const Navigation = () => {
                 })}
               >
                 {element.icon && (
-                  <img
+                  <Image
                     className={styles.list__icon}
                     src={element.icon}
                     alt=''
                     loading='lazy'
                     draggable='false'
+                    width={40}
+                    height={40}
                   />
                 )}
                 <div

@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './HeaderLoader.module.scss'
 
 import cx from 'clsx'

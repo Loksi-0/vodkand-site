@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './GoogleAuth.module.scss'
 
 import cx from 'clsx'
