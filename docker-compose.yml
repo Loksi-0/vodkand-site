@@ -2,7 +2,7 @@ services:
   vodkand-backend:
     build:
       context: ./backend
-    container_name: backend
+    container_name: vodkand-backend
     restart: unless-stopped
     env_file:
       - ./backend/.env
@@ -15,7 +15,7 @@ services:
   vodkand-frontend:
     build:
       context: ./frontend
-    container_name: frontend
+    container_name: vodkand-frontend
     restart: unless-stopped
     ports:
       - "3002:80"
