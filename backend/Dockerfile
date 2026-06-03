@@ -1,12 +1,20 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /vodkandApp
-
-COPY package.json package-lock.json ./
-RUN npm ci
-
+COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build
+
+
+
+FROM node:20-alpine AS runner
+WORKDIR /vodkandApp
+
+COPY --from=builder /vodkandApp/dist ./dist
+COPY --from=builder /vodkandApp/package*.json ./
+COPY --from=builder /vodkandApp/node_modules ./node_modules
+COPY --from=builder /vodkandApp/uploads ./uploads
 
 EXPOSE 5000
-
-CMD ["node", "index.js"]
+CMD ["node", "dist/index.js"]
