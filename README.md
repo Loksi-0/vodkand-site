@@ -47,6 +47,7 @@
 1. **Создание папки проекта:**
 
   Создайте папку vodkandApp в любом месте вашего компьютера и перейдите в нее
+
   ```bash
   mkdir vodkandApp
   cd vodkandApp
@@ -62,14 +63,18 @@
 
 3. **Настройка переменных окружения:**
   * Frontend:
+  
     Создайте файл .env в папке frontend со следующими переменными и данными:
+
     ```ini
     VITE_API_URL=/api
     VITE_DISABLE_PAYMENT=false # true для временного закрытия продаж
     VITE_INITIAL_THEME=dark
     ```
   * Backend:
+
     Создайте файл .env в папке backend со следующими переменными и заполните их своими данными:
+
     ```ini
     PORT=5000
     JWT_ACCESS_SECRET=YOUR_ACCESS_SECRET
@@ -93,6 +98,7 @@
     YOOKASSA_ENDPOINT=https://api.yookassa.ru/v3
     ```
     Создайте файлы .env.dev (для разработки) и .env.production (для продакшена) в папке backend. Заполните каждый из них следующими переменными:
+    
     ```ini
     DB_URL=YOUR_DB_URL
     API_DOMAIN=http://localhost:5000 # или домен для продакшена
