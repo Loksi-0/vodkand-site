@@ -20,4 +20,4 @@ services:
     ports:
       - "3002:80"
     depends_on:
-      - backend
+      - vodkand-backend
