@@ -1,5 +1,5 @@
 services:
-  backend:
+  vodkand-backend:
     build:
       context: ./backend
     container_name: backend
@@ -12,7 +12,7 @@ services:
     ports:
       - "5002:5000"
 
-  frontend:
+  vodkand-frontend:
     build:
       context: ./frontend
     container_name: frontend
