@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs/promises'
 import matter from 'gray-matter'
-import ApiError from '../../exceptions/ApiError.js'
+import ApiError from '../exceptions/ApiError.js'
 
 type NavigationType = {
   order: number
@@ -10,7 +10,7 @@ type NavigationType = {
 }
 
 class WikiService {
-  basePath = path.join(process.cwd(), 'src/database/wiki')
+  basePath = path.join(process.cwd(), 'uploads/wiki')
 
   async getPage(chapter: string, page: string) {
     try {

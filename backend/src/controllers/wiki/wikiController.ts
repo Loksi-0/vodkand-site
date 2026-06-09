@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express'
-import WikiService from '../../database/wiki/WikiService.js'
+import WikiService from '../../service/WikiService.js'
 
 class wikiController {
   get = async (req: Request, res: Response, next: NextFunction) => {
