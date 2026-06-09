@@ -96,16 +96,17 @@
     BCRYPT_SALT_ROUNDS=12
     MAX_REFRESH_TOKENS_FOR_USER=10
     YOOKASSA_ENDPOINT=https://api.yookassa.ru/v3
+    NODE_ENV=dev # production для продакшена
     ```
     Создайте файлы .env.dev (для разработки) и .env.production (для продакшена) в папке backend. Заполните каждый из них следующими переменными:
     
     ```ini
     DB_URL=YOUR_DB_URL
-    API_DOMAIN=http://localhost:5000 # или домен для продакшена
-    CLIENT_DOMAIN=http://localhost:5173 # или домен для продакшена
+    API_DOMAIN=http://localhost:5000 # ваш домен для продакшена
+    CLIENT_DOMAIN=http://localhost:5173 # ваш домен для продакшена
     YOOKASSA_SHOP_ID=YOUR_SHOP_ID
     YOOKASSA_SECRET_KEY=YOUR_SECRET_KEY
-    YOOKASSA_REDIRECT_URL=http://localhost:5173/payment/pending # заменить localhost на домен для продакшена
+    YOOKASSA_REDIRECT_URL=http://localhost:5173/payment/pending # для продакшена заменить localhost на домен
     ```
 
 4. **Сборка и запуск контейнеров:**

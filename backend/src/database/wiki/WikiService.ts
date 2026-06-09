@@ -10,7 +10,7 @@ type NavigationType = {
 }
 
 class WikiService {
-  basePath = path.resolve('src/database/wiki')
+  basePath = path.join(process.cwd(), 'src/database/wiki')
 
   async getPage(chapter: string, page: string) {
     try {
