@@ -14,7 +14,6 @@ WORKDIR /vodkandApp
 COPY --from=builder /vodkandApp/dist ./dist
 COPY --from=builder /vodkandApp/package*.json ./
 COPY --from=builder /vodkandApp/node_modules ./node_modules
-COPY --from=builder /vodkandApp/uploads ./uploads
 
 EXPOSE 5000
 CMD ["node", "dist/index.js"]
