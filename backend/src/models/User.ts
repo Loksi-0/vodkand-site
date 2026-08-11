@@ -24,7 +24,7 @@ type IUser = {
   sub: string | null
   creationDate: Date
   agreedTerms: boolean
-  agreedTermsAt: Date
+  agreedTermsAt: Date | null
   agreedTermsSource: 'checkout'
 }
 

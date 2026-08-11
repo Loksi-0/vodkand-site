@@ -11,7 +11,7 @@ export default class UserDto {
   sub: string | null
   creationDate: Timestamp
   agreedTerms: boolean
-  agreedTermsAt: Timestamp
+  agreedTermsAt: Timestamp | null
   agreedTermsSource: string
 
   constructor(model: UserDocument) {
@@ -25,7 +25,7 @@ export default class UserDto {
     this.sub = model.sub
     this.creationDate = model.creationDate.getTime()
     this.agreedTerms = model.agreedTerms
-    this.agreedTermsAt = model.agreedTermsAt.getTime()
+    this.agreedTermsAt = model.agreedTermsAt?.getTime() ?? null
     this.agreedTermsSource = model.agreedTermsSource
   }
 }
