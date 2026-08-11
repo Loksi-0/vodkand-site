@@ -22,7 +22,7 @@ type IOrder = {
   value: string
   description: string
   creationDate: Date
-  fullfillmentDate: Date | null
+  fullfillmentDate?: Date | null
 }
 
 export type OrderDocument = HydratedDocument<IOrder>
