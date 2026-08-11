@@ -26,6 +26,7 @@ const useAuthApi = ({
 
       void navigate('/account', { replace: true })
     } catch (e) {
+      console.log('login', e)
       if (axios.isAxiosError<ApiError>(e)) {
         onError(String(e.response?.data.message))
       }
@@ -40,6 +41,7 @@ const useAuthApi = ({
 
       onSuccessRegistration()
     } catch (e) {
+      console.log('registration', e)
       if (axios.isAxiosError<ApiError>(e)) {
         onError(String(e.response?.data.message))
       }
