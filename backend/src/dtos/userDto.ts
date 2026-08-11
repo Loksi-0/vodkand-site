@@ -2,17 +2,17 @@ import type { UserDocument } from '../models/User.js'
 
 export default class UserDto {
   email: string
-  password: string
+  password?: string | null
   id: string
   isActivated: boolean
-  nickname: string | null
+  nickname?: string | null
   hasPass: boolean
-  activationLink: string | null
-  sub: string | null
+  activationLink?: string | null
+  sub?: string | null
   creationDate: Timestamp
   agreedTerms: boolean
   agreedTermsAt: Timestamp | null
-  agreedTermsSource: string
+  agreedTermsSource?: string | null
 
   constructor(model: UserDocument) {
     this.email = model.email

@@ -16,16 +16,16 @@ const User = new Schema({
 
 type IUser = {
   email: string
-  password: string
-  nickname: string | null
+  password?: string | null
+  nickname?: string | null
   isActivated: boolean
   hasPass: boolean
-  activationLink: string
-  sub: string | null
+  activationLink?: string | null
+  sub?: string | null
   creationDate: Date
   agreedTerms: boolean
-  agreedTermsAt: Date | null
-  agreedTermsSource: 'checkout'
+  agreedTermsAt?: Date | null
+  agreedTermsSource?: 'checkout' | null
 }
 
 export type UserDocument = HydratedDocument<IUser>

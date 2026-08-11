@@ -9,6 +9,7 @@ import UserDto from '../dtos/userDto.js'
 import ApiError from '../exceptions/ApiError.js'
 import 'dotenv/config'
 import getEnv from '../helpers/getEnv.js'
+import { checkEmailExist } from '../helpers/checkEmailExist.js'
 
 class UserService {
   registration = async (email: string, password: string) => {
@@ -20,6 +21,8 @@ class UserService {
         ['alreadyExists']
       )
     }
+
+    await checkEmailExist(email)
 
     const SALT_ROUNDS = Number(getEnv('BCRYPT_SALT_ROUNDS')) || 12
 
@@ -114,7 +117,7 @@ class UserService {
       throw ApiError.BadRequest('Пользователь с таким email не найден')
     }
 
-    if (user.sub) {
+    if (user.sub || !user.password) {
       throw ApiError.BadRequest(
         'К этому аккаунту уже привязан вход с Google. Пожалуйста, войдите через Google'
       )

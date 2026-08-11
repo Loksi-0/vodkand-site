@@ -3,6 +3,7 @@ import getEnv from '../helpers/getEnv.js'
 import SMTPTransport from 'nodemailer/lib/smtp-transport/index.js'
 import type { OrderDocument } from '../models/Order.js'
 import User from '../models/User.js'
+import ApiError from '../exceptions/ApiError.js'
 
 class MailService {
   private transporter: nodemailer.Transporter
@@ -15,17 +16,21 @@ class MailService {
       auth: {
         user: getEnv('SMTP_USER'),
         pass: getEnv('SMTP_PASSWORD')
-      }
+      },
+      connectionTimeout: 5000,
+      greetingTimeout: 5000,
+      socketTimeout: 5000
     }) satisfies SMTPTransport.Options
   }
 
   sendActivationMail = async (to: string, link: string) => {
-    await this.transporter.sendMail({
-      from: getEnv('SMTP_USER'),
-      to,
-      subject: 'Активация | Vodkand',
-      text: '',
-      html: `
+    try {
+      await this.transporter.sendMail({
+        from: getEnv('SMTP_USER'),
+        to,
+        subject: 'Активация | Vodkand',
+        text: '',
+        html: `
         <div style="width: 100%; 
             text-align: center;
             margin-top: 50px;
@@ -55,7 +60,12 @@ class MailService {
             </a>
         </div>
       `
-    })
+      })
+    } catch {
+      throw ApiError.InternalError(
+        'Не удалось отправить письмо для подтвержения аккаунта. Убедитесь, что введенная почта существует'
+      )
+    }
   }
 
   sendSuccessNotification = async (order: OrderDocument) => {
